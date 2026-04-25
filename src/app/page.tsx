@@ -5,15 +5,15 @@ export default function Home() {
     <div className="relative w-full overflow-x-clip">
       <SiteHeader />
       <Hero />
-      <ChapterDivider numeral="I" title="Como funciona" />
+      <ChapterDivider id="como-funciona" numeral="I" title="Como funciona" />
       <HowItWorks />
       <ChapterDivider numeral="II" title="Pequenas eternidades" />
       <Features />
-      <ChapterDivider numeral="III" title="Cartas que voltaram" />
+      <ChapterDivider id="depoimentos" numeral="III" title="Cartas que voltaram" />
       <Testimonials />
-      <ChapterDivider numeral="IV" title="Tarifa" />
+      <ChapterDivider id="tarifa" numeral="IV" title="Tarifa" />
       <Pricing />
-      <ChapterDivider numeral="V" title="Dúvidas" />
+      <ChapterDivider id="duvidas" numeral="V" title="Dúvidas" />
       <Faq />
       <SiteFooter />
     </div>
@@ -252,12 +252,17 @@ function WaxSeal() {
 function ChapterDivider({
   numeral,
   title,
+  id,
 }: {
   numeral: string;
   title: string;
+  id?: string;
 }) {
   return (
-    <div className="relative mx-auto max-w-[1280px] px-6 py-14 md:px-12 md:py-20">
+    <div
+      id={id}
+      className="relative mx-auto max-w-[1280px] px-6 py-14 md:px-12 md:py-20"
+    >
       <div className="flex items-center gap-6">
         <span className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
           Capítulo {numeral}
@@ -301,10 +306,7 @@ function HowItWorks() {
   ];
 
   return (
-    <section
-      id="como-funciona"
-      className="relative mx-auto max-w-[1280px] px-6 pb-10 md:px-12 md:pb-20"
-    >
+    <section className="relative mx-auto max-w-[1280px] px-6 pb-10 md:px-12 md:pb-20">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-14">
         {steps.map((s) => (
           <article key={s.n} className="relative">
@@ -697,10 +699,7 @@ function Testimonials() {
 
 function Pricing() {
   return (
-    <section
-      id="tarifa"
-      className="relative mx-auto max-w-[1280px] px-6 pb-12 md:px-12 md:pb-24"
-    >
+    <section className="relative mx-auto max-w-[1280px] px-6 pb-12 md:px-12 md:pb-24">
       <div className="mx-auto max-w-2xl text-center">
         <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
           Tarifa única · sem mensalidade
