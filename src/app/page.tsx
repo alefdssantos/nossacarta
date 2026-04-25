@@ -7,7 +7,7 @@ export default function Home() {
       <Hero />
       <ChapterDivider id="como-funciona" numeral="I" title="Como funciona" />
       <HowItWorks />
-      <ChapterDivider numeral="II" title="Pequenas eternidades" />
+      <ChapterDivider id="eternidades" numeral="II" title="Pequenas eternidades" />
       <Features />
       <ChapterDivider id="depoimentos" numeral="III" title="Cartas que voltaram" />
       <Testimonials />
@@ -24,7 +24,8 @@ export default function Home() {
 
 function SiteHeader() {
   return (
-    <header className="relative z-30 mx-auto flex max-w-[1280px] items-center justify-between px-6 pb-2 pt-8 md:px-12 md:pt-10">
+    <header className="sticky top-0 z-40 border-b border-cocoa/10 bg-rose-mist/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-4 md:px-12 md:py-5">
       <a href="/" className="group flex items-baseline gap-2">
         <span className="font-script text-3xl text-ruby leading-none">
           Nossa
@@ -34,9 +35,12 @@ function SiteHeader() {
         </span>
         <span className="ml-1 hidden h-px w-8 bg-champagne md:inline-block" />
       </a>
-      <nav className="hidden items-center gap-9 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa-soft md:flex">
-        <a href="#como-funciona" className="hover:text-ruby">Capítulos</a>
+      <nav className="hidden items-center gap-6 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft lg:flex">
+        <a href="#como-funciona" className="hover:text-ruby">Como funciona</a>
+        <a href="#eternidades" className="hover:text-ruby">Eternidades</a>
+        <a href="#depoimentos" className="hover:text-ruby">Depoimentos</a>
         <a href="#tarifa" className="hover:text-ruby">Tarifa</a>
+        <a href="#duvidas" className="hover:text-ruby">Dúvidas</a>
         <a href="/exemplo" className="hover:text-ruby">Exemplo</a>
       </nav>
       <div className="flex items-center gap-3">
@@ -52,6 +56,7 @@ function SiteHeader() {
         >
           Começar
         </a>
+      </div>
       </div>
     </header>
   );
@@ -749,15 +754,13 @@ function Pricing() {
         </article>
 
         {/* Plano Eterno (destaque) */}
-        <article className="relative flex flex-col gap-6 rounded-sm border border-champagne-deep/30 bg-paper px-8 py-10 shadow-[0_30px_60px_-30px_rgba(124,14,29,0.35),var(--shadow-foil)]">
-          {/* foil corner ribbon */}
-          <div className="absolute -top-4 right-6 rotate-[3deg]">
-            <span className="foil inline-block rounded-sm px-4 py-1 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa">
-              ✦ mais escolhido
-            </span>
+        <article className="relative flex flex-col gap-6 overflow-hidden rounded-sm border border-champagne-deep/30 bg-paper px-8 pb-10 pt-16 shadow-[0_30px_60px_-30px_rgba(124,14,29,0.35),var(--shadow-foil)]">
+          {/* foil top bar with badge */}
+          <div className="foil absolute inset-x-0 top-0 z-10 flex h-8 items-center justify-center gap-3 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa">
+            <span className="text-[11px]">✦</span>
+            <span>mais escolhido</span>
+            <span className="text-[11px]">✦</span>
           </div>
-          {/* foil top border */}
-          <div className="foil absolute inset-x-0 top-0 h-[3px]" />
 
           <header>
             <p className="foil-text font-sans text-[10px] uppercase tracking-[0.32em]">

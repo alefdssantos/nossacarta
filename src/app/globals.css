@@ -35,12 +35,12 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 4.5rem;
 }
 
 @media (min-width: 768px) {
   html {
-    scroll-padding-top: 7rem;
+    scroll-padding-top: 5rem;
   }
 }
 
@@ -53,7 +53,6 @@ body {
     radial-gradient(at 12% 8%, rgba(180, 18, 40, 0.045) 0%, transparent 38%),
     radial-gradient(at 88% 92%, rgba(196, 154, 85, 0.06) 0%, transparent 42%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.08  0 0 0 0 0.09  0 0 0 0.085 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-attachment: fixed;
 }
 
 ::selection {
