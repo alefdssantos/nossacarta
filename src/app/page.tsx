@@ -52,7 +52,7 @@ function SiteHeader() {
       </nav>
       <div className="flex items-center gap-3">
         <a
-          href="/auth/login"
+          href="/login"
           className="hidden font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa-soft hover:text-ruby sm:inline"
         >
           Entrar
@@ -773,7 +773,7 @@ function Pricing() {
             <PriceLine muted>sem cápsulas do tempo</PriceLine>
           </ul>
           <a
-            href="#criar"
+            href="/cadastro"
             className="mt-auto inline-flex items-center justify-center rounded-full border border-cocoa/30 bg-paper px-6 py-3 font-sans text-[11px] uppercase tracking-[0.3em] text-cocoa transition hover:border-ruby/50 hover:text-ruby"
           >
             Começar bilhete
@@ -817,7 +817,7 @@ function Pricing() {
             <PriceLine>domínio próprio: nossacarta.love/seu-nome</PriceLine>
           </ul>
           <a
-            href="#criar"
+            href="/cadastro"
             className="mt-auto inline-flex items-center justify-center gap-3 rounded-full bg-ruby px-7 py-4 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.6)] transition hover:bg-ruby-deep"
           >
             <span>Selar para sempre</span>
@@ -961,7 +961,7 @@ function SiteFooter() {
           <FooterLink href="#como-funciona">Capítulos</FooterLink>
           <FooterLink href="#tarifa">Tarifa</FooterLink>
           <FooterLink href="/exemplo">Exemplo</FooterLink>
-          <FooterLink href="/auth/login">Entrar</FooterLink>
+          <FooterLink href="/login">Entrar</FooterLink>
         </FooterCol>
         <FooterCol title="Casa">
           <FooterLink href="/termos">Termos</FooterLink>
