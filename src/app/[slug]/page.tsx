@@ -1,0 +1,110 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
+import { dataEmRomanos } from "@/lib/cartas/algarismos-romanos";
+import { getSignedFotoUrls } from "@/lib/supabase/storage";
+import { getTrack } from "@/lib/spotify/api";
+import { publicEnv } from "@/lib/env";
+
+import { CapaEnvelope } from "@/components/letter/CapaEnvelope";
+import { Frontispicio } from "@/components/letter/Frontispicio";
+import { Dedicatoria } from "@/components/letter/Dedicatoria";
+import { ContadorProsa } from "@/components/letter/ContadorProsa";
+import { Carta } from "@/components/letter/Carta";
+import { CadernoFotos } from "@/components/letter/CadernoFotos";
+import { TrilhaSonora } from "@/components/letter/TrilhaSonora";
+import { Colofao } from "@/components/letter/Colofao";
+
+type Params = Promise<{ slug: string }>;
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: c } = await supabase.from("cartas").select("conteudo").eq("slug", slug).maybeSingle();
+  const parsed = c?.conteudo ? conteudoCartaV1Schema.safeParse(c.conteudo) : null;
+  const nomes = parsed?.success ? parsed.data.nomes : null;
+  const titulo = nomes ? `${nomes.pessoa1} & ${nomes.pessoa2}` : "NossaCarta";
+  return {
+    title: `${titulo} — NossaCarta`,
+    description: "Uma carta eterna, em uma só página.",
+    robots: { index: false, follow: false },
+  };
+}
+
+export default async function CartaPublicaPage({ params }: { params: Params }) {
+  const { slug } = await params;
+  const supabase = await createClient();
+
+  const { data: carta } = await supabase
+    .from("cartas")
+    .select(
+      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id",
+    )
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!carta) notFound();
+
+  const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
+  const conteudo = conteudoParse.success ? conteudoParse.data : null;
+  const nomes = conteudo?.nomes;
+  const declaracao = conteudo?.declaracao;
+  const dataInicio = carta.data_inicio_relacionamento;
+
+  if (!nomes || !dataInicio || !declaracao) notFound();
+
+  const { data: medias } = await supabase
+    .from("media")
+    .select("id, storage_path, ordem, caption")
+    .eq("carta_id", carta.id)
+    .order("ordem", { ascending: true });
+
+  const lista = medias ?? [];
+  const paths = lista.map((m) => m.storage_path);
+  const signed = paths.length ? await getSignedFotoUrls(paths, 60 * 60 * 4) : new Map<string, string>();
+  const fotos = lista
+    .map((m) => ({ id: m.id, url: signed.get(m.storage_path) ?? "", caption: m.caption }))
+    .filter((f) => f.url);
+
+  const track = carta.spotify_track_id ? await getTrack(carta.spotify_track_id) : null;
+  const dataRomanos = dataEmRomanos(dataInicio);
+  const inicial1 = nomes.pessoa1.charAt(0).toLocaleUpperCase("pt-BR");
+  const inicial2 = nomes.pessoa2.charAt(0).toLocaleUpperCase("pt-BR");
+  const iniciais = `${inicial1}&${inicial2}`;
+  const primeiroNomePessoa1 = nomes.pessoa1.split(/\s+/)[0] ?? nomes.pessoa1;
+
+  return (
+    <main className="bg-rose-mist text-cocoa">
+      <CapaEnvelope
+        paraNome={nomes.pessoa2}
+        dataInicioRomanos={dataRomanos}
+        iniciaisMonograma={iniciais}
+      />
+
+      <div id="frontispicio" />
+      <Frontispicio pessoa1={nomes.pessoa1} pessoa2={nomes.pessoa2} dataRomanos={dataRomanos} />
+
+      <Dedicatoria />
+
+      <ContadorProsa dataInicio={dataInicio} />
+
+      <Carta texto={declaracao} signature={primeiroNomePessoa1} />
+
+      <CadernoFotos fotos={fotos} />
+
+      {track && (
+        <TrilhaSonora trackId={track.id} trackName={track.name} artistas={track.artists} />
+      )}
+
+      <Colofao
+        pessoa2={nomes.pessoa2}
+        slug={slug}
+        appUrl={publicEnv.NEXT_PUBLIC_APP_URL}
+        publicadaEm={carta.publicada_em ?? new Date().toISOString()}
+      />
+    </main>
+  );
+}

@@ -59,5 +59,5 @@ export async function salvarSpotifyAction(formData: FormData): Promise<void> {
     .eq("id", cartaId);
 
   revalidatePath(`/criar/${cartaId}`, "layout");
-  redirect(`/conta`);
+  redirect(`/criar/${cartaId}/publicar`);
 }
