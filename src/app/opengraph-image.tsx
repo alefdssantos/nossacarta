@@ -58,17 +58,6 @@ export default async function OpengraphImage() {
             stroke="#7B1E3A"
             strokeWidth="1.5"
           />
-          <text
-            x="100"
-            y="107"
-            textAnchor="middle"
-            fontFamily="Georgia, serif"
-            fontWeight="700"
-            fontSize="20"
-            fill="#2B1810"
-          >
-            NC
-          </text>
         </svg>
 
         <div

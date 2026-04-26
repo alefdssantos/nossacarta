@@ -54,17 +54,6 @@ export default function AppleIcon() {
             stroke="#7B1E3A"
             strokeWidth="1.5"
           />
-          <text
-            x="100"
-            y="106"
-            textAnchor="middle"
-            fontFamily="Georgia, serif"
-            fontWeight="700"
-            fontSize="18"
-            fill="#2B1810"
-          >
-            NC
-          </text>
         </svg>
       </div>
     ),

@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/Reveal";
 import { WordReveal } from "@/components/WordReveal";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function Home() {
   return (
     <div className="relative w-full overflow-x-clip">
-      <SiteHeader />
+      <SiteHeader variant="landing" />
       <Hero />
       <FullChapter id="como-funciona" numeral="I" title="Como funciona">
         <HowItWorks />
@@ -22,50 +24,8 @@ export default function Home() {
       <FullChapter id="duvidas" numeral="V" title="Dúvidas">
         <Faq />
       </FullChapter>
-      <SiteFooter />
+      <SiteFooter variant="landing" />
     </div>
-  );
-}
-
-/* ─────────────────────────────  HEADER  ───────────────────────────── */
-
-function SiteHeader() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-cocoa/10 bg-rose-mist/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-4 md:px-12 md:py-5">
-      <a href="/" className="group flex items-baseline gap-2">
-        <span className="font-script text-3xl text-ruby leading-none">
-          Nossa
-        </span>
-        <span className="font-serif text-2xl italic font-medium text-cocoa leading-none tracking-tight">
-          Carta
-        </span>
-        <span className="ml-1 hidden h-px w-8 bg-champagne md:inline-block" />
-      </a>
-      <nav className="hidden items-center gap-6 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft lg:flex">
-        <a href="#como-funciona" className="hover:text-ruby">Como funciona</a>
-        <a href="#eternidades" className="hover:text-ruby">Eternidades</a>
-        <a href="#depoimentos" className="hover:text-ruby">Depoimentos</a>
-        <a href="#tarifa" className="hover:text-ruby">Tarifa</a>
-        <a href="#duvidas" className="hover:text-ruby">Dúvidas</a>
-        <a href="/exemplo" className="hover:text-ruby">Exemplo</a>
-      </nav>
-      <div className="flex items-center gap-3">
-        <a
-          href="/login"
-          className="hidden font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa-soft hover:text-ruby sm:inline"
-        >
-          Entrar
-        </a>
-        <a
-          href="#tarifa"
-          className="rounded-full border border-cocoa/15 bg-paper px-4 py-2 font-sans text-[11px] uppercase tracking-[0.2em] text-cocoa shadow-[var(--shadow-engrave)] transition hover:border-ruby/40 hover:text-ruby"
-        >
-          Começar
-        </a>
-      </div>
-      </div>
-    </header>
   );
 }
 
@@ -933,83 +893,3 @@ function Faq() {
   );
 }
 
-/* ─────────────────────────────  FOOTER  ───────────────────────────── */
-
-function SiteFooter() {
-  return (
-    <footer className="relative border-t border-cocoa/15">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-6 py-14 md:grid-cols-12 md:px-12 md:py-20">
-        <div className="md:col-span-5">
-          <div className="flex items-baseline gap-2">
-            <span className="font-script text-4xl text-ruby leading-none">Nossa</span>
-            <span className="font-serif text-3xl italic font-medium text-cocoa">Carta</span>
-          </div>
-          <p className="mt-5 max-w-sm font-prose text-[15px] italic text-mauve">
-            Pequena editora digital de cartas eternas, feita à mão no
-            Brasil. Para os que ainda escrevem.
-          </p>
-          <div className="mt-8 flex items-center gap-3">
-            <span className="h-px w-12 bg-champagne" />
-            <span className="font-script text-2xl text-ruby">com amor,</span>
-            <span className="font-prose text-[14px] italic text-cocoa-soft">
-              da redação
-            </span>
-          </div>
-        </div>
-
-        <FooterCol title="Editora">
-          <FooterLink href="#como-funciona">Capítulos</FooterLink>
-          <FooterLink href="#tarifa">Tarifa</FooterLink>
-          <FooterLink href="/exemplo">Exemplo</FooterLink>
-          <FooterLink href="/login">Entrar</FooterLink>
-        </FooterCol>
-        <FooterCol title="Casa">
-          <FooterLink href="/termos">Termos</FooterLink>
-          <FooterLink href="/privacidade">Privacidade</FooterLink>
-          <FooterLink href="mailto:ola@nossacarta.love">Contato</FooterLink>
-        </FooterCol>
-        <FooterCol title="Endereço">
-          <span className="font-prose text-[14px] italic text-cocoa-soft">
-            nossacarta.love
-          </span>
-          <span className="font-prose text-[14px] italic text-mauve">
-            ola@nossacarta.love
-          </span>
-          <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-mauve">
-            BRA · MMXXVI
-          </span>
-        </FooterCol>
-      </div>
-      <div className="border-t border-cocoa/10 py-6">
-        <p className="mx-auto max-w-[1280px] px-6 text-center font-prose text-[12px] italic text-mauve md:px-12">
-          © NossaCarta · um pequeno selo independente · todos os direitos
-          reservados, todas as cartas guardadas.
-        </p>
-      </div>
-    </footer>
-  );
-}
-
-function FooterCol({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className="md:col-span-2 lg:col-span-2">
-      <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
-        {title}
-      </p>
-      <ul className="mt-4 flex flex-col gap-2">{children}</ul>
-    </div>
-  );
-}
-
-function FooterLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <li>
-      <a
-        href={href}
-        className="font-prose text-[14px] italic text-cocoa transition hover:text-ruby"
-      >
-        {children}
-      </a>
-    </li>
-  );
-}

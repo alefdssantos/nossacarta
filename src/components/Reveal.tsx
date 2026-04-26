@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+
+type Tag = "div" | "section" | "article" | "aside" | "li" | "figure" | "header" | "h2" | "h3" | "p";
 
 type RevealProps = {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: keyof Pick<JSX.IntrinsicElements, "div" | "section" | "article" | "aside" | "li" | "figure" | "header" | "h2" | "h3" | "p">;
+  as?: Tag;
   y?: number;
   once?: boolean;
 };
@@ -48,7 +50,7 @@ export function Reveal({
     return () => obs.disconnect();
   }, [once]);
 
-  const Component = Tag as keyof JSX.IntrinsicElements;
+  const Component = Tag as ElementType;
 
   return (
     <Component

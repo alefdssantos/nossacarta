@@ -30,7 +30,7 @@ const planos: readonly PlanoOpt[] = [
       "Fotos ilimitadas",
       "Cápsulas do tempo",
       "Ritual envelope",
-      "Slug próprio",
+      "Endereço próprio",
       "Livro de visitas",
     ],
     destaque: true,
@@ -42,7 +42,7 @@ export function PlanoForm() {
     criarCartaAction,
     initialState,
   );
-  const [escolhido, setEscolhido] = useState<string>("eterno");
+  const [escolhido, setEscolhido] = useState<"bilhete" | "eterno">("eterno");
 
   return (
     <form action={action} className="flex flex-col gap-6">
@@ -68,18 +68,18 @@ export function PlanoForm() {
                 className="sr-only"
               />
               {p.destaque && (
-                <span className="absolute -top-3 right-5 rounded-full bg-champagne px-3 py-0.5 font-prose text-[10px] uppercase tracking-[0.18em] text-cocoa">
-                  Recomendado
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-champagne px-3 py-0.5 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa">
+                  Mais escolhido
                 </span>
               )}
               <div className="flex items-baseline justify-between">
-                <span className="font-serif text-2xl text-cocoa">{p.titulo}</span>
+                <span className="font-serif text-2xl italic text-cocoa">{p.titulo}</span>
                 <span className="font-serif text-xl text-ruby">{p.preco}</span>
               </div>
-              <p className="font-prose text-xs uppercase tracking-[0.16em] text-cocoa/55">
+              <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55">
                 {p.duracao}
               </p>
-              <ul className="flex flex-col gap-1.5 font-prose text-sm text-cocoa/80">
+              <ul className="flex flex-col gap-1.5 font-prose text-[14px] text-cocoa-soft">
                 {p.bullets.map((b) => (
                   <li key={b} className="flex gap-2">
                     <span className="text-ruby">·</span>
@@ -101,9 +101,9 @@ export function PlanoForm() {
       <button
         type="submit"
         disabled={pending}
-        className="self-center rounded-md bg-ruby px-8 py-3 font-prose text-sm uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
+        className="self-center rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "Criando…" : "Continuar"}
+        {pending ? "Criando…" : "Continuar →"}
       </button>
     </form>
   );

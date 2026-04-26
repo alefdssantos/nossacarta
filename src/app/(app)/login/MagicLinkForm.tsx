@@ -16,11 +16,18 @@ export function MagicLinkForm({ showNomeField = false, next, cta = "Receber link
 
   if (state.status === "ok") {
     return (
-      <div className="rounded-xl border border-cocoa/15 bg-paper px-6 py-8 text-center shadow-engrave">
-        <p className="font-serif text-2xl text-cocoa">Conferimos seu e-mail.</p>
-        <p className="mt-3 font-prose text-sm leading-relaxed text-cocoa/80">
-          Mandamos um link mágico pra <strong className="font-semibold">{state.email}</strong>.
-          Abra na mesma aba pra continuar.
+      <div className="text-center">
+        <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
+          Conferimos seu e-mail
+        </p>
+        <p className="mt-3 font-serif text-2xl italic text-cocoa">Está a caminho.</p>
+        <p className="mt-4 font-prose text-[14px] leading-relaxed text-cocoa-soft">
+          Mandamos um link mágico para
+          <br />
+          <strong className="font-semibold text-cocoa">{state.email}</strong>.
+        </p>
+        <p className="mt-4 font-prose text-[12px] italic text-mauve">
+          Abra o e-mail nesta mesma aba pra continuar. Não esqueça da caixa de spam.
         </p>
       </div>
     );
@@ -32,7 +39,9 @@ export function MagicLinkForm({ showNomeField = false, next, cta = "Receber link
 
       {showNomeField && (
         <label className="flex flex-col gap-1.5">
-          <span className="font-prose text-xs uppercase tracking-[0.18em] text-cocoa/70">Como te chamar</span>
+          <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
+            Como te chamar
+          </span>
           <input
             type="text"
             name="nome"
@@ -45,7 +54,7 @@ export function MagicLinkForm({ showNomeField = false, next, cta = "Receber link
       )}
 
       <label className="flex flex-col gap-1.5">
-        <span className="font-prose text-xs uppercase tracking-[0.18em] text-cocoa/70">E-mail</span>
+        <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">E-mail</span>
         <input
           type="email"
           name="email"
@@ -66,13 +75,13 @@ export function MagicLinkForm({ showNomeField = false, next, cta = "Receber link
       <button
         type="submit"
         disabled={pending}
-        className="mt-1 inline-flex items-center justify-center rounded-md bg-ruby px-6 py-3 font-prose text-sm uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-1 inline-flex items-center justify-center rounded-full bg-ruby px-7 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Enviando…" : cta}
       </button>
 
-      <p className="font-prose text-xs leading-relaxed text-cocoa/60">
-        Sem senha. Sem cadastro chato. A gente te manda um link no e-mail e você só clica.
+      <p className="font-prose text-[12px] italic leading-relaxed text-mauve">
+        Sem senha. Sem cadastro chato. A gente manda um link no seu e-mail e você só clica.
       </p>
     </form>
   );
