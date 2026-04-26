@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
+  atualizarDeclaracaoTemaInputSchema,
   atualizarNomesInputSchema,
   conteudoCartaV1Schema,
   conteudoVazioV1,
@@ -138,5 +139,60 @@ export async function atualizarNomesAction(
   }
 
   revalidatePath(`/criar/${cartaId}`, "layout");
-  return { status: "ok", cartaId };
+  redirect(`/criar/${cartaId}/declaracao`);
+}
+
+export async function atualizarDeclaracaoTemaAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = atualizarDeclaracaoTemaInputSchema.safeParse({
+    cartaId: formData.get("cartaId"),
+    declaracao: formData.get("declaracao"),
+    tema: formData.get("tema"),
+  });
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    return {
+      status: "error",
+      message: first?.message ?? "Verifique os campos.",
+      field: first?.path[0]?.toString(),
+    };
+  }
+
+  const { cartaId, declaracao, tema } = parsed.data;
+  const { supabase, user } = await requireUser();
+
+  const { data: cartaAtual, error: errFetch } = await supabase
+    .from("cartas")
+    .select("conteudo, owner_id")
+    .eq("id", cartaId)
+    .maybeSingle();
+
+  if (errFetch || !cartaAtual || cartaAtual.owner_id !== user.id) {
+    return { status: "error", message: "Carta não encontrada." };
+  }
+
+  const conteudoAtual = conteudoCartaV1Schema.safeParse(cartaAtual.conteudo);
+  const conteudo = {
+    ...(conteudoAtual.success ? conteudoAtual.data : conteudoVazioV1),
+    declaracao,
+    tema,
+  };
+
+  const { error: errUpdate } = await supabase
+    .from("cartas")
+    .update({ conteudo })
+    .eq("id", cartaId);
+
+  if (errUpdate) {
+    console.error("[atualizarDeclaracaoTemaAction] update fail", {
+      code: errUpdate.code,
+      message: errUpdate.message,
+    });
+    return { status: "error", message: `Não conseguimos salvar (${errUpdate.code ?? "?"}).` };
+  }
+
+  revalidatePath(`/criar/${cartaId}`, "layout");
+  redirect(`/conta`);
 }

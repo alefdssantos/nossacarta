@@ -42,3 +42,9 @@ export const atualizarNomesInputSchema = z.object({
   dataInicio: z.iso.date(),
   slug: slugSchema,
 });
+
+export const atualizarDeclaracaoTemaInputSchema = z.object({
+  cartaId: z.uuid(),
+  declaracao: z.string().min(20, "Escreva pelo menos algumas linhas (mín. 20 caracteres).").max(5000).trim(),
+  tema: z.enum(TEMAS),
+});

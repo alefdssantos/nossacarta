@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { atualizarNomesAction } from "@/lib/cartas/actions";
 import { initialState, type ActionState } from "@/lib/cartas/types";
 import { sugerirSlug, slugify, slugValido } from "@/lib/cartas/slug";
@@ -21,7 +20,6 @@ export function NomesForm({
   dataInicial,
   slugInicial,
 }: Props) {
-  const router = useRouter();
   const [state, action, pending] = useActionState<ActionState, FormData>(
     atualizarNomesAction,
     initialState,
@@ -40,12 +38,6 @@ export function NomesForm({
     }
     setSlug(sugerirSlug(pessoa1 || "voce", pessoa2 || "amor"));
   }, [pessoa1, pessoa2, slugManual]);
-
-  useEffect(() => {
-    if (state.status === "ok") {
-      router.push(`/conta`);
-    }
-  }, [state, router]);
 
   const slugErroLocal = slug && !slugValido(slug) ? "Endereço fora do formato permitido." : null;
   const erroSlug =
@@ -138,7 +130,7 @@ export function NomesForm({
         disabled={pending}
         className="self-center rounded-md bg-ruby px-8 py-3 font-prose text-sm uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "Salvando…" : "Salvar e continuar"}
+        {pending ? "Salvando…" : "Salvar e continuar →"}
       </button>
     </form>
   );
