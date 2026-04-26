@@ -11,3 +11,12 @@ export type MediaActionState =
   | { status: "error"; message: string };
 
 export const initialMediaState: MediaActionState = { status: "idle" };
+
+import type { SpotifyTrack } from "@/lib/spotify/api";
+
+export type BuscarState =
+  | { status: "idle" }
+  | { status: "ok"; results: SpotifyTrack[]; query: string }
+  | { status: "error"; message: string };
+
+export const buscarInitial: BuscarState = { status: "idle" };

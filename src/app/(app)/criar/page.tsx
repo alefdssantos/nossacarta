@@ -14,7 +14,7 @@ export const wizardSteps = [
   { label: "Nomes" },
   { label: "Declaração" },
   { label: "Fotos" },
-  { label: "Música & tema" },
+  { label: "Música" },
   { label: "Publicar" },
 ];
 

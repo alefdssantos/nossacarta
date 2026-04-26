@@ -175,10 +175,10 @@ export default async function FotosPage({ params }: { params: Params }) {
 
       <div className="mt-12 flex justify-center">
         <Link
-          href={`/conta`}
+          href={`/criar/${carta.id}/musica`}
           className="rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
         >
-          Salvar e continuar →
+          Continuar →
         </Link>
       </div>
     </main>
