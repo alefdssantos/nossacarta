@@ -51,6 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      data-scroll-behavior="smooth"
       className={`${allura.variable} ${cormorant.variable} ${lora.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

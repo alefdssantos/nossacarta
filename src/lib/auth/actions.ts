@@ -47,7 +47,17 @@ export async function signInWithMagicLink(
   });
 
   if (error) {
-    return { status: "error", message: "Não conseguimos enviar o link. Tente de novo em instantes." };
+    console.error("[signInWithMagicLink] supabase error", {
+      status: error.status,
+      code: error.code,
+      message: error.message,
+      name: error.name,
+      emailRedirectTo,
+    });
+    if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+      return { status: "error", message: "Muitas tentativas. Aguarde 1 minuto e tente de novo." };
+    }
+    return { status: "error", message: `Falha ao enviar link (${error.code ?? error.status ?? "?"}).` };
   }
   return { status: "ok", email: parsedEmail.data };
 }
