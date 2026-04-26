@@ -238,6 +238,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      carta_capsulas_publicas: {
+        Args: { p_carta_id: string }
+        Returns: {
+          aberta_em: string
+          criada_em: string
+          id: string
+          mensagem: string
+          unlock_em: string
+        }[]
+      }
       carta_publica_ativa: { Args: { p_carta_id: string }; Returns: boolean }
     }
     Enums: {

@@ -20,3 +20,18 @@ export type BuscarState =
   | { status: "error"; message: string };
 
 export const buscarInitial: BuscarState = { status: "idle" };
+
+export type CapsulaActionState =
+  | { status: "idle" }
+  | { status: "ok" }
+  | { status: "error"; message: string; field?: string };
+
+export const capsulaInitialState: CapsulaActionState = { status: "idle" };
+
+export type CapsulaPublica = {
+  id: string;
+  unlock_em: string;
+  aberta_em: string | null;
+  mensagem: string | null;
+  criada_em: string;
+};

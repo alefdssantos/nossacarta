@@ -57,3 +57,27 @@ export const reordenarMediaInputSchema = z.object({
   cartaId: z.uuid(),
   mediaIds: z.array(z.uuid()).min(1).max(50),
 });
+
+export const MIN_CAPSULA_CHARS = 5;
+export const MAX_CAPSULA_CHARS = 2000;
+export const MAX_CAPSULAS_POR_CARTA = 24;
+
+const futuroIso = z.iso.datetime({ offset: true }).refine(
+  (s) => new Date(s).getTime() > Date.now() + 60_000,
+  "A data precisa ser no futuro.",
+);
+
+export const criarCapsulaInputSchema = z.object({
+  cartaId: z.uuid(),
+  unlockEm: futuroIso,
+  mensagem: z
+    .string()
+    .min(MIN_CAPSULA_CHARS, `Mensagem muito curta (mín. ${MIN_CAPSULA_CHARS} caracteres).`)
+    .max(MAX_CAPSULA_CHARS)
+    .trim(),
+});
+
+export const removerCapsulaInputSchema = z.object({
+  cartaId: z.uuid(),
+  capsulaId: z.uuid(),
+});

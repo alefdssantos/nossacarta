@@ -14,7 +14,9 @@ import { ContadorProsa } from "@/components/letter/ContadorProsa";
 import { Carta } from "@/components/letter/Carta";
 import { CadernoFotos } from "@/components/letter/CadernoFotos";
 import { TrilhaSonora } from "@/components/letter/TrilhaSonora";
+import { CapsulasSeladas } from "@/components/letter/CapsulasSeladas";
 import { Colofao } from "@/components/letter/Colofao";
+import type { CapsulaPublica } from "@/lib/cartas/types";
 
 type Params = Promise<{ slug: string }>;
 
@@ -69,6 +71,18 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
     .map((m) => ({ id: m.id, url: signed.get(m.storage_path) ?? "", caption: m.caption }))
     .filter((f) => f.url);
 
+  let capsulas: CapsulaPublica[] = [];
+  if (carta.plano === "eterno") {
+    const { data } = await supabase.rpc("carta_capsulas_publicas", { p_carta_id: carta.id });
+    capsulas = (data ?? []).map((c) => ({
+      id: c.id,
+      unlock_em: c.unlock_em,
+      aberta_em: (c as { aberta_em?: string | null }).aberta_em ?? null,
+      mensagem: c.mensagem ?? null,
+      criada_em: c.criada_em,
+    }));
+  }
+
   const track = carta.spotify_track_id ? await getTrack(carta.spotify_track_id) : null;
   const dataRomanos = dataEmRomanos(dataInicio);
   const inicial1 = nomes.pessoa1.charAt(0).toLocaleUpperCase("pt-BR");
@@ -98,6 +112,8 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
       {track && (
         <TrilhaSonora trackId={track.id} trackName={track.name} artistas={track.artists} />
       )}
+
+      <CapsulasSeladas capsulas={capsulas} />
 
       <Colofao
         pessoa2={nomes.pessoa2}
