@@ -194,5 +194,5 @@ export async function atualizarDeclaracaoTemaAction(
   }
 
   revalidatePath(`/criar/${cartaId}`, "layout");
-  redirect(`/conta`);
+  redirect(`/criar/${cartaId}/fotos`);
 }

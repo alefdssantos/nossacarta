@@ -48,3 +48,12 @@ export const atualizarDeclaracaoTemaInputSchema = z.object({
   declaracao: z.string().min(20, "Escreva pelo menos algumas linhas (mín. 20 caracteres).").max(5000).trim(),
   tema: z.enum(TEMAS),
 });
+
+export const MAX_FOTOS_BILHETE = 8;
+export const MAX_FOTO_BYTES = 5 * 1024 * 1024;
+export const MIME_FOTO_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"] as const;
+
+export const reordenarMediaInputSchema = z.object({
+  cartaId: z.uuid(),
+  mediaIds: z.array(z.uuid()).min(1).max(50),
+});
