@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Allura, Cormorant_Garamond, Lora, Inter } from "next/font/google";
 import "./globals.css";
+import "lenis/dist/lenis.css";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 const allura = Allura({
   variable: "--font-allura",
@@ -51,7 +53,10 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${allura.variable} ${cormorant.variable} ${lora.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

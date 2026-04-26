@@ -1,20 +1,27 @@
 import type { ReactNode } from "react";
+import { Reveal } from "@/components/Reveal";
+import { WordReveal } from "@/components/WordReveal";
 
 export default function Home() {
   return (
     <div className="relative w-full overflow-x-clip">
       <SiteHeader />
       <Hero />
-      <ChapterDivider id="como-funciona" numeral="I" title="Como funciona" />
-      <HowItWorks />
-      <ChapterDivider id="eternidades" numeral="II" title="Pequenas eternidades" />
-      <Features />
-      <ChapterDivider id="depoimentos" numeral="III" title="Cartas que voltaram" />
-      <Testimonials />
-      <ChapterDivider id="tarifa" numeral="IV" title="Tarifa" />
-      <Pricing />
-      <ChapterDivider id="duvidas" numeral="V" title="Dúvidas" />
-      <Faq />
+      <FullChapter id="como-funciona" numeral="I" title="Como funciona">
+        <HowItWorks />
+      </FullChapter>
+      <FullChapter id="eternidades" numeral="II" title="Eternidades">
+        <Features />
+      </FullChapter>
+      <FullChapter id="depoimentos" numeral="III" title="Depoimentos">
+        <Testimonials />
+      </FullChapter>
+      <FullChapter id="tarifa" numeral="IV" title="Tarifa">
+        <Pricing />
+      </FullChapter>
+      <FullChapter id="duvidas" numeral="V" title="Dúvidas">
+        <Faq />
+      </FullChapter>
       <SiteFooter />
     </div>
   );
@@ -66,26 +73,18 @@ function SiteHeader() {
 
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-[1280px] px-6 pt-10 pb-24 md:px-12 md:pt-16 md:pb-36">
-      {/* tag chapter */}
-      <div className="rise-in flex items-center gap-3" style={{ animationDelay: "0.05s" }}>
-        <span className="h-px w-10 bg-champagne" />
-        <span className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
-          Edição Dia dos Namorados · MMXXVI
-        </span>
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-12 md:mt-14 md:grid-cols-12 md:gap-10">
+    <section className="relative mx-auto flex min-h-[calc(100dvh-4.5rem)] max-w-[1280px] flex-col justify-center px-6 py-6 md:min-h-[calc(100dvh-5rem)] md:px-12 md:py-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-8">
         {/* LEFT: Title block */}
-        <div className="md:col-span-7 md:pt-6">
+        <div className="md:col-span-7 md:pt-2">
           <p
-            className="rise-in font-script text-[64px] leading-[0.85] text-ruby md:text-[88px]"
+            className="rise-in font-script text-[52px] leading-[0.85] text-ruby md:text-[68px]"
             style={{ animationDelay: "0.18s" }}
           >
             Para você,
           </p>
           <h1
-            className="rise-in mt-3 font-serif text-[56px] font-medium italic leading-[0.96] text-cocoa md:mt-5 md:text-[112px] ink-bleed"
+            className="rise-in mt-2 font-serif text-[44px] font-medium italic leading-[0.98] text-cocoa md:mt-3 md:text-[80px] ink-bleed"
             style={{ animationDelay: "0.32s" }}
           >
             a história
@@ -97,7 +96,7 @@ function Hero() {
           </h1>
 
           <p
-            className="rise-in mt-10 max-w-md font-prose text-[17px] leading-relaxed text-cocoa-soft md:text-lg"
+            className="rise-in mt-6 max-w-md font-prose text-[15px] leading-relaxed text-cocoa-soft md:text-base"
             style={{ animationDelay: "0.5s" }}
           >
             Um site escrito a quatro mãos. Contador, fotos, música,
@@ -106,12 +105,12 @@ function Hero() {
           </p>
 
           <div
-            className="rise-in mt-12 flex flex-col items-start gap-5 sm:flex-row sm:items-center"
+            className="rise-in mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
             style={{ animationDelay: "0.62s" }}
           >
             <a
               href="#tarifa"
-              className="group relative inline-flex items-center gap-3 rounded-full bg-ruby px-9 py-[18px] font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
+              className="group relative inline-flex items-center gap-3 rounded-full bg-ruby px-8 py-4 font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
             >
               <span>Criar nossa carta</span>
               <span className="text-[14px] transition group-hover:translate-x-0.5">→</span>
@@ -125,7 +124,7 @@ function Hero() {
           </div>
 
           <div
-            className="rise-in mt-14 flex flex-wrap items-center gap-x-6 gap-y-3 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa-soft/70"
+            className="rise-in mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa-soft/70"
             style={{ animationDelay: "0.78s" }}
           >
             <span>Pronto em 5 minutos</span>
@@ -137,13 +136,13 @@ function Hero() {
         </div>
 
         {/* RIGHT: Envelope visual */}
-        <div className="md:col-span-5 md:pt-8">
+        <div className="md:col-span-5">
           <div
-            className="rise-in relative mx-auto max-w-[440px]"
+            className="rise-in relative mx-auto max-w-[360px]"
             style={{ animationDelay: "0.42s" }}
           >
             <EnvelopeFigure />
-            <figcaption className="mt-8 flex items-center justify-center gap-3 font-prose text-[13px] italic text-mauve">
+            <figcaption className="mt-5 flex items-center justify-center gap-3 font-prose text-[12px] italic text-mauve">
               <span className="h-px w-8 bg-champagne/60" />
               fig. 1 — uma carta selada para você
               <span className="h-px w-8 bg-champagne/60" />
@@ -252,6 +251,29 @@ function WaxSeal() {
   );
 }
 
+/* ─────────────────────────────  FULL CHAPTER WRAPPER  ───────────────────────────── */
+
+function FullChapter({
+  id,
+  numeral,
+  title,
+  children,
+}: {
+  id: string;
+  numeral: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="relative flex min-h-[calc(100dvh-4rem)] flex-col md:min-h-[calc(100dvh-5rem)]">
+      <ChapterDivider id={id} numeral={numeral} title={title} />
+      <div className="flex flex-1 items-center">
+        <div className="w-full">{children}</div>
+      </div>
+    </section>
+  );
+}
+
 /* ─────────────────────────────  CHAPTER DIVIDER  ───────────────────────────── */
 
 function ChapterDivider({
@@ -266,9 +288,9 @@ function ChapterDivider({
   return (
     <div
       id={id}
-      className="relative mx-auto max-w-[1280px] px-6 py-14 md:px-12 md:py-20"
+      className="relative mx-auto w-full max-w-[1280px] px-6 py-10 md:px-12 md:py-14"
     >
-      <div className="flex items-center gap-6">
+      <Reveal className="flex items-center gap-6">
         <span className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
           Capítulo {numeral}
         </span>
@@ -278,7 +300,7 @@ function ChapterDivider({
         <span className="font-serif text-xl italic text-cocoa-soft hidden md:inline">
           ❦
         </span>
-      </div>
+      </Reveal>
     </div>
   );
 }
@@ -672,10 +694,11 @@ function Testimonials() {
     <section className="relative mx-auto max-w-[1280px] px-6 pb-10 md:px-12 md:pb-20">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
         {reviews.map((r, i) => (
-          <figure
+          <Reveal
             key={i}
-            className="relative pt-10"
-            style={{ transform: i === 1 ? "translateY(28px)" : undefined }}
+            delay={i * 0.12}
+            className={`relative pt-10 ${i === 1 ? "md:translate-y-[28px]" : ""}`}
+            as="figure"
           >
             <span className="absolute -left-1 -top-2 font-serif text-[120px] italic leading-none text-ruby/20">
               “
@@ -693,7 +716,7 @@ function Testimonials() {
             <p className="mt-1 ml-11 font-prose text-[13px] italic text-mauve">
               {r.meta}
             </p>
-          </figure>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -710,15 +733,19 @@ function Pricing() {
           Tarifa única · sem mensalidade
         </p>
         <h2 className="mt-4 font-serif text-[44px] italic font-medium leading-tight text-cocoa md:text-[60px]">
-          Quanto custa
-          <br />
-          <span className="text-ruby">fazer ela chorar de emoção?</span>
+          <WordReveal
+            segments={[
+              { text: "Quanto custa", lineBreakAfter: true },
+              { text: "fazer ela chorar de emoção?", className: "text-ruby" },
+            ]}
+            wordDelay={0.09}
+          />
         </h2>
       </div>
 
       <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
         {/* Plano Bilhete */}
-        <article className="paper group relative flex flex-col gap-6 rounded-sm border border-cocoa/15 px-8 py-10 shadow-[var(--shadow-engrave)]">
+        <Reveal as="article" delay={0} className="paper group relative flex flex-col gap-6 rounded-sm border border-cocoa/15 px-8 py-10 shadow-[var(--shadow-engrave)]">
           <header>
             <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
               Plano Bilhete
@@ -751,10 +778,10 @@ function Pricing() {
           >
             Começar bilhete
           </a>
-        </article>
+        </Reveal>
 
         {/* Plano Eterno (destaque) */}
-        <article className="relative flex flex-col gap-6 overflow-hidden rounded-sm border border-champagne-deep/30 bg-paper px-8 pb-10 pt-16 shadow-[0_30px_60px_-30px_rgba(124,14,29,0.35),var(--shadow-foil)]">
+        <Reveal as="article" delay={0.14} className="relative flex flex-col gap-6 overflow-hidden rounded-sm border border-champagne-deep/30 bg-paper px-8 pb-10 pt-16 shadow-[0_30px_60px_-30px_rgba(124,14,29,0.35),var(--shadow-foil)]">
           {/* foil top bar with badge */}
           <div className="foil absolute inset-x-0 top-0 z-10 flex h-8 items-center justify-center gap-3 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa">
             <span className="text-[11px]">✦</span>
@@ -799,7 +826,7 @@ function Pricing() {
           <p className="text-center font-prose text-[12px] italic text-mauve">
             Pix, ou cartão em até 12x com Mercado Pago
           </p>
-        </article>
+        </Reveal>
       </div>
     </section>
   );
