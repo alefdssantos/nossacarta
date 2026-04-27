@@ -88,11 +88,11 @@ function Hero() {
             className="rise-in mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa-soft/70"
             style={{ animationDelay: "0.78s" }}
           >
+            <span>100% digital · no celular dela</span>
+            <span className="text-champagne">✦</span>
             <span>Pronto em 5 minutos</span>
             <span className="text-champagne">✦</span>
-            <span>Pagamento único</span>
-            <span className="text-champagne">✦</span>
-            <span>Pix &amp; cartão</span>
+            <span>Pix ou cartão 12x</span>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ function EnvelopeFigure() {
         {/* address */}
         <div className="absolute left-1/2 top-[26%] w-[70%] -translate-x-1/2 text-center">
           <p className="font-sans text-[9px] uppercase tracking-[0.3em] text-mauve">
-            Por mãos do correio
+            entregue por amor
           </p>
           <p className="mt-3 font-script text-3xl text-ruby leading-none">
             à minha
@@ -839,7 +839,7 @@ function ChamadaIntermediaria() {
           Uma carta inteira.
         </p>
         <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
-          Pagamento único — Pix ou cartão em até 12x. Sem assinatura, sem renovação.
+          Uma página digital, no celular dela, em até cinco minutos. Pix ou cartão em 12x — sem assinatura.
         </p>
         <a
           href="/cadastro"
@@ -859,6 +859,10 @@ function Faq() {
     {
       titulo: "Como criar",
       items: [
+        {
+          q: "É físico? Vou receber pelo correio?",
+          a: "Não. NossaCarta é 100% digital — uma página única na internet, com link e QR Code próprios. Nada chega pelo correio. Você presenteia compartilhando o link, ou imprimindo o QR Code pra colocar dentro de um cartão físico que você mesmo escolheu.",
+        },
         {
           q: "Quanto tempo leva pra criar a carta?",
           a: "Cinco minutos é o suficiente — escolha o plano, preencha nomes, suba algumas fotos, escreva a declaração e selecione a música. O wizard salva automaticamente a cada etapa.",
