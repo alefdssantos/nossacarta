@@ -15,6 +15,7 @@ import { Carta } from "@/components/letter/Carta";
 import { CadernoFotos } from "@/components/letter/CadernoFotos";
 import { TrilhaSonora } from "@/components/letter/TrilhaSonora";
 import { CapsulasSeladas } from "@/components/letter/CapsulasSeladas";
+import { MapaEstrelas } from "@/components/letter/MapaEstrelas";
 import { Colofao } from "@/components/letter/Colofao";
 import type { CapsulaPublica } from "@/lib/cartas/types";
 
@@ -102,6 +103,8 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
       <Frontispicio pessoa1={nomes.pessoa1} pessoa2={nomes.pessoa2} dataRomanos={dataRomanos} />
 
       <Dedicatoria />
+
+      {carta.plano === "eterno" && <MapaEstrelas dataInicio={dataInicio} />}
 
       <ContadorProsa dataInicio={dataInicio} />
 
