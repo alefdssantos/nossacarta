@@ -84,22 +84,39 @@ export default async function EditarPage({ params }: { params: Params }) {
       </section>
 
       {carta.plano === "eterno" ? (
-        <section className="mt-8 rounded-2xl border border-champagne-deep/30 bg-champagne-soft/20 px-6 py-6 shadow-engrave">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 className="font-serif text-xl italic text-cocoa">Cápsulas do tempo</h2>
-            <Link
-              href={`/editar/${id}/capsulas`}
-              className="font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
-            >
-              gerenciar →
-            </Link>
-          </div>
-          <p className="mt-2 font-prose text-[14px] italic text-cocoa-soft">
-            {capsCount && capsCount > 0
-              ? `${capsCount} ${capsCount === 1 ? "cápsula selada" : "cápsulas seladas"} para abrir no tempo certo.`
-              : "Nenhuma cápsula ainda. Escreva cartas para abrir em datas futuras."}
-          </p>
-        </section>
+        <>
+          <section className="mt-8 rounded-2xl border border-champagne-deep/30 bg-champagne-soft/20 px-6 py-6 shadow-engrave">
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="font-serif text-xl italic text-cocoa">Cápsulas do tempo</h2>
+              <Link
+                href={`/editar/${id}/capsulas`}
+                className="font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+              >
+                gerenciar →
+              </Link>
+            </div>
+            <p className="mt-2 font-prose text-[14px] italic text-cocoa-soft">
+              {capsCount && capsCount > 0
+                ? `${capsCount} ${capsCount === 1 ? "cápsula selada" : "cápsulas seladas"} para abrir no tempo certo.`
+                : "Nenhuma cápsula ainda. Escreva cartas para abrir em datas futuras."}
+            </p>
+          </section>
+
+          <section className="mt-6 rounded-2xl border border-champagne-deep/30 bg-champagne-soft/20 px-6 py-6 shadow-engrave">
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="font-serif text-xl italic text-cocoa">Linha do tempo</h2>
+              <Link
+                href={`/editar/${id}/marcos`}
+                className="font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+              >
+                gerenciar →
+              </Link>
+            </div>
+            <p className="mt-2 font-prose text-[14px] italic text-cocoa-soft">
+              Marcos importantes da história — datas, encontros, mudanças.
+            </p>
+          </section>
+        </>
       ) : (
         <section className="mt-8 rounded-2xl border border-cocoa/15 bg-paper px-6 py-6">
           <p className="font-prose text-[14px] italic text-cocoa-soft">

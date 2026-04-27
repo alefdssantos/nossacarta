@@ -16,6 +16,7 @@ import { CadernoFotos } from "@/components/letter/CadernoFotos";
 import { TrilhaSonora } from "@/components/letter/TrilhaSonora";
 import { CapsulasSeladas } from "@/components/letter/CapsulasSeladas";
 import { MapaEstrelas } from "@/components/letter/MapaEstrelas";
+import { MarcosTimeline } from "@/components/letter/MarcosTimeline";
 import { Colofao } from "@/components/letter/Colofao";
 import type { CapsulaPublica } from "@/lib/cartas/types";
 
@@ -73,6 +74,15 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
     .filter((f) => f.url);
 
   let capsulas: CapsulaPublica[] = [];
+  let marcos: Array<{ id: string; data: string; titulo: string; descricao: string | null }> = [];
+  if (carta.plano === "eterno") {
+    const { data: marcosData } = await supabase
+      .from("marcos")
+      .select("id, data, titulo, descricao")
+      .eq("carta_id", carta.id)
+      .order("data", { ascending: true });
+    marcos = marcosData ?? [];
+  }
   if (carta.plano === "eterno") {
     const { data } = await supabase.rpc("carta_capsulas_publicas", { p_carta_id: carta.id });
     capsulas = (data ?? []).map((c) => ({
@@ -111,6 +121,8 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
       <Carta texto={declaracao} signature={primeiroNomePessoa1} />
 
       <CadernoFotos fotos={fotos} />
+
+      {carta.plano === "eterno" && marcos.length > 0 && <MarcosTimeline marcos={marcos} />}
 
       {track && (
         <TrilhaSonora trackId={track.id} trackName={track.name} artistas={track.artists} />

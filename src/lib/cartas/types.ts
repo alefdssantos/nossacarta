@@ -35,3 +35,10 @@ export type CapsulaPublica = {
   mensagem: string | null;
   criada_em: string;
 };
+
+export type MarcoActionState =
+  | { status: "idle" }
+  | { status: "ok" }
+  | { status: "error"; message: string; field?: string };
+
+export const marcoInitialState: MarcoActionState = { status: "idle" };

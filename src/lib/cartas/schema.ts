@@ -81,3 +81,17 @@ export const removerCapsulaInputSchema = z.object({
   cartaId: z.uuid(),
   capsulaId: z.uuid(),
 });
+
+export const MAX_MARCOS_POR_CARTA = 12;
+
+export const criarMarcoInputSchema = z.object({
+  cartaId: z.uuid(),
+  data: z.iso.date(),
+  titulo: z.string().min(1).max(80).trim(),
+  descricao: z.string().max(500).trim().optional(),
+});
+
+export const removerMarcoInputSchema = z.object({
+  cartaId: z.uuid(),
+  marcoId: z.uuid(),
+});

@@ -94,6 +94,44 @@ export type Database = {
         }
         Relationships: []
       }
+      marcos: {
+        Row: {
+          carta_id: string
+          criado_em: string
+          data: string
+          descricao: string | null
+          id: string
+          ordem: number
+          titulo: string
+        }
+        Insert: {
+          carta_id: string
+          criado_em?: string
+          data: string
+          descricao?: string | null
+          id?: string
+          ordem?: number
+          titulo: string
+        }
+        Update: {
+          carta_id?: string
+          criado_em?: string
+          data?: string
+          descricao?: string | null
+          id?: string
+          ordem?: number
+          titulo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marcos_carta_id_fkey"
+            columns: ["carta_id"]
+            isOneToOne: false
+            referencedRelation: "cartas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media: {
         Row: {
           altura: number | null
