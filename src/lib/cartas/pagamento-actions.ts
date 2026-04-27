@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "./schema";
 import { criarCheckoutAbacate, simularPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
 import { publicEnv, getServerEnv, getAbacateEnv } from "@/lib/env";
+import { notificarPublicacao } from "@/lib/emails/notificar-publicacao";
 import type { Database } from "@/lib/supabase/database.types";
 
 function admin() {
@@ -118,6 +119,80 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
 
   revalidatePath(`/criar/${cartaId}/publicar`);
   redirect(checkout.url);
+}
+
+// DEV: cria pagamento aprovado + flipa carta sem chamar AbacatePay.
+export async function bypassPagamentoDevAction(formData: FormData): Promise<void> {
+  if (process.env.NODE_ENV === "production") return;
+  const cartaId = String(formData.get("cartaId") ?? "");
+  if (!cartaId) return;
+
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) redirect("/login");
+
+  const { data: carta } = await supabase
+    .from("cartas")
+    .select("id, slug, plano, status, owner_id")
+    .eq("id", cartaId)
+    .maybeSingle();
+  if (!carta || carta.owner_id !== userData.user.id) redirect("/conta");
+  if (carta.status === "publicada") redirect(`/${carta.slug}`);
+
+  const valor = PRECOS_CENTAVOS[carta.plano];
+  const agora = new Date();
+  const expiraEm =
+    carta.plano === "bilhete"
+      ? new Date(agora.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
+      : null;
+
+  const adm = admin();
+
+  // Reaproveita pagamento pendente; senão cria approved direto.
+  const { data: pendentes } = await supabase
+    .from("pagamentos")
+    .select("id")
+    .eq("carta_id", cartaId)
+    .eq("status", "pending")
+    .limit(1);
+  const pendenteId = pendentes?.[0]?.id;
+
+  if (pendenteId) {
+    await adm
+      .from("pagamentos")
+      .update({
+        status: "approved",
+        pago_em: agora.toISOString(),
+        payload_webhook: { mock: true, source: "bypassPagamentoDevAction" },
+      })
+      .eq("id", pendenteId);
+  } else {
+    await adm.from("pagamentos").insert({
+      carta_id: cartaId,
+      owner_id: userData.user.id,
+      plano: carta.plano,
+      metodo: "pix",
+      valor_centavos: valor,
+      status: "approved",
+      pago_em: agora.toISOString(),
+      payload_webhook: { mock: true, source: "bypassPagamentoDevAction" },
+    });
+  }
+
+  await adm
+    .from("cartas")
+    .update({
+      status: "publicada",
+      publicada_em: agora.toISOString(),
+      expira_em: expiraEm,
+    })
+    .eq("id", cartaId);
+
+  await notificarPublicacao(adm, cartaId);
+
+  revalidatePath("/conta");
+  revalidatePath(`/${carta.slug}`);
+  redirect(`/${carta.slug}`);
 }
 
 // Apenas em dev: marca pagamento como aprovado direto, simulando chegada de webhook.

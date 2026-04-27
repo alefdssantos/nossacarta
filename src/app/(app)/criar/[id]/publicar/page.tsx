@@ -6,7 +6,7 @@ import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { Stepper } from "@/components/Stepper";
 import { PlanoPill } from "@/components/StatusPill";
 import { wizardSteps } from "@/app/(app)/criar/page";
-import { criarPagamentoAction } from "@/lib/cartas/pagamento-actions";
+import { bypassPagamentoDevAction, criarPagamentoAction } from "@/lib/cartas/pagamento-actions";
 import { PRECOS_CENTAVOS } from "@/lib/abacate/client";
 
 export const metadata: Metadata = {
@@ -138,21 +138,35 @@ export default async function PublicarPage({ params }: { params: Params }) {
 
       <section className="mt-8">
         {tudoOk ? (
-          <form action={criarPagamentoAction} className="flex flex-col items-center gap-3">
-            <input type="hidden" name="cartaId" value={id} />
-            <p className="font-serif italic text-[28px] text-ruby" style={{ lineHeight: 1 }}>
-              R$ {(PRECOS_CENTAVOS[carta.plano] / 100).toFixed(2).replace(".", ",")}
-            </p>
-            <button
-              type="submit"
-              className="rounded-full bg-ruby px-9 py-3.5 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
-            >
-              Pagar e publicar →
-            </button>
-            <p className="font-prose text-[12px] italic text-mauve">
-              Pix · cartão em até 12x · sem assinatura
-            </p>
-          </form>
+          <>
+            <form action={criarPagamentoAction} className="flex flex-col items-center gap-3">
+              <input type="hidden" name="cartaId" value={id} />
+              <p className="font-serif italic text-[28px] text-ruby" style={{ lineHeight: 1 }}>
+                R$ {(PRECOS_CENTAVOS[carta.plano] / 100).toFixed(2).replace(".", ",")}
+              </p>
+              <button
+                type="submit"
+                className="rounded-full bg-ruby px-9 py-3.5 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+              >
+                Pagar e publicar →
+              </button>
+              <p className="font-prose text-[12px] italic text-mauve">
+                Pix · cartão em até 12x · sem assinatura
+              </p>
+            </form>
+
+            {process.env.NODE_ENV !== "production" && (
+              <form action={bypassPagamentoDevAction} className="mt-6 flex justify-center">
+                <input type="hidden" name="cartaId" value={id} />
+                <button
+                  type="submit"
+                  className="rounded-full border border-dashed border-cocoa/30 bg-paper px-5 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 hover:border-ruby/40 hover:text-ruby"
+                >
+                  bypass pagamento (dev) →
+                </button>
+              </form>
+            )}
+          </>
         ) : (
           <p className="rounded-xl border border-champagne-deep/40 bg-champagne-soft/30 px-5 py-4 text-center font-prose text-sm italic text-cocoa-soft">
             Complete os itens acima antes de publicar.

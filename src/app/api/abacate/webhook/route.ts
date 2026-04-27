@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import { validarQuerySecret, validarHmacSeConfigurado } from "@/lib/abacate/webhook";
 import { publicEnv, getServerEnv } from "@/lib/env";
+import { notificarPublicacao } from "@/lib/emails/notificar-publicacao";
 import type { Database } from "@/lib/supabase/database.types";
 
 export const runtime = "nodejs";
@@ -122,6 +123,8 @@ export async function POST(request: NextRequest) {
         expira_em: expiraEm,
       })
       .eq("id", pagamento.carta_id);
+
+    await notificarPublicacao(supa, pagamento.carta_id);
   } else if (isRefunded) {
     await supa.from("pagamentos").update({ status: "refunded" }).eq("id", pagamento.id);
     await supa.from("cartas").update({ status: "rascunho" }).eq("id", pagamento.carta_id);
