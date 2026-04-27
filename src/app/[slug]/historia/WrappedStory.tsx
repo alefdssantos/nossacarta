@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Download, Share2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Pause, Play, Share2 } from "lucide-react";
 
 type Track = { id: string; name: string; artistas: string; albumArt: string | null };
 
@@ -142,35 +142,51 @@ export function WrappedStory(p: Props) {
       </div>
 
       {/* Header brand */}
-      <header className="pointer-events-none absolute left-0 right-0 top-6 z-20 flex items-center justify-between px-5">
-        <div className="flex items-baseline gap-1.5">
+      <header className="absolute left-0 right-0 top-6 z-20 flex items-center justify-between px-5">
+        <div className="pointer-events-none flex items-baseline gap-1.5">
           <span className="font-script text-[20px] leading-none text-rose-mist">Nossa</span>
           <span className="font-serif text-[14px] italic leading-none text-rose-mist/85">Carta</span>
         </div>
-        <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-rose-mist/60">
-          {p.dataRomanos}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="pointer-events-none font-sans text-[9px] uppercase tracking-[0.32em] text-rose-mist/60">
+            {p.dataRomanos}
+          </span>
+          <button
+            type="button"
+            aria-label={pausado ? "continuar" : "pausar"}
+            onClick={() => (pausado ? resume() : pause())}
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-rose-mist/30 bg-cocoa/40 backdrop-blur"
+          >
+            {pausado
+              ? <Play size={12} strokeWidth={1.8} className="text-rose-mist/80 translate-x-px" />
+              : <Pause size={12} strokeWidth={1.8} className="text-rose-mist/80" />}
+          </button>
+        </div>
       </header>
 
-      {/* Tap zones */}
+      {/* Tap zones with visible arrows */}
       <button
         type="button"
         aria-label="anterior"
         onClick={voltar}
-        className="pointer-events-auto absolute inset-y-0 left-0 z-10 w-1/3"
-      />
+        className="pointer-events-auto absolute inset-y-0 left-0 z-10 flex w-1/3 items-center justify-start pl-2"
+      >
+        {i > 0 && <ChevronLeft size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
+      </button>
       <button
         type="button"
         aria-label="próximo"
         onClick={avancar}
-        className="pointer-events-auto absolute inset-y-0 right-0 z-10 w-1/3"
-      />
+        className="pointer-events-auto absolute inset-y-0 right-0 z-10 flex w-1/3 items-center justify-end pr-2"
+      >
+        {i < slides.length - 1 && <ChevronRight size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
+      </button>
 
       {/* Slide content */}
       <div
         ref={slideRef}
-        className="relative z-0 flex h-full w-full flex-col items-center justify-center bg-cocoa px-7 text-rose-mist"
-        style={slide.bg ? { background: slide.bg } : undefined}
+        className="relative z-0 flex h-full w-full flex-col items-center justify-center overflow-hidden px-7 pb-16 pt-20 text-rose-mist"
+        style={{ background: slide.bg ?? "#4A2D31" }}
       >
         {slide.render()}
       </div>
@@ -218,6 +234,7 @@ function buildSlides(p: Props): Slide[] {
   // 1. Capa
   slides.push({
     id: "capa",
+    bg: "linear-gradient(160deg, #2A1518 0%, #4A2D31 100%)",
     render: () => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">
@@ -244,6 +261,7 @@ function buildSlides(p: Props): Slide[] {
   // 2. Dias juntos prosa
   slides.push({
     id: "dias",
+    bg: "linear-gradient(180deg, #4A2D31 0%, #5C3840 100%)",
     render: () => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">II</p>
@@ -272,6 +290,7 @@ function buildSlides(p: Props): Slide[] {
   // 3. Luas
   slides.push({
     id: "luas",
+    bg: "linear-gradient(200deg, #1A0D10 0%, #3A1A1E 100%)",
     render: () => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">III</p>
@@ -300,6 +319,7 @@ function buildSlides(p: Props): Slide[] {
   // 4. Batidas
   slides.push({
     id: "batidas",
+    bg: "linear-gradient(170deg, #5C2030 0%, #3A1A1E 100%)",
     render: () => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">IV</p>
@@ -329,19 +349,31 @@ function buildSlides(p: Props): Slide[] {
   });
 
   // 5. Trecho
+  const trecho = p.trecho.length > 180 ? p.trecho.slice(0, 177).trimEnd() + "..." : p.trecho;
   slides.push({
     id: "trecho",
+    bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
     render: () => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">V</p>
-        <p
-          className="mt-10 font-serif italic leading-[1.45] text-rose-mist"
-          style={{ fontSize: "clamp(24px, 5vw, 32px)" }}
-        >
-          <span className="text-champagne text-4xl leading-none">“</span>
-          {p.trecho}
-          <span className="text-champagne text-4xl leading-none">”</span>
-        </p>
+        <div className="mt-6 w-full">
+          <p className="font-serif text-[56px] leading-none text-champagne/50">&ldquo;</p>
+          <div
+            className="font-serif italic leading-[1.65] text-rose-mist"
+            style={{ fontSize: "clamp(15px, 3.8vw, 20px)" }}
+          >
+            {trecho.split("\n").map((linha, idx) =>
+              linha.trim() === "" ? (
+                <br key={idx} />
+              ) : (
+                <p key={idx} className="mb-2 last:mb-0">
+                  {linha}
+                </p>
+              )
+            )}
+          </div>
+          <p className="mt-1 text-right font-serif text-[56px] leading-none text-champagne/50">&rdquo;</p>
+        </div>
       </>
     ),
   });
@@ -350,6 +382,7 @@ function buildSlides(p: Props): Slide[] {
   if (p.fotoUrl) {
     slides.push({
       id: "foto",
+      bg: "#1A0D10",
       render: () => (
         <div className="flex flex-col items-center gap-5">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VI</p>
@@ -372,6 +405,7 @@ function buildSlides(p: Props): Slide[] {
   if (p.track) {
     slides.push({
       id: "musica",
+      bg: "linear-gradient(180deg, #1A0D10 0%, #3A1A1E 100%)",
       render: () => (
         <div className="flex flex-col items-center gap-6">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
@@ -397,6 +431,7 @@ function buildSlides(p: Props): Slide[] {
   if (p.capsulaUnlock) {
     slides.push({
       id: "capsula",
+      bg: "linear-gradient(200deg, #2A1518 0%, #1A0D10 100%)",
       render: () => (
         <>
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VIII</p>
@@ -428,9 +463,9 @@ function buildSlides(p: Props): Slide[] {
   // 9. CTA final
   slides.push({
     id: "cta",
+    bg: "linear-gradient(160deg, #4A2D31 0%, #7C0E1D 100%)",
     render: () => (
       <>
-        <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">colofão</p>
         <p
           className="mt-10 font-serif italic leading-[1.2] text-rose-mist"
           style={{ fontSize: "clamp(22px, 5.5vw, 30px)" }}

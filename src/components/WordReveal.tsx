@@ -56,22 +56,23 @@ export function WordReveal({
           <span key={sIdx} className={segClass}>
             {words.map((w, i) => {
               const idx = wordIndex++;
+              const isLastWord = i === words.length - 1;
+              const addSpace = !isLastWord || (!lb && sIdx < segments.length - 1);
               return (
-                <span
-                  key={`${sIdx}-${i}`}
-                  className="inline-block overflow-hidden align-baseline"
-                  style={{ marginRight: i === words.length - 1 ? 0 : "0.22em" }}
-                >
-                  <span
-                    className="inline-block will-change-transform"
-                    style={{
-                      transform: shown ? "translateY(0)" : "translateY(115%)",
-                      opacity: shown ? 1 : 0,
-                      transition: `opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) ${baseDelay + idx * wordDelay}s, transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) ${baseDelay + idx * wordDelay}s`,
-                    }}
-                  >
-                    {w}
+                <span key={`${sIdx}-${i}`} style={{ display: "inline" }}>
+                  <span className="inline-block align-baseline" style={{ paddingBottom: "0.12em" }}>
+                    <span
+                      className="inline-block will-change-transform"
+                      style={{
+                        transform: shown ? "translateY(0)" : "translateY(20%)",
+                        opacity: shown ? 1 : 0,
+                        transition: `opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) ${baseDelay + idx * wordDelay}s, transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) ${baseDelay + idx * wordDelay}s`,
+                      }}
+                    >
+                      {w}
+                    </span>
                   </span>
+                  {addSpace ? " " : null}
                 </span>
               );
             })}

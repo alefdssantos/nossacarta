@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NossaCarta
 
-## Getting Started
+Site personalizado de carta de amor — contador, fotos, musica Spotify, declaracao, capsulas do tempo, ritual envelope e QR code. Lançamento: Dia dos Namorados 2026.
 
-First, run the development server:
+## Setup local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+cp .env.example .env.local   # preencher credenciais
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variaveis de ambiente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ver `.env.example`. Grupos:
 
-## Learn More
+- **Supabase** — URL, anon key, service role key
+- **AbacatePay** — API key, webhook secret, public key, product IDs
+- **Spotify** — client ID + secret (Client Credentials)
+- **Resend** — API key + from address
+- **Vercel** — CRON_SECRET
+- **Meta Ads** — NEXT_PUBLIC_META_PIXEL_ID (opcional)
 
-To learn more about Next.js, take a look at the following resources:
+## Arquitetura
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    (app)/          # rotas protegidas (auth via proxy.ts)
+    [slug]/         # carta publica + /historia wrapped story
+    api/            # webhook AbacatePay, cron, QR
+  lib/
+    auth/           # magic link Supabase
+    cartas/         # CRUD + schema + pagamento
+    emails/         # Resend templates
+    supabase/       # clientes SSR/browser + middleware
+    spotify/        # Web API Client Credentials
+    abacate/        # checkout + webhook HMAC
+  components/
+    letter/         # renderizacao editorial da carta
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fluxo critico
 
-## Deploy on Vercel
+Criar carta (wizard 6 etapas) -> pagar PIX (AbacatePay) -> webhook -> publicar -> email com link + QR
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel. `vercel.json` configura:
+- Cron `/api/cron/expirar-bilhete` a cada hora (expira plano Bilhete apos 7 dias)
+- Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy)

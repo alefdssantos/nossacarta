@@ -17,10 +17,7 @@ export default async function CadastroPage() {
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16 md:py-24">
       <header className="text-center">
-        <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
-          Cadastro
-        </p>
-        <p className="mt-3 font-script text-5xl leading-tight text-ruby">
+        <p className="font-script text-5xl leading-tight text-ruby">
           Sua carta começa aqui
         </p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">

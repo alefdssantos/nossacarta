@@ -94,18 +94,18 @@ export async function POST(request: NextRequest) {
 
   const isApproved =
     (evento.endsWith(".completed") || evento === "billing.paid") &&
-    (status === "paid" || status === "completed" || status === "approved" || status === "");
+    (status === "paid" || status === "completed" || status === "approved");
   const isRefunded = evento.endsWith(".refunded");
   const isDisputed = evento.endsWith(".disputed");
 
-  if (isApproved && pagamento.status !== "approved") {
+  if (isApproved && pagamento.status === "pending") {
     const agora = new Date();
     const expiraEm =
       pagamento.plano === "bilhete"
         ? new Date(agora.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
         : null;
 
-    await supa
+    const { data: updated } = await supa
       .from("pagamentos")
       .update({
         status: "approved",
@@ -113,7 +113,11 @@ export async function POST(request: NextRequest) {
         gateway_payment_id: checkoutId ?? null,
         payload_webhook: envelope as unknown as Database["public"]["Tables"]["pagamentos"]["Row"]["payload_webhook"],
       })
-      .eq("id", pagamento.id);
+      .eq("id", pagamento.id)
+      .neq("status", "approved")
+      .select("id");
+
+    if (!updated?.length) return new NextResponse("ok", { status: 200 }); // already processed or not pending
 
     await supa
       .from("cartas")

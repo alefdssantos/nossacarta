@@ -697,7 +697,7 @@ function Pricing() {
           <WordReveal
             segments={[
               { text: "Quanto custa", lineBreakAfter: true },
-              { text: "guardar pra sempre?", className: "text-ruby" },
+              { text: "guardar para sempre?", className: "text-ruby" },
             ]}
             wordDelay={0.09}
           />

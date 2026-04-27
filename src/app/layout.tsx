@@ -5,6 +5,7 @@ import "lenis/dist/lenis.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CookieBanner } from "@/components/CookieBanner";
+import { MetaPixel } from "@/components/MetaPixel";
 
 const allura = Allura({
   variable: "--font-allura",
@@ -60,6 +61,7 @@ export default function RootLayout({
         <SmoothScroll />
         {children}
         <CookieBanner />
+        <MetaPixel />
         <SpeedInsights />
       </body>
     </html>

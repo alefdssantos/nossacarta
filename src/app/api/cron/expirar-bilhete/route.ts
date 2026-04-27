@@ -18,10 +18,8 @@ export async function GET(request: NextRequest) {
   const env = getServerEnv();
   const auth = request.headers.get("authorization") ?? "";
 
-  if (env.CRON_SECRET) {
-    if (auth !== `Bearer ${env.CRON_SECRET}`) {
-      return new NextResponse("unauthorized", { status: 401 });
-    }
+  if (!env.CRON_SECRET || auth !== `Bearer ${env.CRON_SECRET}`) {
+    return new NextResponse("unauthorized", { status: 401 });
   }
 
   const supa = createSupabaseAdmin<Database>(

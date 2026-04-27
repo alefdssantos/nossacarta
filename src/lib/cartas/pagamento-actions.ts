@@ -56,6 +56,16 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
 
   let pagamentoId = pendente?.[0]?.id ?? null;
   if (!pagamentoId) {
+    const dezMinAtras = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+    const { count: pagamentosRecentes } = await supabase
+      .from("pagamentos")
+      .select("id", { count: "exact", head: true })
+      .eq("owner_id", userData.user.id)
+      .gte("criado_em", dezMinAtras);
+    if ((pagamentosRecentes ?? 0) >= 3) {
+      redirect(`/criar/${cartaId}/publicar?erro=rate_limit`);
+    }
+
     const { data: novo, error: insertErr } = await supabase
       .from("pagamentos")
       .insert({

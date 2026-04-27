@@ -4,12 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 type Variant = "landing" | "internal";
 
 const navAnchors = [
-  { href: "#como-funciona", label: "Como funciona" },
-  { href: "#eternidades", label: "Eternidades" },
-  { href: "#depoimentos", label: "Depoimentos" },
-  { href: "#tarifa", label: "Tarifa" },
-  { href: "#duvidas", label: "Dúvidas" },
+  { href: "#tarifa", label: "Planos" },
   { href: "/exemplo", label: "Exemplo" },
+  { href: "#duvidas", label: "Dúvidas" },
 ];
 
 const navInternal = [

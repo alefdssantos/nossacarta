@@ -32,6 +32,17 @@ export async function criarCartaAction(
   }
 
   const { supabase, user } = await requireUser();
+
+  const umaHoraAtras = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { count: cartasRecentes } = await supabase
+    .from("cartas")
+    .select("id", { count: "exact", head: true })
+    .eq("owner_id", user.id)
+    .gte("criado_em", umaHoraAtras);
+  if ((cartasRecentes ?? 0) >= 5) {
+    return { status: "error", message: "Muitas cartas criadas em pouco tempo. Aguarde alguns minutos." };
+  }
+
   const slug = `rascunho-${crypto.randomUUID().slice(0, 8)}`;
   const { data, error } = await supabase
     .from("cartas")
@@ -206,50 +217,3 @@ export async function atualizarDeclaracaoTemaAction(
   redirect(`/criar/${cartaId}/fotos`);
 }
 
-export async function publicarCartaAction(formData: FormData): Promise<void> {
-  const cartaId = String(formData.get("cartaId") ?? "");
-  if (!cartaId) redirect("/conta");
-
-  const supabase = await createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) redirect("/login");
-
-  const { data: carta } = await supabase
-    .from("cartas")
-    .select("id, slug, plano, status, conteudo, data_inicio_relacionamento, owner_id")
-    .eq("id", cartaId)
-    .maybeSingle();
-  if (!carta || carta.owner_id !== userData.user.id) redirect("/conta");
-  if (carta.status === "publicada") redirect(`/${carta.slug}`);
-  if (carta.slug.startsWith("rascunho-")) redirect(`/criar/${cartaId}/nomes`);
-  if (!carta.data_inicio_relacionamento) redirect(`/criar/${cartaId}/nomes`);
-
-  const cParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
-  if (!cParse.success || !cParse.data.nomes || !cParse.data.declaracao) {
-    redirect(`/criar/${cartaId}/declaracao`);
-  }
-
-  const agora = new Date();
-  const expiraEm =
-    carta.plano === "bilhete"
-      ? new Date(agora.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
-      : null;
-
-  const { error } = await supabase
-    .from("cartas")
-    .update({
-      status: "publicada",
-      publicada_em: agora.toISOString(),
-      expira_em: expiraEm,
-    })
-    .eq("id", cartaId);
-
-  if (error) {
-    console.error("[publicarCartaAction] fail", error);
-    redirect("/conta");
-  }
-
-  revalidatePath("/conta");
-  revalidatePath(`/${carta.slug}`);
-  redirect(`/${carta.slug}`);
-}
