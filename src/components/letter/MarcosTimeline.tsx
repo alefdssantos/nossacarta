@@ -1,17 +1,17 @@
 import { Filete } from "./Filete";
+import { formatarDataLongoBR } from "@/lib/cartas/datas";
 
 type Marco = {
   id: string;
   data: string;
   titulo: string;
   descricao: string | null;
+  fotoUrl: string | null;
 };
 
 type Props = {
   marcos: Marco[];
 };
-
-const dataFmt = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
 
 export function MarcosTimeline({ marcos }: Props) {
   if (marcos.length === 0) return null;
@@ -28,7 +28,6 @@ export function MarcosTimeline({ marcos }: Props) {
         </p>
 
         <div className="relative mt-16">
-          {/* Linha vertical */}
           <span
             aria-hidden
             className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-champagne/60"
@@ -37,54 +36,49 @@ export function MarcosTimeline({ marcos }: Props) {
           <ol className="flex flex-col gap-16">
             {ordenados.map((m, i) => {
               const direita = i % 2 === 0;
+              const conteudoTitulo = (
+                <div className={direita ? "pl-8" : "pr-8 text-right"}>
+                  <p className="font-serif italic text-[24px] leading-tight text-cocoa">
+                    {m.titulo}
+                  </p>
+                  {m.descricao && (
+                    <p className="mt-2 font-prose text-[15px] leading-relaxed text-cocoa-soft">
+                      {m.descricao}
+                    </p>
+                  )}
+                  {m.fotoUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={m.fotoUrl}
+                      alt={m.titulo}
+                      className="mt-3 max-h-72 w-full rounded-sm border border-cocoa/10 object-cover"
+                      style={{ filter: "saturate(0.96)" }}
+                    />
+                  )}
+                </div>
+              );
+              const conteudoData = (
+                <div className={direita ? "pr-8 text-right" : "pl-8"}>
+                  <p className="font-serif italic text-[14px] text-mauve">
+                    {formatarDataLongoBR(m.data)}
+                  </p>
+                </div>
+              );
               return (
-                <li
-                  key={m.id}
-                  className={`relative grid grid-cols-12 items-start ${
-                    direita ? "" : ""
-                  }`}
-                >
-                  {/* Marca central */}
+                <li key={m.id} className="relative grid grid-cols-12 items-start">
                   <span
                     aria-hidden
                     className="absolute left-1/2 top-2 z-10 h-3 w-3 -translate-x-1/2 rounded-full border border-champagne-deep bg-paper"
                   />
-
                   {direita ? (
                     <>
-                      <div className="col-span-5 col-start-1 pr-8 text-right">
-                        <p className="font-serif italic text-[14px] text-mauve">
-                          {dataFmt.format(new Date(m.data))}
-                        </p>
-                      </div>
-                      <div className="col-span-6 col-start-7 pl-8">
-                        <p className="font-serif italic text-[24px] leading-tight text-cocoa">
-                          {m.titulo}
-                        </p>
-                        {m.descricao && (
-                          <p className="mt-2 font-prose text-[15px] leading-relaxed text-cocoa-soft">
-                            {m.descricao}
-                          </p>
-                        )}
-                      </div>
+                      <div className="col-span-5 col-start-1">{conteudoData}</div>
+                      <div className="col-span-6 col-start-7">{conteudoTitulo}</div>
                     </>
                   ) : (
                     <>
-                      <div className="col-span-6 col-start-1 pr-8 text-right">
-                        <p className="font-serif italic text-[24px] leading-tight text-cocoa">
-                          {m.titulo}
-                        </p>
-                        {m.descricao && (
-                          <p className="mt-2 font-prose text-[15px] leading-relaxed text-cocoa-soft">
-                            {m.descricao}
-                          </p>
-                        )}
-                      </div>
-                      <div className="col-span-5 col-start-8 pl-8">
-                        <p className="font-serif italic text-[14px] text-mauve">
-                          {dataFmt.format(new Date(m.data))}
-                        </p>
-                      </div>
+                      <div className="col-span-6 col-start-1">{conteudoTitulo}</div>
+                      <div className="col-span-5 col-start-8">{conteudoData}</div>
                     </>
                   )}
                 </li>

@@ -74,14 +74,31 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
     .filter((f) => f.url);
 
   let capsulas: CapsulaPublica[] = [];
-  let marcos: Array<{ id: string; data: string; titulo: string; descricao: string | null }> = [];
+  let marcos: Array<{
+    id: string;
+    data: string;
+    titulo: string;
+    descricao: string | null;
+    fotoUrl: string | null;
+  }> = [];
   if (carta.plano === "eterno") {
     const { data: marcosData } = await supabase
       .from("marcos")
-      .select("id, data, titulo, descricao")
+      .select("id, data, titulo, descricao, foto_path")
       .eq("carta_id", carta.id)
       .order("data", { ascending: true });
-    marcos = marcosData ?? [];
+    const lista = marcosData ?? [];
+    const fotoPaths = lista.map((m) => m.foto_path).filter((p): p is string => Boolean(p));
+    const signedMarcos = fotoPaths.length
+      ? await getSignedFotoUrls(fotoPaths, 60 * 60 * 4)
+      : new Map<string, string>();
+    marcos = lista.map((m) => ({
+      id: m.id,
+      data: m.data,
+      titulo: m.titulo,
+      descricao: m.descricao,
+      fotoUrl: m.foto_path ? signedMarcos.get(m.foto_path) ?? null : null,
+    }));
   }
   if (carta.plano === "eterno") {
     const { data } = await supabase.rpc("carta_capsulas_publicas", { p_carta_id: carta.id });

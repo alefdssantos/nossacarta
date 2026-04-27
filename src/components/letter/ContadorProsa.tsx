@@ -9,10 +9,21 @@ type Props = {
   dataInicio: string;
 };
 
+// Snapshot determinístico (UTC midnight da dataInicio + 1 dia) usado no SSR e
+// no primeiro render cliente — evita hydration mismatch. Após mount, useEffect
+// passa pra Date() em tempo real.
+function snapshotInicial(dataInicio: string): Date {
+  const inicio = new Date(`${dataInicio}T00:00:00-03:00`);
+  return new Date(Math.max(inicio.getTime(), Date.UTC(2026, 3, 27)));
+}
+
 export function ContadorProsa({ dataInicio }: Props) {
-  const [agora, setAgora] = useState(() => new Date());
+  const [agora, setAgora] = useState<Date>(() => snapshotInicial(dataInicio));
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setAgora(new Date());
     const id = setInterval(() => setAgora(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
@@ -47,10 +58,19 @@ export function ContadorProsa({ dataInicio }: Props) {
           {formatarBR(m.dias)}
         </p>
 
-        <p className="mt-10 font-sans text-[11px] uppercase tracking-[0.3em] text-mauve">
-          Agora são {String(m.horas).padStart(2, "0")} h{" "}
-          {String(m.minutos).padStart(2, "0")} min{" "}
-          {String(m.segundos).padStart(2, "0")} seg
+        <p
+          className="mt-10 font-sans text-[11px] uppercase tracking-[0.3em] text-mauve"
+          suppressHydrationWarning
+        >
+          {mounted ? (
+            <>
+              Agora são {String(m.horas).padStart(2, "0")} h{" "}
+              {String(m.minutos).padStart(2, "0")} min{" "}
+              {String(m.segundos).padStart(2, "0")} seg
+            </>
+          ) : (
+            <>&nbsp;</>
+          )}
         </p>
 
         <div className="mt-14">

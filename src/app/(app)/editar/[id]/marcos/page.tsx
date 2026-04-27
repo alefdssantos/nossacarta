@@ -4,17 +4,12 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { MAX_MARCOS_POR_CARTA } from "@/lib/cartas/schema";
 import { removerMarcoAction } from "@/lib/cartas/marcos-actions";
+import { formatarDataLongoBR } from "@/lib/cartas/datas";
 import { MarcoForm } from "./MarcoForm";
 
 export const metadata: Metadata = { title: "Linha do tempo — NossaCarta" };
 
 type Params = Promise<{ id: string }>;
-
-const dataFmt = new Intl.DateTimeFormat("pt-BR", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
 
 export default async function MarcosPage({ params }: { params: Params }) {
   const { id } = await params;
@@ -33,12 +28,16 @@ export default async function MarcosPage({ params }: { params: Params }) {
 
   const { data: marcos } = await supabase
     .from("marcos")
-    .select("id, data, titulo, descricao")
+    .select("id, data, titulo, descricao, foto_path")
     .eq("carta_id", id)
     .order("data", { ascending: true });
 
   const lista = marcos ?? [];
   const cheio = lista.length >= MAX_MARCOS_POR_CARTA;
+
+  const { getSignedFotoUrls } = await import("@/lib/supabase/storage");
+  const paths = lista.map((m) => m.foto_path).filter((p): p is string => Boolean(p));
+  const signed = paths.length ? await getSignedFotoUrls(paths, 60 * 60) : new Map<string, string>();
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-16 md:py-20">
@@ -72,15 +71,25 @@ export default async function MarcosPage({ params }: { params: Params }) {
           <ul className="mt-4 flex flex-col gap-3">
             {lista.map((m) => (
               <li key={m.id} className="rounded-xl border border-cocoa/12 bg-paper px-5 py-4 shadow-engrave">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-mauve">
-                      {dataFmt.format(new Date(m.data))}
-                    </p>
-                    <p className="mt-1 font-serif italic text-[18px] text-cocoa">{m.titulo}</p>
-                    {m.descricao && (
-                      <p className="mt-1 font-prose text-[13px] text-cocoa-soft">{m.descricao}</p>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex flex-1 min-w-0 gap-3">
+                    {m.foto_path && signed.get(m.foto_path) && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={signed.get(m.foto_path)!}
+                        alt=""
+                        className="h-16 w-16 flex-shrink-0 rounded border border-cocoa/15 object-cover"
+                      />
                     )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-mauve">
+                        {formatarDataLongoBR(m.data)}
+                      </p>
+                      <p className="mt-1 font-serif italic text-[18px] text-cocoa">{m.titulo}</p>
+                      {m.descricao && (
+                        <p className="mt-1 font-prose text-[13px] text-cocoa-soft">{m.descricao}</p>
+                      )}
+                    </div>
                   </div>
                   <form action={removerMarcoAction}>
                     <input type="hidden" name="cartaId" value={id} />

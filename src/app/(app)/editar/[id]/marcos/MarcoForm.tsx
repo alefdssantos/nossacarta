@@ -93,6 +93,21 @@ export function MarcoForm({ cartaId }: { cartaId: string }) {
         />
       </label>
 
+      <label className="flex flex-col gap-1.5">
+        <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
+          Foto (opcional)
+        </span>
+        <input
+          type="file"
+          name="foto"
+          accept="image/jpeg,image/png,image/webp"
+          className="block w-full font-prose text-sm text-cocoa file:mr-4 file:rounded-full file:border file:border-cocoa/20 file:bg-paper file:px-4 file:py-2 file:font-sans file:text-[10px] file:uppercase file:tracking-[0.18em] file:text-cocoa hover:file:border-ruby/40 hover:file:text-ruby"
+        />
+        <span className="font-prose text-[12px] italic text-mauve">
+          JPG, PNG ou WebP. Máximo 5 MB.
+        </span>
+      </label>
+
       {erroGeral && (
         <p role="alert" className="font-prose text-sm text-ruby-deep">
           {erroGeral}

@@ -3,6 +3,7 @@ import { Allura, Cormorant_Garamond, Lora, Inter } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CookieBanner } from "@/components/CookieBanner";
 
 const allura = Allura({
   variable: "--font-allura",
@@ -57,6 +58,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SmoothScroll />
         {children}
+        <CookieBanner />
       </body>
     </html>
   );

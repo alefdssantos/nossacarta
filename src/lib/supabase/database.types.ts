@@ -100,6 +100,7 @@ export type Database = {
           criado_em: string
           data: string
           descricao: string | null
+          foto_path: string | null
           id: string
           ordem: number
           titulo: string
@@ -109,6 +110,7 @@ export type Database = {
           criado_em?: string
           data: string
           descricao?: string | null
+          foto_path?: string | null
           id?: string
           ordem?: number
           titulo: string
@@ -118,6 +120,7 @@ export type Database = {
           criado_em?: string
           data?: string
           descricao?: string | null
+          foto_path?: string | null
           id?: string
           ordem?: number
           titulo?: string

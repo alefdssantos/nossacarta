@@ -3,6 +3,7 @@ import { z } from "zod";
 const serverSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   SUPABASE_DB_URL: z.string().url(),
+  CRON_SECRET: z.string().min(16).optional(),
 });
 
 const abacateSchema = z.object({
@@ -38,6 +39,7 @@ export function getServerEnv() {
   return serverSchema.parse({
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
     SUPABASE_DB_URL: process.env.SUPABASE_DB_URL,
+    CRON_SECRET: process.env.CRON_SECRET,
   });
 }
 
