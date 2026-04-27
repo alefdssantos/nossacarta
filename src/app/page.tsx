@@ -357,7 +357,7 @@ function Features() {
         <FeatureItem
           n="01"
           title="Contador eterno"
-          line="anos · meses · dias · horas · segundos"
+          line="anos · meses · dias · horas · minutos · segundos"
           body="Um relógio íntimo que pulsa em tempo real desde a data que vocês escolherem. Reaberto sempre que ela voltar à página."
           chip="ao vivo"
           spanClass="md:col-span-7"
@@ -385,7 +385,7 @@ function Features() {
           n="04"
           title="Trilha sonora"
           line="busca direta no Spotify"
-          body="A música que tocou quando vocês se beijaram pela primeira vez fica embutida, em alta qualidade, com capa do álbum e link."
+          body="A música que ficou marcada na história de vocês — embutida em alta qualidade, com capa do álbum e link oficial."
           chip="Spotify"
           spanClass="md:col-span-7"
           accent={<SpotifyVisual />}
@@ -393,7 +393,7 @@ function Features() {
         <FeatureItem
           n="05"
           title="Galeria em alta"
-          line="fotos de até 8MB · ordem livre"
+          line="fotos de até 5MB · ordem livre"
           body="Carregue os retratos das viagens, dos cafés, das madrugadas. Ordem manual, legendas em italic, recorte respeitoso ao enquadramento original."
           chip="ilimitada · plano Eterno"
           spanClass="md:col-span-6"
