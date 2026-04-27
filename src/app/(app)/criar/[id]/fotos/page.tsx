@@ -29,7 +29,7 @@ export default async function FotosPage({ params }: { params: Params }) {
     .maybeSingle();
 
   if (error || !carta || carta.owner_id !== userData.user.id) notFound();
-  if (carta.status === "publicada") redirect(`/conta`);
+  if (carta.status === "publicada" && carta.plano !== "eterno") redirect(`/conta`);
 
   const { data: medias } = await supabase
     .from("media")

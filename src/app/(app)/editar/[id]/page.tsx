@@ -85,46 +85,112 @@ export default async function EditarPage({ params }: { params: Params }) {
 
       {carta.plano === "eterno" ? (
         <>
-          <section className="mt-8 rounded-2xl border border-champagne-deep/30 bg-champagne-soft/20 px-6 py-6 shadow-engrave">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="font-serif text-xl italic text-cocoa">Cápsulas do tempo</h2>
-              <Link
+          <section className="mt-8">
+            <h2 className="font-serif text-xl italic text-cocoa">Conteúdo</h2>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+              <ContentCard
+                href={`/criar/${id}/nomes`}
+                titulo="Nomes & data"
+                descricao="endereço da carta"
+              />
+              <ContentCard
+                href={`/criar/${id}/declaracao`}
+                titulo="Declaração & tema"
+                descricao="texto principal"
+              />
+              <ContentCard
+                href={`/criar/${id}/fotos`}
+                titulo="Fotos"
+                descricao="caderno de retratos"
+              />
+              <ContentCard
+                href={`/criar/${id}/musica`}
+                titulo="Música"
+                descricao="trilha do Spotify"
+              />
+              <CardLink
                 href={`/editar/${id}/capsulas`}
-                className="font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
-              >
-                gerenciar →
-              </Link>
-            </div>
-            <p className="mt-2 font-prose text-[14px] italic text-cocoa-soft">
-              {capsCount && capsCount > 0
-                ? `${capsCount} ${capsCount === 1 ? "cápsula selada" : "cápsulas seladas"} para abrir no tempo certo.`
-                : "Nenhuma cápsula ainda. Escreva cartas para abrir em datas futuras."}
-            </p>
-          </section>
-
-          <section className="mt-6 rounded-2xl border border-champagne-deep/30 bg-champagne-soft/20 px-6 py-6 shadow-engrave">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="font-serif text-xl italic text-cocoa">Linha do tempo</h2>
-              <Link
+                titulo="Cápsulas do tempo"
+                descricao={
+                  capsCount && capsCount > 0
+                    ? `${capsCount} ${capsCount === 1 ? "selada" : "seladas"}`
+                    : "abrir em datas futuras"
+                }
+                destaque
+              />
+              <CardLink
                 href={`/editar/${id}/marcos`}
-                className="font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
-              >
-                gerenciar →
-              </Link>
-            </div>
-            <p className="mt-2 font-prose text-[14px] italic text-cocoa-soft">
-              Marcos importantes da história — datas, encontros, mudanças.
-            </p>
+                titulo="Linha do tempo"
+                descricao="datas e marcos da história"
+                destaque
+              />
+            </ul>
           </section>
         </>
       ) : (
         <section className="mt-8 rounded-2xl border border-cocoa/15 bg-paper px-6 py-6">
           <p className="font-prose text-[14px] italic text-cocoa-soft">
-            O plano Bilhete não permite cápsulas do tempo. Volte a publicar como Eterno para
-            cartas seladas em datas futuras.
+            O plano Bilhete não permite edição contínua. Após a publicação, a carta fica
+            disponível por 7 dias e depois é arquivada.
           </p>
         </section>
       )}
     </main>
+  );
+}
+
+function ContentCard({
+  href,
+  titulo,
+  descricao,
+}: {
+  href: string;
+  titulo: string;
+  descricao: string;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="group flex h-full flex-col rounded-xl border border-cocoa/12 bg-paper px-4 py-3 shadow-engrave transition hover:border-ruby/40"
+      >
+        <p className="font-serif italic text-[16px] text-cocoa">{titulo}</p>
+        <p className="mt-0.5 font-prose text-[12px] italic text-mauve">{descricao}</p>
+        <span className="mt-2 font-sans text-[10px] uppercase tracking-[0.18em] text-ruby transition group-hover:translate-x-0.5">
+          editar →
+        </span>
+      </Link>
+    </li>
+  );
+}
+
+function CardLink({
+  href,
+  titulo,
+  descricao,
+  destaque = false,
+}: {
+  href: string;
+  titulo: string;
+  descricao: string;
+  destaque?: boolean;
+}) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className={`group flex h-full flex-col rounded-xl px-4 py-3 shadow-engrave transition ${
+          destaque
+            ? "border border-champagne-deep/40 bg-champagne-soft/30 hover:border-ruby/40"
+            : "border border-cocoa/12 bg-paper hover:border-ruby/40"
+        }`}
+      >
+        <p className="font-serif italic text-[16px] text-cocoa">{titulo}</p>
+        <p className="mt-0.5 font-prose text-[12px] italic text-mauve">{descricao}</p>
+        <span className="mt-2 font-sans text-[10px] uppercase tracking-[0.18em] text-ruby transition group-hover:translate-x-0.5">
+          gerenciar →
+        </span>
+      </Link>
+    </li>
   );
 }

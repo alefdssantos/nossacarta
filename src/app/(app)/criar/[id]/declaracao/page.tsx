@@ -27,7 +27,7 @@ export default async function DeclaracaoPage({ params }: { params: Params }) {
     .maybeSingle();
 
   if (error || !carta || carta.owner_id !== userData.user.id) notFound();
-  if (carta.status === "publicada") redirect(`/conta`);
+  if (carta.status === "publicada" && carta.plano !== "eterno") redirect(`/conta`);
 
   const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
   const declaracaoInicial = conteudoParse.success ? conteudoParse.data.declaracao ?? "" : "";

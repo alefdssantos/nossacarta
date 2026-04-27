@@ -47,11 +47,12 @@ export async function salvarSpotifyAction(formData: FormData): Promise<void> {
 
   const { data: carta } = await supabase
     .from("cartas")
-    .select("id, owner_id, status")
+    .select("id, owner_id, status, plano, slug")
     .eq("id", cartaId)
     .maybeSingle();
   if (!carta || carta.owner_id !== userData.user.id) redirect("/conta");
-  if (carta.status === "publicada") redirect("/conta");
+  // Bilhete publicada não pode editar; Eterno publicada pode (edição contínua).
+  if (carta.status === "publicada" && carta.plano !== "eterno") redirect("/conta");
 
   await supabase
     .from("cartas")
@@ -59,5 +60,9 @@ export async function salvarSpotifyAction(formData: FormData): Promise<void> {
     .eq("id", cartaId);
 
   revalidatePath(`/criar/${cartaId}`, "layout");
+  if (carta.status === "publicada" && carta.plano === "eterno") {
+    revalidatePath(`/${carta.slug}`);
+    redirect(`/editar/${cartaId}`);
+  }
   redirect(`/criar/${cartaId}/publicar`);
 }

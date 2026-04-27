@@ -99,7 +99,7 @@ export async function atualizarNomesAction(
 
   const { data: cartaAtual, error: errFetch } = await supabase
     .from("cartas")
-    .select("conteudo, owner_id")
+    .select("conteudo, owner_id, status, plano")
     .eq("id", cartaId)
     .maybeSingle();
 
@@ -112,6 +112,7 @@ export async function atualizarNomesAction(
     ...(conteudoAtual.success ? conteudoAtual.data : conteudoVazioV1),
     nomes: { pessoa1, pessoa2 },
   };
+  const editandoPublicada = cartaAtual.status === "publicada" && cartaAtual.plano === "eterno";
 
   const { error: errUpdate } = await supabase
     .from("cartas")
@@ -139,6 +140,10 @@ export async function atualizarNomesAction(
   }
 
   revalidatePath(`/criar/${cartaId}`, "layout");
+  if (editandoPublicada) {
+    revalidatePath(`/${slug}`);
+    redirect(`/editar/${cartaId}`);
+  }
   redirect(`/criar/${cartaId}/declaracao`);
 }
 
@@ -165,7 +170,7 @@ export async function atualizarDeclaracaoTemaAction(
 
   const { data: cartaAtual, error: errFetch } = await supabase
     .from("cartas")
-    .select("conteudo, owner_id")
+    .select("conteudo, owner_id, status, plano, slug")
     .eq("id", cartaId)
     .maybeSingle();
 
@@ -194,6 +199,10 @@ export async function atualizarDeclaracaoTemaAction(
   }
 
   revalidatePath(`/criar/${cartaId}`, "layout");
+  if (cartaAtual.status === "publicada" && cartaAtual.plano === "eterno") {
+    revalidatePath(`/${cartaAtual.slug}`);
+    redirect(`/editar/${cartaId}`);
+  }
   redirect(`/criar/${cartaId}/fotos`);
 }
 

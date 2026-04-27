@@ -28,7 +28,7 @@ export default async function MusicaPage({ params }: { params: Params }) {
     .maybeSingle();
 
   if (error || !carta || carta.owner_id !== userData.user.id) notFound();
-  if (carta.status === "publicada") redirect(`/conta`);
+  if (carta.status === "publicada" && carta.plano !== "eterno") redirect(`/conta`);
 
   const spotifyConfigurado = getSpotifyEnv().success;
   const atual = carta.spotify_track_id && spotifyConfigurado

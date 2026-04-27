@@ -21,6 +21,12 @@ export default async function ContaPage() {
     .select("id, slug, plano, status, criada_em, atualizada_em, expira_em, conteudo")
     .order("atualizada_em", { ascending: false });
 
+  const { data: pagamentos } = await supabase
+    .from("pagamentos")
+    .select("id, plano, valor_centavos, status, metodo, criado_em, pago_em, carta_id")
+    .order("criado_em", { ascending: false })
+    .limit(10);
+
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16 md:py-20">
       <header className="border-b border-cocoa/12 pb-8">
@@ -93,6 +99,55 @@ export default async function ContaPage() {
           </ul>
         )}
       </section>
+
+      {pagamentos && pagamentos.length > 0 && (
+        <section className="mt-16">
+          <h2 className="font-serif text-2xl italic text-cocoa">Pagamentos</h2>
+          <ul className="mt-4 divide-y divide-cocoa/10 rounded-2xl border border-cocoa/12 bg-paper/85 shadow-engrave">
+            {pagamentos.map((p) => {
+              const data = p.pago_em ?? p.criado_em;
+              const valor = (p.valor_centavos / 100).toFixed(2).replace(".", ",");
+              const statusLabel: Record<string, string> = {
+                approved: "aprovado",
+                pending: "pendente",
+                rejected: "rejeitado",
+                refunded: "estornado",
+                cancelled: "cancelado",
+              };
+              const statusClass: Record<string, string> = {
+                approved: "border-ruby/40 bg-ruby/10 text-ruby-deep",
+                pending: "border-champagne-deep/40 bg-champagne-soft/40 text-champagne-deep",
+                rejected: "border-mauve/40 bg-mauve/10 text-mauve",
+                refunded: "border-mauve/40 bg-mauve/10 text-mauve",
+                cancelled: "border-mauve/40 bg-mauve/10 text-mauve",
+              };
+              return (
+                <li key={p.id} className="flex items-center justify-between gap-4 px-5 py-4">
+                  <div className="min-w-0">
+                    <p className="font-serif text-[16px] italic text-cocoa">
+                      Plano {p.plano === "bilhete" ? "Bilhete" : "Eterno"}
+                      <span className="ml-2 font-prose text-[13px] not-italic text-mauve">
+                        R$ {valor}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55">
+                      {p.metodo === "pix" ? "Pix" : "Cartão"} ·{" "}
+                      {dataFmt.format(new Date(data))}
+                    </p>
+                  </div>
+                  <span
+                    className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.18em] ${
+                      statusClass[p.status] ?? "border-cocoa/25 bg-paper text-cocoa/65"
+                    }`}
+                  >
+                    {statusLabel[p.status] ?? p.status}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </main>
   );
 }

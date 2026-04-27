@@ -27,7 +27,8 @@ export default async function NomesPage({ params }: { params: Params }) {
     .maybeSingle();
 
   if (error || !carta || carta.owner_id !== userData.user.id) notFound();
-  if (carta.status === "publicada") redirect(`/conta`);
+  // Eterno: edição contínua pós-publicação. Bilhete: bloqueia edit após publicar.
+  if (carta.status === "publicada" && carta.plano !== "eterno") redirect(`/conta`);
 
   const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
   const nomes = conteudoParse.success ? conteudoParse.data.nomes : undefined;
