@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Download, Share2 } from "lucide-react";
 
 type Track = { id: string; name: string; artistas: string; albumArt: string | null };
 
@@ -39,6 +40,8 @@ export function WrappedStory(p: Props) {
   const [i, setI] = useState(0);
   const [pausado, setPausado] = useState(false);
   const [progresso, setProgresso] = useState(0);
+  const [salvando, setSalvando] = useState(false);
+  const slideRef = useRef<HTMLDivElement>(null);
   const inicioRef = useRef<number>(performance.now());
   const acumuladoRef = useRef<number>(0);
 
@@ -89,6 +92,28 @@ export function WrappedStory(p: Props) {
         url: `${p.appUrl}/${p.slug}`,
       })
       .catch(() => {});
+  }
+
+  async function salvarSlideAtual() {
+    if (!slideRef.current || salvando) return;
+    setSalvando(true);
+    pause();
+    try {
+      const { toPng } = await import("html-to-image");
+      const dataUrl = await toPng(slideRef.current, {
+        cacheBust: true,
+        pixelRatio: 3,
+        backgroundColor: "#2A1518",
+      });
+      const link = document.createElement("a");
+      link.download = `nossacarta-${p.slug}-${slides[i].id}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("[wrapped salvar]", err);
+    } finally {
+      setSalvando(false);
+    }
   }
 
   const slide = slides[i];
@@ -142,7 +167,11 @@ export function WrappedStory(p: Props) {
       />
 
       {/* Slide content */}
-      <div className="relative z-0 flex h-full w-full flex-col items-center justify-center px-7" style={slide.bg ? { background: slide.bg } : undefined}>
+      <div
+        ref={slideRef}
+        className="relative z-0 flex h-full w-full flex-col items-center justify-center bg-cocoa px-7 text-rose-mist"
+        style={slide.bg ? { background: slide.bg } : undefined}
+      >
         {slide.render()}
       </div>
 
@@ -156,13 +185,27 @@ export function WrappedStory(p: Props) {
             Abrir a carta →
           </a>
         ) : (
-          <button
-            type="button"
-            onClick={compartilhar}
-            className="pointer-events-auto rounded-full border border-rose-mist/30 bg-cocoa/40 px-4 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur"
-          >
-            Compartilhar
-          </button>
+          <div className="pointer-events-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={salvarSlideAtual}
+              disabled={salvando}
+              aria-label="salvar imagem"
+              className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur disabled:opacity-50"
+            >
+              <Download size={11} strokeWidth={1.6} />
+              {salvando ? "salvando" : "salvar"}
+            </button>
+            <button
+              type="button"
+              onClick={compartilhar}
+              aria-label="compartilhar"
+              className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur"
+            >
+              <Share2 size={11} strokeWidth={1.6} />
+              compartilhar
+            </button>
+          </div>
         )}
       </div>
     </div>

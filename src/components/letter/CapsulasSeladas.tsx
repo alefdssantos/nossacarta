@@ -31,7 +31,7 @@ export function CapsulasSeladas({ capsulas }: Props) {
   if (capsulas.length === 0) return null;
 
   return (
-    <section className="px-6 py-32 md:px-12">
+    <section className="px-6 py-20 md:px-12 md:py-32">
       <div className="mx-auto max-w-[760px]">
         <p className="font-sans text-[9px] uppercase tracking-[0.4em] text-champagne-deep">
           Cápsulas · VI
@@ -56,22 +56,22 @@ function CapsulaItem({ capsula }: { capsula: CapsulaPublica }) {
   const data = new Date(capsula.unlock_em);
 
   return (
-    <li className="border-b border-cocoa/8 py-6">
-      <div className="flex items-center gap-5">
+    <li className="border-b border-cocoa/8 py-5 md:py-6">
+      <div className="flex items-center gap-3 md:gap-5">
         <MiniEnvelope desbloqueada={desbloqueada} aberta={aberta} />
 
         <div className="flex-1 min-w-0">
-          <p className="font-serif italic text-[22px] text-cocoa">
+          <p className="font-serif italic text-[18px] text-cocoa md:text-[22px]">
             {desbloqueada ? "Carta aberta" : "Cápsula selada"}
           </p>
-          <p className="mt-1 font-sans text-[10px] uppercase tracking-[0.22em] text-mauve">
+          <p className="mt-1 font-sans text-[9px] uppercase tracking-[0.18em] text-mauve md:text-[10px] md:tracking-[0.22em]">
             {desbloqueada ? "aberta em" : "abre em"} {formatadorData.format(data)}
-            {!desbloqueada && (
-              <span className="ml-2 text-cocoa-soft normal-case tracking-normal">
-                · {tempoAteAbrir(capsula.unlock_em)}
-              </span>
-            )}
           </p>
+          {!desbloqueada && (
+            <p className="mt-0.5 font-prose text-[12px] italic text-cocoa-soft">
+              {tempoAteAbrir(capsula.unlock_em)}
+            </p>
+          )}
         </div>
 
         <div className="flex-shrink-0">

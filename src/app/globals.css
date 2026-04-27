@@ -61,6 +61,12 @@ html.lenis body {
   overflow: clip;
 }
 
+/* Tipografia moderna: balance pra titulos serif (Cormorant) */
+.font-serif,
+h1, h2, h3 {
+  text-wrap: pretty;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-foreground);

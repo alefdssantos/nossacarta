@@ -32,15 +32,15 @@ export function ContadorProsa({ dataInicio }: Props) {
   const ext = porExtenso(m.dias);
 
   return (
-    <section className="px-6 py-32 md:px-12">
+    <section className="px-6 py-20 md:px-12 md:py-32">
       <div className="mx-auto max-w-[760px] text-center">
         <p className="font-sans text-[9px] uppercase tracking-[0.4em] text-champagne-deep">
           Contagem · II
         </p>
 
         <p
-          className="mt-10 font-serif italic text-cocoa"
-          style={{ fontSize: "clamp(36px, 6vw, 72px)", lineHeight: 1.15, fontWeight: 500 }}
+          className="mt-8 font-serif italic text-cocoa md:mt-10"
+          style={{ fontSize: "clamp(28px, 6vw, 72px)", lineHeight: 1.18, fontWeight: 500 }}
         >
           Hoje faz {ext} dias.
         </p>
@@ -48,8 +48,8 @@ export function ContadorProsa({ dataInicio }: Props) {
         <p
           className="font-script text-ruby"
           style={{
-            fontSize: "clamp(96px, 18vw, 184px)",
-            lineHeight: 0.85,
+            fontSize: "clamp(88px, 22vw, 200px)",
+            lineHeight: 0.82,
             transform: "rotate(-3deg)",
             display: "inline-block",
             marginTop: "12px",
@@ -59,7 +59,7 @@ export function ContadorProsa({ dataInicio }: Props) {
         </p>
 
         <p
-          className="mt-10 font-sans text-[11px] uppercase tracking-[0.3em] text-mauve"
+          className="mt-8 font-sans text-[10px] uppercase tracking-[0.3em] text-mauve md:mt-10 md:text-[11px]"
           suppressHydrationWarning
         >
           {mounted ? (
@@ -73,18 +73,18 @@ export function ContadorProsa({ dataInicio }: Props) {
           )}
         </p>
 
-        <div className="mt-14">
+        <div className="mt-12 md:mt-14">
           <Filete />
         </div>
 
-        <ul className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 md:mt-14 md:grid-cols-4 md:gap-y-12">
           <Marco valor={formatarBR(m.luas)} label="Luas cheias" />
           <Marco valor={formatarBR(m.natais)} label="Natais" />
           <Marco valor={formatarBR(m.diasDosNamorados)} label="Dias dos namorados" />
           <Marco valor={formatarBR(m.batidas)} label="Batidas do coração" />
         </ul>
 
-        <p className="mt-12 font-serif italic text-[13px] text-mauve">
+        <p className="mt-10 font-serif italic text-[13px] text-mauve md:mt-12">
           Cálculos aproximados. Cada batida, real.
         </p>
       </div>
@@ -96,10 +96,13 @@ function Marco({ valor, label }: { valor: string; label: string }) {
   return (
     <li className="flex flex-col items-center gap-2 text-center">
       <span className="block h-px w-6 bg-champagne" aria-hidden />
-      <span className="font-serif italic text-ruby" style={{ fontSize: "clamp(36px, 5vw, 56px)", lineHeight: 0.85, fontWeight: 500 }}>
+      <span
+        className="font-serif italic text-ruby"
+        style={{ fontSize: "clamp(32px, 6vw, 56px)", lineHeight: 0.85, fontWeight: 500 }}
+      >
         {valor}
       </span>
-      <span className="font-sans text-[9px] uppercase tracking-[0.32em] text-cocoa-soft">
+      <span className="font-sans text-[9px] uppercase tracking-[0.28em] text-cocoa-soft md:tracking-[0.32em]">
         {label}
       </span>
     </li>

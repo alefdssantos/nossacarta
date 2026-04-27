@@ -18,7 +18,7 @@ export function MarcosTimeline({ marcos }: Props) {
   const ordenados = [...marcos].sort((a, b) => a.data.localeCompare(b.data));
 
   return (
-    <section className="px-6 py-32 md:px-12">
+    <section className="px-6 py-20 md:px-12 md:py-32">
       <div className="mx-auto max-w-[680px]">
         <p className="text-center font-sans text-[9px] uppercase tracking-[0.4em] text-champagne-deep">
           Linha do tempo · IV bis
@@ -27,7 +27,44 @@ export function MarcosTimeline({ marcos }: Props) {
           os dias que já foram nossos
         </p>
 
-        <div className="relative mt-16">
+        {/* Mobile: stack vertical com linha à esquerda */}
+        <ol className="mt-12 flex flex-col gap-10 md:hidden">
+          {ordenados.map((m) => (
+            <li key={m.id} className="relative pl-7 pb-2">
+              <span
+                aria-hidden
+                className="absolute left-2 top-2 h-3 w-3 -translate-x-1/2 rounded-full border border-champagne-deep bg-paper"
+              />
+              <span
+                aria-hidden
+                className="absolute left-2 top-5 bottom-0 w-px -translate-x-1/2 bg-champagne/60"
+              />
+              <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-mauve">
+                {formatarDataLongoBR(m.data)}
+              </p>
+              <p className="mt-1.5 font-serif italic text-[22px] leading-tight text-cocoa">
+                {m.titulo}
+              </p>
+              {m.descricao && (
+                <p className="mt-2 font-prose text-[15px] leading-relaxed text-cocoa-soft">
+                  {m.descricao}
+                </p>
+              )}
+              {m.fotoUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={m.fotoUrl}
+                  alt={m.titulo}
+                  className="mt-3 max-h-72 w-full rounded-sm border border-cocoa/10 object-cover"
+                  style={{ filter: "saturate(0.96)" }}
+                />
+              )}
+            </li>
+          ))}
+        </ol>
+
+        {/* Desktop: alternado esquerda/direita com linha central */}
+        <div className="relative mt-16 hidden md:block">
           <span
             aria-hidden
             className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-champagne/60"

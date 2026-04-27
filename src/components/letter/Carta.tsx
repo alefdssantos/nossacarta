@@ -30,7 +30,7 @@ export function Carta({ texto, signature, cidadeData }: Props) {
 
   return (
     <section className="px-6 py-24 md:px-12 md:py-32">
-      <div className="relative mx-auto max-w-[58ch] bg-paper px-8 py-20 shadow-[inset_0_0_60px_rgba(74,8,16,0.04)] md:px-16 md:py-24">
+      <div className="relative mx-auto max-w-[58ch] bg-paper px-6 py-16 shadow-[inset_0_0_60px_rgba(74,8,16,0.04)] sm:px-10 sm:py-20 md:px-16 md:py-24">
         <PageCornerTopLeft />
         <PageCornerTopRight />
 
@@ -40,7 +40,12 @@ export function Carta({ texto, signature, cidadeData }: Props) {
 
         <article
           className="font-prose text-cocoa"
-          style={{ fontSize: 18, lineHeight: 1.75, textAlign: "justify", hyphens: "auto" }}
+          style={{
+            fontSize: "clamp(17px, 2.4vw, 20px)",
+            lineHeight: 1.85,
+            textAlign: "justify",
+            hyphens: "auto",
+          }}
         >
           <div className="relative float-left mr-3 mt-1" aria-hidden="true">
             <DropCapFrame />
@@ -48,12 +53,12 @@ export function Carta({ texto, signature, cidadeData }: Props) {
           <span
             className="float-left font-serif italic text-ruby"
             style={{
-              fontSize: "clamp(96px, 11vw, 144px)",
-              lineHeight: 0.85,
+              fontSize: "clamp(108px, 13vw, 168px)",
+              lineHeight: 0.82,
               fontWeight: 600,
-              padding: "0 8px",
-              marginRight: 8,
-              marginTop: 4,
+              padding: "0 10px",
+              marginRight: 10,
+              marginTop: 6,
             }}
           >
             {primeiraLetra}
