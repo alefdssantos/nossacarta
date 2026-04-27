@@ -50,7 +50,14 @@ export async function Colofao({ pessoa2, slug, appUrl, publicadaEm }: Props) {
           </p>
         </div>
 
-        <p className="mt-16 font-sans text-[9px] uppercase tracking-[0.32em] text-mauve" style={{ opacity: 0.65 }}>
+        <a
+          href={`/${slug}/historia`}
+          className="mt-12 inline-flex items-center gap-2 rounded-full border border-cocoa/20 bg-paper px-5 py-2 font-sans text-[10px] uppercase tracking-[0.28em] text-cocoa hover:border-ruby/40 hover:text-ruby"
+        >
+          ver história em capítulos →
+        </a>
+
+        <p className="mt-12 font-sans text-[9px] uppercase tracking-[0.32em] text-mauve" style={{ opacity: 0.65 }}>
           © NossaCarta · MMXXVI · uma edição única
         </p>
       </div>
