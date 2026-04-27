@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "./schema";
-import { criarPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
+import { criarPixAbacate, simularPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
 import { publicEnv, getServerEnv } from "@/lib/env";
 import type { Database } from "@/lib/supabase/database.types";
 
@@ -80,9 +80,7 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
     .update({ status: "aguardando_pagamento" })
     .eq("id", cartaId);
 
-  // Sempre cria novo Pix QR (expiração curta no AbacatePay).
-  // AbacatePay exige customer completo. Usuário não tem CPF/celular cadastrados
-  // ainda — usa placeholder de teste no dev. Em prod pedir no formulário.
+  // Customer é opcional na v2. Em prod pedir CPF/celular no formulário.
   let pix;
   try {
     pix = await criarPixAbacate({
@@ -90,12 +88,6 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
       description: `${NOMES_PLANOS[carta.plano]} · ${carta.slug}`,
       expiresIn: 60 * 60 * 24,
       externalId: pagamentoId,
-      customer: {
-        name: userData.user.email?.split("@")[0] ?? "Cliente NossaCarta",
-        email: userData.user.email ?? "ola@nossacarta.love",
-        cellphone: "+5511999999999",
-        taxId: "111.444.777-35",
-      },
     });
   } catch (err) {
     console.error("[criarPagamentoAction] abacate pix fail", err);
@@ -117,4 +109,67 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
 
   revalidatePath(`/criar/${cartaId}/pagamento`);
   redirect(`/criar/${cartaId}/pagamento`);
+}
+
+// Apenas em dev: marca pagamento como aprovado direto, simulando chegada de webhook.
+// Bypass o gateway externo pra debug local. Em prod, jamais executa.
+export async function simularPagamentoAction(formData: FormData): Promise<void> {
+  if (process.env.NODE_ENV === "production") return;
+  const cartaId = String(formData.get("cartaId") ?? "");
+  const pagamentoId = String(formData.get("pagamentoId") ?? "");
+  if (!cartaId || !pagamentoId) return;
+
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return;
+
+  const { data: pagamento } = await supabase
+    .from("pagamentos")
+    .select("id, carta_id, plano, owner_id, status")
+    .eq("id", pagamentoId)
+    .maybeSingle();
+
+  if (!pagamento || pagamento.owner_id !== userData.user.id) return;
+  if (pagamento.status === "approved") return;
+
+  // Tentativa real via API (pode falhar se SDK incompatível) — mantém pra ver logs
+  try {
+    const { data: pagamentoFull } = await supabase
+      .from("pagamentos")
+      .select("gateway_payment_id")
+      .eq("id", pagamentoId)
+      .maybeSingle();
+    if (pagamentoFull?.gateway_payment_id) {
+      await simularPixAbacate(pagamentoFull.gateway_payment_id);
+    }
+  } catch (err) {
+    console.warn("[simularPagamentoAction] API simulate fail (ok em dev)", String(err).slice(0, 120));
+  }
+
+  // Aplica status localmente (mock do webhook aprovado).
+  const agora = new Date();
+  const expiraEm =
+    pagamento.plano === "bilhete"
+      ? new Date(agora.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
+      : null;
+
+  await admin()
+    .from("pagamentos")
+    .update({
+      status: "approved",
+      pago_em: agora.toISOString(),
+      payload_webhook: { mock: true, source: "simularPagamentoAction" },
+    })
+    .eq("id", pagamento.id);
+
+  await admin()
+    .from("cartas")
+    .update({
+      status: "publicada",
+      publicada_em: agora.toISOString(),
+      expira_em: expiraEm,
+    })
+    .eq("id", pagamento.carta_id);
+
+  revalidatePath(`/criar/${cartaId}/pagamento`);
 }

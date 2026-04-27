@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PlanoPill } from "@/components/StatusPill";
 import { PRECOS_CENTAVOS } from "@/lib/abacate/client";
 import { PixView } from "./PixView";
+import { simularPagamentoAction } from "@/lib/cartas/pagamento-actions";
 
 export const metadata: Metadata = {
   title: "Pagamento — NossaCarta",
@@ -88,6 +89,36 @@ export default async function PagamentoPage({ params }: { params: Params }) {
       <p className="mt-12 text-center font-prose text-[12px] italic text-mauve">
         Após o pagamento, esta página atualiza sozinha. Se demorar, recarregue.
       </p>
+
+      {process.env.NODE_ENV !== "production" && (
+        <div className="mt-8 rounded-xl border border-dashed border-cocoa/25 bg-paper/60 px-5 py-4 text-center">
+          <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
+            Modo de desenvolvimento
+          </p>
+          <p className="mt-2 font-prose text-[12px] italic text-mauve">
+            Pra simular pagamento, abra o painel AbacatePay (Dev Mode), encontre esta transação Pix
+            e clique em &ldquo;Simular pagamento&rdquo;. O webhook chega aqui automaticamente.
+          </p>
+          <a
+            href="https://app.abacatepay.com/dashboard"
+            target="_blank"
+            rel="noopener"
+            className="mt-3 inline-flex font-sans text-[10px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+          >
+            abrir painel AbacatePay →
+          </a>
+          <form action={simularPagamentoAction} className="mt-3">
+            <input type="hidden" name="cartaId" value={id} />
+            <input type="hidden" name="pagamentoId" value={pagamento.id} />
+            <button
+              type="submit"
+              className="font-sans text-[9px] uppercase tracking-[0.18em] text-cocoa/45 underline-offset-4 hover:text-ruby hover:underline"
+            >
+              tentar simular via API
+            </button>
+          </form>
+        </div>
+      )}
     </main>
   );
 }

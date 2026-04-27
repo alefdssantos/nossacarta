@@ -75,6 +75,32 @@ export async function criarPixAbacate(input: {
   return abacateFetch<AbacatePixCriado>("/transparents/create", { method: "PIX", data });
 }
 
+export async function simularPixAbacate(id: string): Promise<unknown> {
+  const env = getAbacateEnv();
+  // Tenta v1 (Pix QR Code legacy) primeiro, depois v2 (transparent).
+  const candidatos = [
+    `https://api.abacatepay.com/v1/pixQrCode/simulate-payment?id=${encodeURIComponent(id)}`,
+    `${API_BASE}/transparents/simulate-payment?id=${encodeURIComponent(id)}`,
+  ];
+  let ultimoErro = "";
+  for (const url of candidatos) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.ABACATEPAY_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ metadata: { simuladoPor: "nossacarta-dev" } }),
+      cache: "no-store",
+    });
+    if (res.ok) return res.json();
+    const text = await res.text();
+    ultimoErro = `${res.status} (${url}): ${text}`;
+    if (res.status !== 400 && res.status !== 404) break;
+  }
+  throw new Error(`AbacatePay simulate ${ultimoErro}`);
+}
+
 export async function statusPixAbacate(id: string): Promise<{ status: string; expiresAt?: string }> {
   const env = getAbacateEnv();
   const res = await fetch(`${API_BASE}/transparents/check?id=${encodeURIComponent(id)}`, {
