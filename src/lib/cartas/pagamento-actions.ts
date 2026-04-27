@@ -1,0 +1,120 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
+import { conteudoCartaV1Schema } from "./schema";
+import { criarPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
+import { publicEnv, getServerEnv } from "@/lib/env";
+import type { Database } from "@/lib/supabase/database.types";
+
+function admin() {
+  const env = getServerEnv();
+  return createSupabaseAdmin<Database>(
+    publicEnv.NEXT_PUBLIC_SUPABASE_URL,
+    env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false } },
+  );
+}
+
+export async function criarPagamentoAction(formData: FormData): Promise<void> {
+  const cartaId = String(formData.get("cartaId") ?? "");
+  if (!cartaId) redirect("/conta");
+
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) redirect("/login");
+
+  const { data: carta } = await supabase
+    .from("cartas")
+    .select("id, slug, plano, status, conteudo, data_inicio_relacionamento, owner_id")
+    .eq("id", cartaId)
+    .maybeSingle();
+  if (!carta || carta.owner_id !== userData.user.id) redirect("/conta");
+
+  if (carta.status === "publicada") redirect(`/${carta.slug}`);
+  if (carta.slug.startsWith("rascunho-")) redirect(`/criar/${cartaId}/nomes`);
+  if (!carta.data_inicio_relacionamento) redirect(`/criar/${cartaId}/nomes`);
+
+  const cParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
+  if (!cParse.success || !cParse.data.nomes || !cParse.data.declaracao) {
+    redirect(`/criar/${cartaId}/declaracao`);
+  }
+
+  const valor = PRECOS_CENTAVOS[carta.plano];
+
+  // Reaproveita pagamento pendente existente (idempotência).
+  const { data: pendente } = await supabase
+    .from("pagamentos")
+    .select("id, gateway_payment_id, status")
+    .eq("carta_id", cartaId)
+    .eq("status", "pending")
+    .order("criado_em", { ascending: false })
+    .limit(1);
+
+  let pagamentoId = pendente?.[0]?.id ?? null;
+  if (!pagamentoId) {
+    const { data: novo, error: insertErr } = await supabase
+      .from("pagamentos")
+      .insert({
+        carta_id: cartaId,
+        owner_id: userData.user.id,
+        plano: carta.plano,
+        metodo: "pix",
+        valor_centavos: valor,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+
+    if (insertErr || !novo) {
+      console.error("[criarPagamentoAction] insert pagamento", insertErr);
+      redirect(`/criar/${cartaId}/publicar?erro=db`);
+    }
+    pagamentoId = novo.id;
+  }
+
+  await supabase
+    .from("cartas")
+    .update({ status: "aguardando_pagamento" })
+    .eq("id", cartaId);
+
+  // Sempre cria novo Pix QR (expiração curta no AbacatePay).
+  // AbacatePay exige customer completo. Usuário não tem CPF/celular cadastrados
+  // ainda — usa placeholder de teste no dev. Em prod pedir no formulário.
+  let pix;
+  try {
+    pix = await criarPixAbacate({
+      amount: valor,
+      description: `${NOMES_PLANOS[carta.plano]} · ${carta.slug}`,
+      expiresIn: 60 * 60 * 24,
+      externalId: pagamentoId,
+      customer: {
+        name: userData.user.email?.split("@")[0] ?? "Cliente NossaCarta",
+        email: userData.user.email ?? "ola@nossacarta.love",
+        cellphone: "+5511999999999",
+        taxId: "111.444.777-35",
+      },
+    });
+  } catch (err) {
+    console.error("[criarPagamentoAction] abacate pix fail", err);
+    await admin().from("pagamentos").update({ status: "rejected" }).eq("id", pagamentoId);
+    redirect(`/criar/${cartaId}/publicar?erro=gateway`);
+  }
+
+  await admin()
+    .from("pagamentos")
+    .update({
+      gateway_payment_id: pix.id,
+      gateway_meta: {
+        brCode: pix.brCode,
+        brCodeBase64: pix.brCodeBase64,
+        expiresAt: pix.expiresAt ?? null,
+      },
+    })
+    .eq("id", pagamentoId);
+
+  revalidatePath(`/criar/${cartaId}/pagamento`);
+  redirect(`/criar/${cartaId}/pagamento`);
+}

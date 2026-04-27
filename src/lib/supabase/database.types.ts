@@ -143,10 +143,11 @@ export type Database = {
           atualizado_em: string
           carta_id: string
           criado_em: string
+          gateway_checkout_id: string | null
+          gateway_meta: Json | null
+          gateway_payment_id: string | null
           id: string
           metodo: Database["public"]["Enums"]["metodo_pagamento"]
-          mp_payment_id: string | null
-          mp_preference_id: string | null
           owner_id: string
           pago_em: string | null
           payload_webhook: Json | null
@@ -158,10 +159,11 @@ export type Database = {
           atualizado_em?: string
           carta_id: string
           criado_em?: string
+          gateway_checkout_id?: string | null
+          gateway_meta?: Json | null
+          gateway_payment_id?: string | null
           id?: string
           metodo: Database["public"]["Enums"]["metodo_pagamento"]
-          mp_payment_id?: string | null
-          mp_preference_id?: string | null
           owner_id: string
           pago_em?: string | null
           payload_webhook?: Json | null
@@ -173,10 +175,11 @@ export type Database = {
           atualizado_em?: string
           carta_id?: string
           criado_em?: string
+          gateway_checkout_id?: string | null
+          gateway_meta?: Json | null
+          gateway_payment_id?: string | null
           id?: string
           metodo?: Database["public"]["Enums"]["metodo_pagamento"]
-          mp_payment_id?: string | null
-          mp_preference_id?: string | null
           owner_id?: string
           pago_em?: string | null
           payload_webhook?: Json | null

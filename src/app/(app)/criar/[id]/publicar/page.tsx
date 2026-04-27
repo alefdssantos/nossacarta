@@ -6,7 +6,8 @@ import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { Stepper } from "@/components/Stepper";
 import { PlanoPill } from "@/components/StatusPill";
 import { wizardSteps } from "@/app/(app)/criar/page";
-import { publicarCartaAction } from "@/lib/cartas/actions";
+import { criarPagamentoAction } from "@/lib/cartas/pagamento-actions";
+import { PRECOS_CENTAVOS } from "@/lib/abacate/client";
 
 export const metadata: Metadata = {
   title: "Publicar carta — NossaCarta",
@@ -137,16 +138,19 @@ export default async function PublicarPage({ params }: { params: Params }) {
 
       <section className="mt-8">
         {tudoOk ? (
-          <form action={publicarCartaAction} className="flex flex-col items-center gap-3">
+          <form action={criarPagamentoAction} className="flex flex-col items-center gap-3">
             <input type="hidden" name="cartaId" value={id} />
+            <p className="font-serif italic text-[28px] text-ruby" style={{ lineHeight: 1 }}>
+              R$ {(PRECOS_CENTAVOS[carta.plano] / 100).toFixed(2).replace(".", ",")}
+            </p>
             <button
               type="submit"
               className="rounded-full bg-ruby px-9 py-3.5 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
             >
-              Publicar carta →
+              Pagar com Pix →
             </button>
             <p className="font-prose text-[12px] italic text-mauve">
-              Em breve: pagamento via Mercado Pago. Por agora, publicação é direta para teste.
+              Pagamento único · Pix · sem assinatura
             </p>
           </form>
         ) : (

@@ -5,6 +5,11 @@ const serverSchema = z.object({
   SUPABASE_DB_URL: z.string().url(),
 });
 
+const abacateSchema = z.object({
+  ABACATEPAY_API_KEY: z.string().startsWith("abc_"),
+  ABACATEPAY_WEBHOOK_SECRET: z.string().min(8),
+});
+
 const spotifySchema = z.object({
   SPOTIFY_CLIENT_ID: z.string().min(1),
   SPOTIFY_CLIENT_SECRET: z.string().min(1),
@@ -31,6 +36,16 @@ export function getServerEnv() {
   return serverSchema.parse({
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
     SUPABASE_DB_URL: process.env.SUPABASE_DB_URL,
+  });
+}
+
+export function getAbacateEnv() {
+  if (typeof window !== "undefined") {
+    throw new Error("getAbacateEnv() called on the client");
+  }
+  return abacateSchema.parse({
+    ABACATEPAY_API_KEY: process.env.ABACATEPAY_API_KEY,
+    ABACATEPAY_WEBHOOK_SECRET: process.env.ABACATEPAY_WEBHOOK_SECRET,
   });
 }
 

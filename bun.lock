@@ -4,6 +4,7 @@
     "": {
       "name": "nossacarta",
       "dependencies": {
+        "@abacatepay/sdk": "^1.2.0",
         "@supabase/ssr": "^0.10.2",
         "@supabase/supabase-js": "^2.104.1",
         "lenis": "^1.3.23",
@@ -29,6 +30,12 @@
     "sharp",
   ],
   "packages": {
+    "@abacatepay/rest": ["@abacatepay/rest@0.0.1", "", {}, "sha512-3IY/m3J7ypbSPpZzPBJkFLvXkSIygJ4QdYcd0KKwwJC7XQAvR0lVUCDElLzdQvijzLjjMamW8TJLtPaS+Swhmg=="],
+
+    "@abacatepay/sdk": ["@abacatepay/sdk@1.2.0", "", { "dependencies": { "@abacatepay/rest": "^0.0.1", "@abacatepay/types": "^2.0.1" } }, "sha512-i5yx0ruX06WQDmyXFYOlwZYXk8lTiSjpXt75hbwwS2tfimzr/mSPHclC6HyMINJPEjrkZeoizKfsZ65GbVWJNw=="],
+
+    "@abacatepay/types": ["@abacatepay/types@2.0.3", "", {}, "sha512-JWi6cH9n86BMgCF4TUu09gN6LmJQP35q4w305+zt23KLALtiWwsFgxejexaTffamkXWDOgJJ8sCgcxh6x9iuMw=="],
+
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
 
     "@emnapi/runtime": ["@emnapi/runtime@1.10.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-ewvYlk86xUoGI0zQRNq/mC+16R1QeDlKQy21Ki3oSYXNgLb45GV1P6A0M+/s6nyCuNDqe5VpaY84BzXGwVbwFA=="],
