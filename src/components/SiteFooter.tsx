@@ -40,6 +40,7 @@ export function SiteFooter({ variant = "internal" }: { variant?: Variant }) {
         </FooterCol>
 
         <FooterCol title="Casa">
+          <FooterLink href="/sobre">Sobre nós</FooterLink>
           <FooterLink href="/termos">Termos</FooterLink>
           <FooterLink href="/privacidade">Privacidade</FooterLink>
           <FooterLink href="mailto:ola@nossacarta.love">Contato</FooterLink>

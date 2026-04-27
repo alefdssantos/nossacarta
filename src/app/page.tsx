@@ -18,6 +18,7 @@ export default function Home() {
       <FullChapter id="depoimentos" numeral="III" title="Depoimentos">
         <Testimonials />
       </FullChapter>
+      <ChamadaIntermediaria />
       <FullChapter id="tarifa" numeral="IV" title="Tarifa">
         <Pricing />
       </FullChapter>
@@ -724,6 +725,9 @@ function Pricing() {
             </span>
             <span className="font-prose text-[13px] italic text-mauve">à vista</span>
           </div>
+          <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
+            pagamento único · sem assinatura · acesso imediato
+          </p>
           <ul className="space-y-2.5 font-prose text-[14px] text-cocoa-soft">
             <PriceLine>contador, fotos, música, declaração</PriceLine>
             <PriceLine>até 8 fotos no álbum</PriceLine>
@@ -767,6 +771,9 @@ function Pricing() {
             </span>
             <span className="font-prose text-[13px] italic text-mauve">à vista</span>
           </div>
+          <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-champagne-deep">
+            pagamento único · sem assinatura · vitalício
+          </p>
           <ul className="space-y-2.5 font-prose text-[14px] text-cocoa-soft">
             <PriceLine bold>tudo do plano Bilhete, sem prazo</PriceLine>
             <PriceLine bold>cápsulas do tempo ilimitadas</PriceLine>
@@ -784,7 +791,7 @@ function Pricing() {
             <span>→</span>
           </a>
           <p className="text-center font-prose text-[12px] italic text-mauve">
-            Pix, ou cartão em até 12x com Mercado Pago
+            Pix · cartão em até 12x · processado pela AbacatePay
           </p>
         </Reveal>
       </div>
@@ -817,33 +824,109 @@ function PriceLine({
   );
 }
 
+/* ─────────────────────────  CHAMADA INTERMEDIÁRIA  ───────────────────────── */
+
+function ChamadaIntermediaria() {
+  return (
+    <section className="relative mx-auto max-w-[1280px] px-6 py-16 text-center md:px-12 md:py-24">
+      <Reveal>
+        <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
+          Antes de prosseguir
+        </p>
+        <p className="mx-auto mt-6 max-w-[24ch] font-script text-[44px] leading-[1] text-ruby md:text-[56px]">
+          Cinco minutos.
+          <br />
+          Uma carta inteira.
+        </p>
+        <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
+          Sem assinatura. Sem cadastro chato. Pix no impulso, cartão em 12x.
+        </p>
+        <a
+          href="/cadastro"
+          className="mt-8 inline-flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.28em] text-ruby underline-offset-[6px] hover:underline"
+        >
+          começar uma carta <span aria-hidden>→</span>
+        </a>
+      </Reveal>
+    </section>
+  );
+}
+
 /* ─────────────────────────────  FAQ  ───────────────────────────── */
 
 function Faq() {
-  const items = [
+  const categorias: Array<{ titulo: string; items: Array<{ q: string; a: string }> }> = [
     {
-      q: "Ela precisa criar conta para abrir?",
-      a: "Não. Ela apenas recebe o link (ou escaneia o QR Code) e a página abre no celular ou no navegador, sem cadastro.",
+      titulo: "Como criar",
+      items: [
+        {
+          q: "Quanto tempo leva pra criar a carta?",
+          a: "Cinco minutos é o suficiente — escolha o plano, preencha nomes, suba algumas fotos, escreva a declaração e selecione a música. O wizard salva automaticamente a cada etapa.",
+        },
+        {
+          q: "Funciona com qualquer música do Spotify?",
+          a: "Sim. Buscamos pelo título e artista direto da biblioteca pública do Spotify. A faixa toca dentro da página com capa e link oficial.",
+        },
+        {
+          q: "Como entrego a carta para a outra pessoa?",
+          a: "Após pagar, você recebe link e QR Code por e-mail. Pode mandar pelo WhatsApp, imprimir o QR para colocar dentro de um cartão físico, ou compartilhar no Stories.",
+        },
+      ],
     },
     {
-      q: "Posso editar depois que pagar?",
-      a: "Sim. No plano Eterno, você pode editar tudo para sempre — adicionar fotos, mudar a música, criar novas cápsulas. No plano Bilhete, edição livre por 72 horas.",
+      titulo: "Funcionalidades",
+      items: [
+        {
+          q: "O que vem no plano Eterno que o Bilhete não tem?",
+          a: "Cápsulas do tempo seladas, mapa das estrelas, linha do tempo de marcos, fotos ilimitadas, edição contínua, livro de visitas e endereço sem expiração.",
+        },
+        {
+          q: "Como funciona a cápsula do tempo?",
+          a: "Você escreve uma mensagem hoje e escolhe a data em que ela aparecerá no site. Pode programar até 24 cápsulas — uma para cada mês, para cada aniversário, para o próximo Natal. A pessoa presenteada vê apenas as cápsulas já abertas.",
+        },
+        {
+          q: "O mapa das estrelas é real?",
+          a: "Mostramos as constelações mais reconhecíveis do hemisfério sul (Cruzeiro, Centaurus, Escorpião, Órion, Canis Major), com Cruzeiro do Sul sempre ao centro como âncora brasileira. A rotação muda sutilmente com a data de início.",
+        },
+      ],
     },
     {
-      q: "Como funciona a cápsula do tempo?",
-      a: "Você escreve uma mensagem hoje e escolhe a data em que ela aparecerá no site. Pode programar quantas quiser — uma para cada mês, para cada aniversário, para o próximo Natal. A pessoa presenteada vê apenas as cápsulas já abertas.",
+      titulo: "Pagamento & acesso",
+      items: [
+        {
+          q: "Como é o pagamento?",
+          a: "Pix instantâneo ou cartão em até 12x sem juros, processado pela AbacatePay. Pagamento único, sem assinatura, sem renovação. O acesso libera em segundos após o pagamento confirmado.",
+        },
+        {
+          q: "O site fica no ar pra sempre?",
+          a: "No plano Eterno, sim — sem prazo. No plano Bilhete, a página fica disponível por 7 dias após a publicação, depois é arquivada.",
+        },
+        {
+          q: "Posso editar depois que pagar?",
+          a: "No plano Eterno você pode editar tudo a qualquer momento — adicionar fotos, mudar a música, criar novas cápsulas. O plano Bilhete tem edição livre por 72 horas após a publicação.",
+        },
+        {
+          q: "Tem reembolso?",
+          a: "Sim. O Código de Defesa do Consumidor garante 7 dias para arrependimento em compras online. Solicite por ola@nossacarta.love.",
+        },
+      ],
     },
     {
-      q: "Funciona com qualquer música do Spotify?",
-      a: "Sim. Buscamos pelo título e artista direto da biblioteca pública do Spotify. A faixa toca em alta qualidade dentro da página, com capa e link.",
-    },
-    {
-      q: "Ela vê o site antes do dia?",
-      a: "Não, se você ativar o Ritual do Envelope. A página fica selada com contagem regressiva até a data e hora marcadas. Ao abrir, o envelope se desfaz na frente dela.",
-    },
-    {
-      q: "Aceita Pix?",
-      a: "Sim. Pix instantâneo (com 5% de desconto automático) ou cartão em até 12x sem juros, processado pelo Mercado Pago. O acesso libera em segundos após o pagamento.",
+      titulo: "Privacidade & segurança",
+      items: [
+        {
+          q: "Ela precisa criar conta para abrir?",
+          a: "Não. Ela apenas recebe o link (ou escaneia o QR Code) e a página abre no celular ou navegador, sem cadastro. A URL não é indexada por buscadores.",
+        },
+        {
+          q: "Como protegem as fotos?",
+          a: "Fotos ficam em armazenamento privado, servidas via URLs assinadas com prazo de expiração. Não são acessíveis publicamente sem passar pela página da carta.",
+        },
+        {
+          q: "Vão usar meus dados pra anúncio?",
+          a: "Não. Não vendemos nem compartilhamos seus dados. Cookies essenciais apenas (sessão de login). Detalhes na Política de Privacidade.",
+        },
+      ],
     },
   ];
 
@@ -862,32 +945,47 @@ function Faq() {
             <span className="text-ruby">de quem ama.</span>
           </h2>
           <p className="mt-6 font-prose text-[15px] italic text-mauve">
-            Se a sua não estiver aqui, escreva para olá@nossacarta.love
-            — respondemos em até uma hora.
+            Se a sua não estiver aqui, escreva para{" "}
+            <a
+              href="mailto:ola@nossacarta.love"
+              className="text-ruby underline-offset-4 hover:underline"
+            >
+              ola@nossacarta.love
+            </a>
+            {" "}— respondemos em até uma hora.
           </p>
         </aside>
-        <ul className="md:col-span-8">
-          {items.map((item, i) => (
-            <li
-              key={i}
-              className="border-t border-cocoa/15 py-6 first:border-t-0"
-            >
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
-                  <span className="font-serif text-[22px] italic font-medium leading-snug text-cocoa md:text-[26px]">
-                    {item.q}
-                  </span>
-                  <span className="mt-3 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-cocoa/30 font-serif text-cocoa transition group-open:rotate-45 group-open:border-ruby group-open:text-ruby">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-4 max-w-[58ch] font-prose text-[15px] leading-relaxed text-cocoa-soft">
-                  {item.a}
-                </p>
-              </details>
-            </li>
+        <div className="md:col-span-8">
+          {categorias.map((cat, ci) => (
+            <div key={cat.titulo} className={ci > 0 ? "mt-12" : ""}>
+              <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
+                {cat.titulo}
+              </p>
+              <ul className="mt-4">
+                {cat.items.map((item, i) => (
+                  <li
+                    key={i}
+                    className="border-t border-cocoa/15 py-6 first:border-t-0"
+                  >
+                    <details className="group">
+                      <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
+                        <span className="font-serif text-[20px] italic font-medium leading-snug text-cocoa md:text-[24px]">
+                          {item.q}
+                        </span>
+                        <span className="mt-3 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-cocoa/30 font-serif text-cocoa transition group-open:rotate-45 group-open:border-ruby group-open:text-ruby">
+                          +
+                        </span>
+                      </summary>
+                      <p className="mt-4 max-w-[58ch] font-prose text-[15px] leading-relaxed text-cocoa-soft">
+                        {item.a}
+                      </p>
+                    </details>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
