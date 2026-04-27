@@ -8,6 +8,8 @@ const serverSchema = z.object({
 const abacateSchema = z.object({
   ABACATEPAY_API_KEY: z.string().startsWith("abc_"),
   ABACATEPAY_WEBHOOK_SECRET: z.string().min(8),
+  ABACATEPAY_PRODUCT_BILHETE: z.string().min(4),
+  ABACATEPAY_PRODUCT_ETERNO: z.string().min(4),
 });
 
 const spotifySchema = z.object({
@@ -46,6 +48,8 @@ export function getAbacateEnv() {
   return abacateSchema.parse({
     ABACATEPAY_API_KEY: process.env.ABACATEPAY_API_KEY,
     ABACATEPAY_WEBHOOK_SECRET: process.env.ABACATEPAY_WEBHOOK_SECRET,
+    ABACATEPAY_PRODUCT_BILHETE: process.env.ABACATEPAY_PRODUCT_BILHETE,
+    ABACATEPAY_PRODUCT_ETERNO: process.env.ABACATEPAY_PRODUCT_ETERNO,
   });
 }
 

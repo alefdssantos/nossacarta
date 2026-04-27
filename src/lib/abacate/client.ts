@@ -56,6 +56,36 @@ async function abacateFetch<T>(path: string, body: object): Promise<T> {
   return data;
 }
 
+export type AbacateCheckoutCriado = {
+  id: string;
+  url: string;
+  amount: number;
+  paidAmount: number | null;
+  externalId: string | null;
+};
+
+export async function criarCheckoutAbacate(input: {
+  productId: string;
+  externalId: string;
+  returnUrl: string;
+  completionUrl: string;
+  customerEmail?: string;
+  metadata?: Record<string, string>;
+}): Promise<AbacateCheckoutCriado> {
+  const body: Record<string, unknown> = {
+    items: [{ id: input.productId, quantity: 1 }],
+    externalId: input.externalId,
+    returnUrl: input.returnUrl,
+    completionUrl: input.completionUrl,
+  };
+  if (input.metadata) body.metadata = input.metadata;
+  if (input.customerEmail) {
+    // Customer parcial: só email pra pré-preencher; cliente completa o resto.
+    body.customer = { email: input.customerEmail };
+  }
+  return abacateFetch<AbacateCheckoutCriado>("/checkouts/create", body);
+}
+
 export async function criarPixAbacate(input: {
   amount: number;
   description?: string;

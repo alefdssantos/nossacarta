@@ -147,10 +147,10 @@ export default async function PublicarPage({ params }: { params: Params }) {
               type="submit"
               className="rounded-full bg-ruby px-9 py-3.5 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
             >
-              Pagar com Pix →
+              Pagar e publicar →
             </button>
             <p className="font-prose text-[12px] italic text-mauve">
-              Pagamento único · Pix · sem assinatura
+              Pix · cartão em até 12x · sem assinatura
             </p>
           </form>
         ) : (

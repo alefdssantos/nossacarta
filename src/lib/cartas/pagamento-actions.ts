@@ -5,8 +5,8 @@ import { revalidatePath } from "next/cache";
 import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "./schema";
-import { criarPixAbacate, simularPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
-import { publicEnv, getServerEnv } from "@/lib/env";
+import { criarCheckoutAbacate, simularPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
+import { publicEnv, getServerEnv, getAbacateEnv } from "@/lib/env";
 import type { Database } from "@/lib/supabase/database.types";
 
 function admin() {
@@ -80,17 +80,30 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
     .update({ status: "aguardando_pagamento" })
     .eq("id", cartaId);
 
-  // Customer é opcional na v2. Em prod pedir CPF/celular no formulário.
-  let pix;
+  // Checkout Abacate: cliente preenche CPF/celular no fluxo deles, cartão 12x + Pix.
+  const abacateEnv = getAbacateEnv();
+  const productId =
+    carta.plano === "bilhete"
+      ? abacateEnv.ABACATEPAY_PRODUCT_BILHETE
+      : abacateEnv.ABACATEPAY_PRODUCT_ETERNO;
+  const baseUrl = publicEnv.NEXT_PUBLIC_APP_URL;
+
+  let checkout;
   try {
-    pix = await criarPixAbacate({
-      amount: valor,
-      description: `${NOMES_PLANOS[carta.plano]} · ${carta.slug}`,
-      expiresIn: 60 * 60 * 24,
+    checkout = await criarCheckoutAbacate({
+      productId,
       externalId: pagamentoId,
+      returnUrl: `${baseUrl}/criar/${cartaId}/publicar`,
+      completionUrl: `${baseUrl}/conta?pago=${cartaId}`,
+      customerEmail: userData.user.email ?? undefined,
+      metadata: {
+        cartaId,
+        pagamentoId,
+        plano: carta.plano,
+      },
     });
   } catch (err) {
-    console.error("[criarPagamentoAction] abacate pix fail", err);
+    console.error("[criarPagamentoAction] abacate checkout fail", err);
     await admin().from("pagamentos").update({ status: "rejected" }).eq("id", pagamentoId);
     redirect(`/criar/${cartaId}/publicar?erro=gateway`);
   }
@@ -98,17 +111,13 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
   await admin()
     .from("pagamentos")
     .update({
-      gateway_payment_id: pix.id,
-      gateway_meta: {
-        brCode: pix.brCode,
-        brCodeBase64: pix.brCodeBase64,
-        expiresAt: pix.expiresAt ?? null,
-      },
+      gateway_checkout_id: checkout.id,
+      gateway_meta: { url: checkout.url },
     })
     .eq("id", pagamentoId);
 
-  revalidatePath(`/criar/${cartaId}/pagamento`);
-  redirect(`/criar/${cartaId}/pagamento`);
+  revalidatePath(`/criar/${cartaId}/publicar`);
+  redirect(checkout.url);
 }
 
 // Apenas em dev: marca pagamento como aprovado direto, simulando chegada de webhook.
