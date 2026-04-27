@@ -24,7 +24,7 @@ export default async function CadastroPage() {
           Sua carta começa aqui
         </p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
-          Sem senha. Mandamos um link no e-mail e você já entra criando.
+          Sem senha. Mandamos um link no e-mail e você entra com um clique.
         </p>
       </header>
 

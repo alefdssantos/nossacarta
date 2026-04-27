@@ -280,16 +280,16 @@ function HowItWorks() {
     {
       n: "II.",
       title: "Sele a carta",
-      caption: "Pagamento único, Pix ou cartão, e ela está pronta.",
+      caption: "Pagamento único, Pix ou cartão. A carta é publicada na hora.",
       body:
-        "A página é selada na hora. Você recebe um link próprio e um QR Code que cabe em um bilhete impresso, num quadrinho, na manhã do dia.",
+        "Você recebe um link próprio e um QR Code que cabe em um bilhete impresso, num quadrinho, na manhã do dia.",
     },
     {
       n: "III.",
       title: "Entregue o tempo",
       caption: "Cápsulas que abrem em datas futuras. Para sempre.",
       body:
-        "A cada aniversário, mensaversário, primeira viagem, um envelope novo se abre dentro do site. O presente nunca acaba — é uma assinatura sem mensalidade.",
+        "A cada aniversário, mensário, primeira viagem, um envelope novo se abre dentro do site. O presente continua chegando — sem mensalidade, sem renovação.",
     },
   ];
 
@@ -394,7 +394,7 @@ function Features() {
           n="05"
           title="Galeria em alta"
           line="fotos de até 8MB · ordem livre"
-          body="Carregue os retratos das viagens, dos cafés, das madrugadas. Ordem manual, legendas em italic, cropping respeitando o original."
+          body="Carregue os retratos das viagens, dos cafés, das madrugadas. Ordem manual, legendas em italic, recorte respeitoso ao enquadramento original."
           chip="ilimitada · plano Eterno"
           spanClass="md:col-span-6"
           accent={<GalleryVisual />}
@@ -697,7 +697,7 @@ function Pricing() {
           <WordReveal
             segments={[
               { text: "Quanto custa", lineBreakAfter: true },
-              { text: "fazer ela chorar de emoção?", className: "text-ruby" },
+              { text: "guardar pra sempre?", className: "text-ruby" },
             ]}
             wordDelay={0.09}
           />
@@ -715,7 +715,7 @@ function Pricing() {
               Sete dias de carta
             </h3>
             <p className="mt-2 font-prose text-[14px] italic text-mauve">
-              Para o impulso da véspera.
+              Para os gestos da véspera.
             </p>
           </header>
           <div className="flex items-baseline gap-2">
@@ -839,7 +839,7 @@ function ChamadaIntermediaria() {
           Uma carta inteira.
         </p>
         <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
-          Sem assinatura. Sem cadastro chato. Pix no impulso, cartão em 12x.
+          Pagamento único — Pix ou cartão em até 12x. Sem assinatura, sem renovação.
         </p>
         <a
           href="/cadastro"

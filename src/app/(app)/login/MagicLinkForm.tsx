@@ -81,7 +81,7 @@ export function MagicLinkForm({ showNomeField = false, next, cta = "Receber link
       </button>
 
       <p className="font-prose text-[12px] italic leading-relaxed text-mauve">
-        Sem senha. Sem cadastro chato. A gente manda um link no seu e-mail e você só clica.
+        Sem senha. Mandamos um link no seu e-mail e você entra com um clique.
       </p>
     </form>
   );
