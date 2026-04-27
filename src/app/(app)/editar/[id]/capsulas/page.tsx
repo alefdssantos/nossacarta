@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { MAX_CAPSULAS_POR_CARTA } from "@/lib/cartas/schema";
+import { X } from "lucide-react";
 import { removerCapsulaAction } from "@/lib/cartas/capsulas-actions";
 import { CapsulaForm } from "./CapsulaForm";
 
@@ -95,9 +96,9 @@ export default async function CapsulasPage({ params }: { params: Params }) {
                       <button
                         type="submit"
                         aria-label="remover"
-                        className="rounded-full border border-cocoa/15 bg-paper px-3 py-1 font-sans text-[11px] text-ruby-deep hover:bg-ruby hover:text-rose-mist"
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-cocoa/15 bg-paper text-ruby-deep transition hover:bg-ruby hover:text-rose-mist"
                       >
-                        ×
+                        <X size={14} strokeWidth={1.8} />
                       </button>
                     </form>
                   </div>

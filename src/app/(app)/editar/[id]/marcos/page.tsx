@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { X } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { MAX_MARCOS_POR_CARTA } from "@/lib/cartas/schema";
 import { removerMarcoAction } from "@/lib/cartas/marcos-actions";
@@ -97,9 +98,9 @@ export default async function MarcosPage({ params }: { params: Params }) {
                     <button
                       type="submit"
                       aria-label="remover"
-                      className="rounded-full border border-cocoa/15 bg-paper px-3 py-1 font-sans text-[11px] text-ruby-deep hover:bg-ruby hover:text-rose-mist"
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-cocoa/15 bg-paper text-ruby-deep transition hover:bg-ruby hover:text-rose-mist"
                     >
-                      ×
+                      <X size={14} strokeWidth={1.8} />
                     </button>
                   </form>
                 </div>

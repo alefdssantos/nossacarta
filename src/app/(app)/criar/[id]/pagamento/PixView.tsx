@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Check, Copy } from "lucide-react";
 
 type Props = {
   cartaId: string;
@@ -62,9 +63,19 @@ export function PixView({ brCode, brCodeBase64, expiresAt }: Props) {
           <button
             type="button"
             onClick={copiar}
-            className="rounded-full border border-ruby/40 bg-rose-mist/50 px-4 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-ruby hover:bg-ruby hover:text-rose-mist"
+            className="flex items-center gap-1.5 rounded-full border border-ruby/40 bg-rose-mist/50 px-4 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-ruby transition hover:bg-ruby hover:text-rose-mist"
           >
-            {copiado ? "copiado ✓" : "copiar"}
+            {copiado ? (
+              <>
+                <Check size={12} strokeWidth={2} />
+                copiado
+              </>
+            ) : (
+              <>
+                <Copy size={12} strokeWidth={1.8} />
+                copiar
+              </>
+            )}
           </button>
         </div>
       </div>

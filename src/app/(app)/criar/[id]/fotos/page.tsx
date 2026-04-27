@@ -8,6 +8,7 @@ import { PlanoPill } from "@/components/StatusPill";
 import { wizardSteps } from "@/app/(app)/criar/page";
 import { MAX_FOTOS_BILHETE } from "@/lib/cartas/schema";
 import { reordenarMediaAction, removerMediaAction } from "@/lib/cartas/media-actions";
+import { ArrowUp, ArrowDown, X } from "lucide-react";
 import { FotoUploader } from "./FotoUploader";
 
 export const metadata: Metadata = {
@@ -139,9 +140,9 @@ export default async function FotosPage({ params }: { params: Params }) {
                         type="submit"
                         disabled={!podeSubir}
                         aria-label="subir"
-                        className="rounded-full bg-paper/90 px-2 py-1 font-sans text-xs text-cocoa shadow-engrave hover:text-ruby disabled:opacity-30"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-paper/90 text-cocoa shadow-engrave transition hover:text-ruby disabled:opacity-30"
                       >
-                        ↑
+                        <ArrowUp size={14} strokeWidth={1.6} />
                       </button>
                     </form>
                     <form action={reorderDown}>
@@ -149,9 +150,9 @@ export default async function FotosPage({ params }: { params: Params }) {
                         type="submit"
                         disabled={!podeDescer}
                         aria-label="descer"
-                        className="rounded-full bg-paper/90 px-2 py-1 font-sans text-xs text-cocoa shadow-engrave hover:text-ruby disabled:opacity-30"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-paper/90 text-cocoa shadow-engrave transition hover:text-ruby disabled:opacity-30"
                       >
-                        ↓
+                        <ArrowDown size={14} strokeWidth={1.6} />
                       </button>
                     </form>
                     <form action={removerMediaAction}>
@@ -160,9 +161,9 @@ export default async function FotosPage({ params }: { params: Params }) {
                       <button
                         type="submit"
                         aria-label="remover"
-                        className="rounded-full bg-paper/90 px-2 py-1 font-sans text-xs text-ruby-deep shadow-engrave hover:bg-ruby hover:text-rose-mist"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-paper/90 text-ruby-deep shadow-engrave transition hover:bg-ruby hover:text-rose-mist"
                       >
-                        ×
+                        <X size={14} strokeWidth={1.8} />
                       </button>
                     </form>
                   </div>
