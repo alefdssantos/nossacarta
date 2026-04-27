@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Allura, Cormorant_Garamond, Lora, Inter } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CookieBanner } from "@/components/CookieBanner";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
         <SmoothScroll />
         {children}
         <CookieBanner />
+        <SpeedInsights />
       </body>
     </html>
   );
