@@ -19,11 +19,13 @@ export default async function ContaPage() {
   const { data: cartas } = await supabase
     .from("cartas")
     .select("id, slug, plano, status, criada_em, atualizada_em, expira_em, conteudo")
+    .eq("owner_id", data.user.id)
     .order("atualizada_em", { ascending: false });
 
   const { data: pagamentos } = await supabase
     .from("pagamentos")
     .select("id, plano, valor_centavos, status, metodo, criado_em, pago_em, carta_id")
+    .eq("owner_id", data.user.id)
     .order("criado_em", { ascending: false })
     .limit(10);
 
