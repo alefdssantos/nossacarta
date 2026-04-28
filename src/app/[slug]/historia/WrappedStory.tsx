@@ -105,8 +105,20 @@ export function WrappedStory(p: Props) {
         pixelRatio: 3,
         backgroundColor: "#2A1518",
       });
+      const filename = `nossacarta-${p.slug}-${slides[i].id}.png`;
+      // Try Web Share API (iOS/Android save to gallery)
+      if (typeof navigator !== "undefined" && navigator.canShare) {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const file = new File([blob], filename, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file] });
+          return;
+        }
+      }
+      // Fallback: browser download
       const link = document.createElement("a");
-      link.download = `nossacarta-${p.slug}-${slides[i].id}.png`;
+      link.download = filename;
       link.href = dataUrl;
       link.click();
     } catch (err) {
@@ -460,31 +472,51 @@ function buildSlides(p: Props): Slide[] {
     });
   }
 
-  // 9. CTA final
+  // 9. CTA final — resumo estilo Wrapped
   slides.push({
     id: "cta",
     bg: "linear-gradient(160deg, #4A2D31 0%, #7C0E1D 100%)",
     render: () => (
-      <>
-        <p
-          className="mt-10 font-serif italic leading-[1.2] text-rose-mist"
-          style={{ fontSize: "clamp(22px, 5.5vw, 30px)" }}
-        >
-          A história inteira está em
+      <div className="flex w-full flex-col items-center gap-0 text-center">
+        <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">
+          {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
         </p>
         <p
-          className="mt-6 font-script text-ruby"
-          style={{ fontSize: "clamp(36px, 9vw, 56px)", lineHeight: 1, transform: "rotate(-2deg)" }}
+          className="mt-5 font-script text-rose-mist"
+          style={{ fontSize: "clamp(48px, 12vw, 72px)", lineHeight: 0.9 }}
         >
-          nossacarta.love
+          {p.diasFmt}
         </p>
-        <p className="mt-2 font-mono text-[14px] text-rose-mist/85">
-          /{p.slug}
+        <p className="mt-2 font-serif italic text-[14px] text-rose-mist/70">dias juntos</p>
+
+        <div className="mt-7 grid w-full grid-cols-2 gap-3">
+          {[
+            { n: p.luas, label: "luas cheias" },
+            { n: p.natais, label: "natais" },
+            { n: p.batidas, label: "batidas" },
+            { n: p.diasDosNamorados, label: "dias dos namorados" },
+          ].map(({ n, label }) => (
+            <div key={label} className="flex flex-col items-center rounded-sm bg-rose-mist/8 py-3">
+              <span
+                className="font-script text-champagne"
+                style={{ fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 0.9 }}
+              >
+                {n}
+              </span>
+              <span className="mt-1.5 font-sans text-[8px] uppercase tracking-[0.22em] text-rose-mist/60">
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <p
+          className="mt-7 font-script text-ruby"
+          style={{ fontSize: "clamp(22px, 5.5vw, 32px)", lineHeight: 1, transform: "rotate(-2deg)" }}
+        >
+          nossacarta.love/{p.slug}
         </p>
-        <p className="mt-10 font-prose text-[12px] italic text-rose-mist/60">
-          uma edição única, dedicada a {p.nomes.pessoa2}
-        </p>
-      </>
+      </div>
     ),
   });
 

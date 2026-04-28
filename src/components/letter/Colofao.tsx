@@ -52,7 +52,7 @@ export async function Colofao({ pessoa2, slug, appUrl, publicadaEm }: Props) {
 
         <a
           href={`/${slug}/historia`}
-          className="mt-12 inline-flex items-center gap-2 rounded-full border border-cocoa/20 bg-paper px-5 py-2 font-sans text-[10px] uppercase tracking-[0.28em] text-cocoa hover:border-ruby/40 hover:text-ruby"
+          className="mt-12 inline-flex items-center gap-3 rounded-full bg-ruby px-8 py-4 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
         >
           ver história em capítulos →
         </a>
