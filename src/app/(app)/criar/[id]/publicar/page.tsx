@@ -7,7 +7,7 @@ import { Stepper } from "@/components/Stepper";
 import { PlanoPill } from "@/components/StatusPill";
 import { wizardSteps } from "@/app/(app)/criar/page";
 import { bypassPagamentoDevAction, criarPagamentoAction } from "@/lib/cartas/pagamento-actions";
-import { PRECOS_CENTAVOS } from "@/lib/abacate/client";
+import { PRECOS_CENTAVOS } from "@/lib/mp/client";
 
 export const metadata: Metadata = {
   title: "Publicar carta — NossaCarta",

@@ -3,14 +3,12 @@ import { z } from "zod";
 const serverSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   SUPABASE_DB_URL: z.string().url(),
-  CRON_SECRET: z.string().min(16).optional(),
+  CRON_SECRET: z.string().min(16).or(z.literal("")).optional(),
 });
 
-const abacateSchema = z.object({
-  ABACATEPAY_API_KEY: z.string().startsWith("abc_"),
-  ABACATEPAY_WEBHOOK_SECRET: z.string().min(8),
-  ABACATEPAY_PRODUCT_BILHETE: z.string().min(4),
-  ABACATEPAY_PRODUCT_ETERNO: z.string().min(4),
+const mpSchema = z.object({
+  MP_ACCESS_TOKEN: z.string().min(20),
+  MP_WEBHOOK_SECRET: z.string().min(8).optional(),
 });
 
 const spotifySchema = z.object({
@@ -45,15 +43,13 @@ export function getServerEnv() {
   });
 }
 
-export function getAbacateEnv() {
+export function getMPEnv() {
   if (typeof window !== "undefined") {
-    throw new Error("getAbacateEnv() called on the client");
+    throw new Error("getMPEnv() called on the client");
   }
-  return abacateSchema.parse({
-    ABACATEPAY_API_KEY: process.env.ABACATEPAY_API_KEY,
-    ABACATEPAY_WEBHOOK_SECRET: process.env.ABACATEPAY_WEBHOOK_SECRET,
-    ABACATEPAY_PRODUCT_BILHETE: process.env.ABACATEPAY_PRODUCT_BILHETE,
-    ABACATEPAY_PRODUCT_ETERNO: process.env.ABACATEPAY_PRODUCT_ETERNO,
+  return mpSchema.parse({
+    MP_ACCESS_TOKEN: process.env.MP_ACCESS_TOKEN,
+    MP_WEBHOOK_SECRET: process.env.MP_WEBHOOK_SECRET,
   });
 }
 

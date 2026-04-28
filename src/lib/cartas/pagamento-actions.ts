@@ -5,8 +5,8 @@ import { revalidatePath } from "next/cache";
 import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "./schema";
-import { criarCheckoutAbacate, simularPixAbacate, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/abacate/client";
-import { publicEnv, getServerEnv, getAbacateEnv } from "@/lib/env";
+import { criarPreferenciaMp, NOMES_PLANOS, PRECOS_CENTAVOS } from "@/lib/mp/client";
+import { publicEnv, getServerEnv, getMPEnv } from "@/lib/env";
 import { notificarPublicacao } from "@/lib/emails/notificar-publicacao";
 import type { Database } from "@/lib/supabase/database.types";
 
@@ -61,8 +61,9 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
       .from("pagamentos")
       .select("id", { count: "exact", head: true })
       .eq("owner_id", userData.user.id)
+      .eq("status", "pending")
       .gte("criado_em", dezMinAtras);
-    if ((pagamentosRecentes ?? 0) >= 3) {
+    if ((pagamentosRecentes ?? 0) >= 5) {
       redirect(`/criar/${cartaId}/publicar?erro=rate_limit`);
     }
 
@@ -91,30 +92,24 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
     .update({ status: "aguardando_pagamento" })
     .eq("id", cartaId);
 
-  // Checkout Abacate: cliente preenche CPF/celular no fluxo deles, cartão 12x + Pix.
-  const abacateEnv = getAbacateEnv();
-  const productId =
-    carta.plano === "bilhete"
-      ? abacateEnv.ABACATEPAY_PRODUCT_BILHETE
-      : abacateEnv.ABACATEPAY_PRODUCT_ETERNO;
+  getMPEnv(); // valida vars antes de criar registro
   const baseUrl = publicEnv.NEXT_PUBLIC_APP_URL;
+  const titulo = NOMES_PLANOS[carta.plano];
 
-  let checkout;
+  let preferencia;
   try {
-    checkout = await criarCheckoutAbacate({
-      productId,
-      externalId: pagamentoId,
-      returnUrl: `${baseUrl}/criar/${cartaId}/publicar`,
-      completionUrl: `${baseUrl}/conta?pago=${cartaId}`,
-      customerEmail: userData.user.email ?? undefined,
-      metadata: {
-        cartaId,
-        pagamentoId,
-        plano: carta.plano,
-      },
+    preferencia = await criarPreferenciaMp({
+      pagamentoId,
+      titulo,
+      valorCentavos: valor,
+      successUrl: `${baseUrl}/conta?pago=${cartaId}`,
+      failureUrl: `${baseUrl}/criar/${cartaId}/publicar?erro=gateway`,
+      pendingUrl: `${baseUrl}/criar/${cartaId}/publicar?pix=aguardando`,
+      webhookUrl: `${baseUrl}/api/mp/webhook`,
+      payerEmail: userData.user.email ?? undefined,
     });
   } catch (err) {
-    console.error("[criarPagamentoAction] abacate checkout fail", err);
+    console.error("[criarPagamentoAction] MP preference fail", err);
     await admin().from("pagamentos").update({ status: "rejected" }).eq("id", pagamentoId);
     redirect(`/criar/${cartaId}/publicar?erro=gateway`);
   }
@@ -122,13 +117,17 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
   await admin()
     .from("pagamentos")
     .update({
-      gateway_checkout_id: checkout.id,
-      gateway_meta: { url: checkout.url },
+      gateway_checkout_id: preferencia.id,
+      gateway_meta: { url: preferencia.init_point, preference_id: preferencia.id },
     })
     .eq("id", pagamentoId);
 
   revalidatePath(`/criar/${cartaId}/publicar`);
-  redirect(checkout.url);
+  const checkoutUrl =
+    process.env.NODE_ENV === "production"
+      ? preferencia.init_point
+      : preferencia.sandbox_init_point;
+  redirect(checkoutUrl);
 }
 
 // DEV: cria pagamento aprovado + flipa carta sem chamar AbacatePay.
@@ -225,20 +224,6 @@ export async function simularPagamentoAction(formData: FormData): Promise<void> 
 
   if (!pagamento || pagamento.owner_id !== userData.user.id) return;
   if (pagamento.status === "approved") return;
-
-  // Tentativa real via API (pode falhar se SDK incompatível) — mantém pra ver logs
-  try {
-    const { data: pagamentoFull } = await supabase
-      .from("pagamentos")
-      .select("gateway_payment_id")
-      .eq("id", pagamentoId)
-      .maybeSingle();
-    if (pagamentoFull?.gateway_payment_id) {
-      await simularPixAbacate(pagamentoFull.gateway_payment_id);
-    }
-  } catch (err) {
-    console.warn("[simularPagamentoAction] API simulate fail (ok em dev)", String(err).slice(0, 120));
-  }
 
   // Aplica status localmente (mock do webhook aprovado).
   const agora = new Date();

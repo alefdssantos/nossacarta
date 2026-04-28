@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PlanoPill } from "@/components/StatusPill";
-import { PRECOS_CENTAVOS } from "@/lib/abacate/client";
 import { PixView } from "./PixView";
 import { simularPagamentoAction } from "@/lib/cartas/pagamento-actions";
 
@@ -30,7 +29,7 @@ export default async function PagamentoPage({ params }: { params: Params }) {
 
   const { data: pagamentos } = await supabase
     .from("pagamentos")
-    .select("id, status, valor_centavos, gateway_meta, criado_em")
+    .select("id, status, valor_centavos, criado_em")
     .eq("carta_id", id)
     .order("criado_em", { ascending: false })
     .limit(1);
@@ -38,20 +37,8 @@ export default async function PagamentoPage({ params }: { params: Params }) {
   const pagamento = pagamentos?.[0];
   if (!pagamento) redirect(`/criar/${id}/publicar`);
 
-  if (pagamento.status === "approved") {
-    redirect(`/${carta.slug}`);
-  }
+  if (pagamento.status === "approved") redirect(`/${carta.slug}`);
   if (pagamento.status === "rejected" || pagamento.status === "cancelled") {
-    redirect(`/criar/${id}/publicar?erro=gateway`);
-  }
-
-  const meta = (pagamento.gateway_meta ?? {}) as {
-    brCode?: string;
-    brCodeBase64?: string;
-    expiresAt?: string;
-  };
-
-  if (!meta.brCode || !meta.brCodeBase64) {
     redirect(`/criar/${id}/publicar?erro=gateway`);
   }
 
@@ -71,20 +58,15 @@ export default async function PagamentoPage({ params }: { params: Params }) {
           <PlanoPill plano={carta.plano} />
         </div>
         <p className="mt-5 font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
-          Pix · aguardando pagamento
+          Aguardando confirmação
         </p>
         <p className="mt-2 font-script text-5xl text-ruby">R$ {valorReais}</p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
-          Aponte a câmera do app do banco para o QR code, ou copie e cole o código abaixo.
+          Finalize o pagamento no Mercado Pago. Após confirmado, sua carta é publicada automaticamente.
         </p>
       </header>
 
-      <PixView
-        cartaId={id}
-        brCode={meta.brCode}
-        brCodeBase64={meta.brCodeBase64}
-        expiresAt={meta.expiresAt ?? null}
-      />
+      <PixView cartaId={id} />
 
       <p className="mt-12 text-center font-prose text-[12px] italic text-mauve">
         Após o pagamento, esta página atualiza sozinha. Se demorar, recarregue.
@@ -95,18 +77,6 @@ export default async function PagamentoPage({ params }: { params: Params }) {
           <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
             Modo de desenvolvimento
           </p>
-          <p className="mt-2 font-prose text-[12px] italic text-mauve">
-            Pra simular pagamento, abra o painel AbacatePay (Dev Mode), encontre esta transação Pix
-            e clique em &ldquo;Simular pagamento&rdquo;. O webhook chega aqui automaticamente.
-          </p>
-          <a
-            href="https://app.abacatepay.com/dashboard"
-            target="_blank"
-            rel="noopener"
-            className="mt-3 inline-flex font-sans text-[10px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
-          >
-            abrir painel AbacatePay →
-          </a>
           <form action={simularPagamentoAction} className="mt-3">
             <input type="hidden" name="cartaId" value={id} />
             <input type="hidden" name="pagamentoId" value={pagamento.id} />
@@ -114,7 +84,7 @@ export default async function PagamentoPage({ params }: { params: Params }) {
               type="submit"
               className="font-sans text-[9px] uppercase tracking-[0.18em] text-cocoa/45 underline-offset-4 hover:text-ruby hover:underline"
             >
-              tentar simular via API
+              simular pagamento aprovado (dev) →
             </button>
           </form>
         </div>
