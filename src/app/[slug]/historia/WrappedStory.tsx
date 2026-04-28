@@ -420,21 +420,26 @@ function buildSlides(p: Props): Slide[] {
       bg: "#0F0709",
       pausaAuto: true,
       render: ({ fotoIndex, setFotoIndex, fotoTotal }) => (
-        <div className="relative flex w-full flex-col items-center">
-          <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VI</p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            key={fotoIndex}
-            src={p.fotoUrls[fotoIndex]}
-            alt={`foto ${fotoIndex + 1}`}
-            className="mt-4 max-h-[54dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
-            style={{ filter: "saturate(0.95) sepia(0.05)" }}
-          />
-          <p className="mt-3 font-serif italic text-[14px] text-rose-mist/70">
-            {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
-          </p>
+        <>
+          {/* Foto centralizada */}
+          <div className="flex flex-col items-center">
+            <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VI</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={fotoIndex}
+              src={p.fotoUrls[fotoIndex]}
+              alt={`foto ${fotoIndex + 1}`}
+              className="mt-4 max-h-[56dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
+              style={{ filter: "saturate(0.95) sepia(0.05)" }}
+            />
+            <p className="mt-3 font-serif italic text-[14px] text-rose-mist/70">
+              {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
+            </p>
+          </div>
+
+          {/* Navegação fixada no fundo do slide, acima dos botões do footer */}
           {fotoTotal > 1 && (
-            <div className="mt-5 flex items-center gap-4">
+            <div className="absolute bottom-20 left-0 right-0 flex items-center justify-center gap-4">
               <button
                 type="button"
                 aria-label="foto anterior"
@@ -470,7 +475,7 @@ function buildSlides(p: Props): Slide[] {
               </button>
             </div>
           )}
-        </div>
+        </>
       ),
     });
   }
