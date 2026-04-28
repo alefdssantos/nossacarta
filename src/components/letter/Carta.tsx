@@ -44,7 +44,7 @@ export function Carta({ texto, signature, cidadeData }: Props) {
             fontSize: "clamp(17px, 2.4vw, 20px)",
             lineHeight: 1.85,
             textAlign: "justify",
-            hyphens: "auto",
+            hyphens: "none",
           }}
         >
           <div className="relative float-left mr-3 mt-0" aria-hidden="true">
