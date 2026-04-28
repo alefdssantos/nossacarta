@@ -88,7 +88,7 @@ function Hero() {
             className="rise-in mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-sans text-[10px] uppercase tracking-[0.32em] text-cocoa-soft/70"
             style={{ animationDelay: "0.78s" }}
           >
-            <span>100% digital · no celular dela</span>
+            <span>100% digital</span>
             <span className="text-champagne">✦</span>
             <span>Pronto em 5 minutos</span>
             <span className="text-champagne">✦</span>
@@ -837,7 +837,7 @@ function ChamadaIntermediaria() {
           Uma carta inteira.
         </p>
         <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
-          Uma página digital, no celular dela, em até cinco minutos. Pix ou cartão — sem assinatura.
+          Uma página digital, em até cinco minutos. Pix ou cartão — sem assinatura.
         </p>
         <a
           href="/cadastro"
