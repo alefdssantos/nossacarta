@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
 
   const sigResult = validarAssinaturaMp(dataId, xSignature, xRequestId);
 
-  if (sigResult === "fail" && process.env.NODE_ENV === "production") {
-    console.warn("[mp webhook] assinatura inválida");
+  if ((sigResult === "fail" || sigResult === "skipped") && process.env.NODE_ENV === "production") {
+    console.warn("[mp webhook] assinatura inválida ou secret não configurado", { sigResult });
     return new NextResponse("invalid signature", { status: 401 });
   }
 

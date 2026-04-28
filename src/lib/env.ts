@@ -8,7 +8,7 @@ const serverSchema = z.object({
 
 const mpSchema = z.object({
   MP_ACCESS_TOKEN: z.string().min(20),
-  MP_WEBHOOK_SECRET: z.string().min(8).optional(),
+  MP_WEBHOOK_SECRET: z.string().min(8),
 });
 
 const spotifySchema = z.object({

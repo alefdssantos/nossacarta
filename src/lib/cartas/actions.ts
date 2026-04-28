@@ -118,6 +118,10 @@ export async function atualizarNomesAction(
     return { status: "error", message: "Carta não encontrada." };
   }
 
+  if (cartaAtual.status === "publicada" && cartaAtual.plano !== "eterno") {
+    return { status: "error", message: "Carta Bilhete já publicada não pode ser editada." };
+  }
+
   const conteudoAtual = conteudoCartaV1Schema.safeParse(cartaAtual.conteudo);
   const conteudo = {
     ...(conteudoAtual.success ? conteudoAtual.data : conteudoVazioV1),
@@ -132,7 +136,8 @@ export async function atualizarNomesAction(
       data_inicio_relacionamento: dataInicio,
       conteudo,
     })
-    .eq("id", cartaId);
+    .eq("id", cartaId)
+    .eq("owner_id", user.id);
 
   if (errUpdate) {
     console.error("[atualizarNomesAction] update fail", {
@@ -189,6 +194,10 @@ export async function atualizarDeclaracaoTemaAction(
     return { status: "error", message: "Carta não encontrada." };
   }
 
+  if (cartaAtual.status === "publicada" && cartaAtual.plano !== "eterno") {
+    return { status: "error", message: "Carta Bilhete já publicada não pode ser editada." };
+  }
+
   const conteudoAtual = conteudoCartaV1Schema.safeParse(cartaAtual.conteudo);
   const conteudo = {
     ...(conteudoAtual.success ? conteudoAtual.data : conteudoVazioV1),
@@ -199,7 +208,8 @@ export async function atualizarDeclaracaoTemaAction(
   const { error: errUpdate } = await supabase
     .from("cartas")
     .update({ conteudo })
-    .eq("id", cartaId);
+    .eq("id", cartaId)
+    .eq("owner_id", user.id);
 
   if (errUpdate) {
     console.error("[atualizarDeclaracaoTemaAction] update fail", {
