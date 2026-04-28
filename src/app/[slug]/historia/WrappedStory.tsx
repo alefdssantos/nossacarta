@@ -56,6 +56,15 @@ export function WrappedStory(p: Props) {
 
   const slidePausaAuto = slides[i]?.pausaAuto ?? false;
 
+  // Preload all images on mount
+  useEffect(() => {
+    const urls = [
+      ...p.fotoUrls,
+      p.track?.albumArt ?? null,
+    ].filter((u): u is string => !!u);
+    urls.forEach((url) => { const img = new Image(); img.src = url; });
+  }, []);
+
   useEffect(() => {
     inicioRef.current = performance.now();
     acumuladoRef.current = 0;
