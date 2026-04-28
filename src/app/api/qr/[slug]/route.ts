@@ -1,6 +1,7 @@
 import { type NextRequest } from "next/server";
 import QRCode from "qrcode";
 import { publicEnv } from "@/lib/env";
+import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
@@ -11,6 +12,14 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
   if (!/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])?$/.test(slug)) {
     return new Response("invalid slug", { status: 400 });
   }
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("cartas")
+    .select("id")
+    .eq("slug", slug)
+    .eq("status", "publicada")
+    .maybeSingle();
+  if (!data) return new Response("not found", { status: 404 });
   const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${slug}`;
   const png = await QRCode.toBuffer(url, {
     margin: 1,
