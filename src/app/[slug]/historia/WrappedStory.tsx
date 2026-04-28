@@ -522,35 +522,22 @@ function buildSlides(p: Props): Slide[] {
     slides.push({
       id: "musica",
       bg: "linear-gradient(180deg, #1A0D10 0%, #3A1A1E 100%)",
-      render: ({ musicaPausada, toggleMusica }) => (
-        <div className="flex w-full flex-col items-center gap-4">
+      render: (_) => (
+        <div className="flex flex-col items-center gap-6">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
-          <p className="font-serif italic text-[13px] text-rose-mist/55">a trilha desta história</p>
-          {/* Embed Spotify — quadrado centralizado, play no centro */}
-          <iframe
-            src={`https://open.spotify.com/embed/track/${p.track!.id}?utm_source=generator&theme=0`}
-            width="232"
-            height="232"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            className="rounded-xl border-0"
-            onMouseDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-          />
-          {/* Botão pausar preview se disponível */}
-          {p.track!.previewUrl && (
-            <button
-              type="button"
-              onMouseDown={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-              onClick={(e) => { e.stopPropagation(); toggleMusica(); }}
-              className="flex items-center gap-2 rounded-full border border-rose-mist/30 bg-rose-mist/10 px-5 py-2 font-sans text-[10px] uppercase tracking-[0.24em] text-rose-mist/80"
-            >
-              {musicaPausada
-                ? <><Volume2 size={12} strokeWidth={1.6} /> tocar preview</>
-                : <><VolumeX size={12} strokeWidth={1.6} /> pausar preview</>}
-            </button>
+          {p.track!.albumArt && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={p.track!.albumArt} alt={p.track!.name} className="h-44 w-44 rounded-sm border border-rose-mist/10 object-cover" />
           )}
+          <div className="text-center">
+            <p className="font-serif italic text-[22px] text-rose-mist" style={{ lineHeight: 1.2 }}>
+              {p.track!.name}
+            </p>
+            <p className="mt-1 font-serif text-[14px] text-rose-mist/65">{p.track!.artistas}</p>
+          </div>
+          <p className="font-prose text-[12px] italic text-rose-mist/55">
+            a trilha desta história
+          </p>
         </div>
       ),
     });
