@@ -67,7 +67,7 @@ export async function SiteHeader({ variant = "internal" }: { variant?: Variant }
                 Entrar
               </Link>
               <Link
-                href={variant === "landing" ? "#tarifa" : "/cadastro"}
+                href="/cadastro"
                 className="rounded-full border border-cocoa/15 bg-paper px-4 py-2 font-sans text-[11px] uppercase tracking-[0.2em] text-cocoa shadow-[var(--shadow-engrave)] transition hover:border-ruby/40 hover:text-ruby"
               >
                 Começar

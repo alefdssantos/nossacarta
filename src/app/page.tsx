@@ -92,7 +92,7 @@ function Hero() {
             <span className="text-champagne">✦</span>
             <span>Pronto em 5 minutos</span>
             <span className="text-champagne">✦</span>
-            <span>Pix ou cartão 12x</span>
+            <span>Pix ou cartão</span>
           </div>
         </div>
 
@@ -791,7 +791,7 @@ function Pricing() {
             <span>→</span>
           </a>
           <p className="text-center font-prose text-[12px] italic text-mauve">
-            Pix · cartão em até 12x · processado pela Mercado Pago
+            Pix · cartão · processado pela Mercado Pago
           </p>
         </Reveal>
       </div>
@@ -839,7 +839,7 @@ function ChamadaIntermediaria() {
           Uma carta inteira.
         </p>
         <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
-          Uma página digital, no celular dela, em até cinco minutos. Pix ou cartão em 12x — sem assinatura.
+          Uma página digital, no celular dela, em até cinco minutos. Pix ou cartão — sem assinatura.
         </p>
         <a
           href="/cadastro"
@@ -899,7 +899,7 @@ function Faq() {
       items: [
         {
           q: "Como é o pagamento?",
-          a: "Pix instantâneo ou cartão em até 12x sem juros, processado pela Mercado Pago. Pagamento único, sem assinatura, sem renovação. O acesso libera em segundos após o pagamento confirmado.",
+          a: "Pix instantâneo ou cartão, processado pela Mercado Pago. Pagamento único, sem assinatura, sem renovação. O acesso libera em segundos após o pagamento confirmado.",
         },
         {
           q: "O site fica no ar pra sempre?",

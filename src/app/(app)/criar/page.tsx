@@ -65,7 +65,7 @@ export default async function CriarPage() {
       </section>
 
       <p className="mt-10 text-center font-prose text-[12px] italic text-mauve">
-        Pix com 5% de desconto · cartão em até 12x via Mercado Pago
+        Pix · cartão via Mercado Pago
       </p>
     </main>
   );

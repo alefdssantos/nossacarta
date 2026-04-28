@@ -151,7 +151,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
                 Pagar e publicar →
               </button>
               <p className="font-prose text-[12px] italic text-mauve">
-                Pix · cartão em até 12x · sem assinatura
+                Pix · cartão · sem assinatura
               </p>
             </form>
 
