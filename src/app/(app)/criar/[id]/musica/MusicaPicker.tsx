@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useTransition } from "react";
 import { buscarTracksAction, salvarSpotifyAction } from "@/lib/cartas/musica-actions";
 import { buscarInitial, type BuscarState } from "@/lib/cartas/types";
 import type { SpotifyTrack } from "@/lib/spotify/api";
@@ -23,6 +23,7 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
     buscarInitial,
   );
   const [selecionada, setSelecionada] = useState<SpotifyTrack | null>(trackAtual);
+  const [saving, startSave] = useTransition();
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -130,16 +131,17 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
       )}
 
       <form
-        action={salvarSpotifyAction}
+        action={(fd) => startSave(() => salvarSpotifyAction(fd))}
         className="flex w-full flex-col items-center gap-3 border-t border-cocoa/10 pt-6"
       >
         <input type="hidden" name="cartaId" value={cartaId} />
         <input type="hidden" name="trackId" value={selecionada?.id ?? ""} />
         <button
           type="submit"
-          className="rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+          disabled={saving || pending}
+          className="rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {selecionada ? "Salvar e continuar →" : "Pular sem música →"}
+          {saving ? "Salvando…" : selecionada ? "Salvar e continuar →" : "Pular sem música →"}
         </button>
       </form>
     </div>
