@@ -4,6 +4,9 @@ import { useRef, useState, useTransition } from "react";
 import { uploadMediaAction } from "@/lib/cartas/media-actions";
 import { initialMediaState } from "@/lib/cartas/types";
 
+const MAX_BYTES = 5 * 1024 * 1024;
+const TIPOS_OK = ["image/jpeg", "image/png", "image/webp"];
+
 type Props = {
   cartaId: string;
   count: number;
@@ -18,6 +21,20 @@ export function FotoUploader({ cartaId, count }: Props) {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
+
+    // Validação client-side antes de qualquer upload
+    const invalidas = files.filter((f) => f.size > MAX_BYTES || !TIPOS_OK.includes(f.type));
+    if (invalidas.length) {
+      setErro(
+        invalidas.map((f) =>
+          f.size > MAX_BYTES
+            ? `"${f.name}" é maior que 5 MB — reduza o tamanho antes de subir.`
+            : `"${f.name}" não é JPG, PNG ou WebP.`
+        ).join(" | ")
+      );
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
 
     setErro(null);
     setProgress({ atual: 0, total: files.length });
