@@ -151,7 +151,6 @@ function SealOverlay({
           alt=""
           className="h-full w-full object-contain"
           style={{
-            mixBlendMode: "multiply",
             transition: "transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms ease-out",
             transform: quebrado ? "scale(1.1) rotate(8deg)" : "scale(1) rotate(0deg)",
             opacity: quebrado ? 0 : 1,

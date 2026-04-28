@@ -199,7 +199,7 @@ function WaxSeal() {
     >
       <div className="relative h-20 w-20">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/selo.png" alt="" className="h-full w-full object-contain" style={{ mixBlendMode: "multiply" }} />
+        <img src="/selo.png" alt="" className="h-full w-full object-contain" />
         <span className="absolute inset-0 flex items-center justify-center font-script text-rose-mist/95 pointer-events-none" style={{ fontSize: 26, lineHeight: 1, paddingBottom: 3 }}>
           n
         </span>
