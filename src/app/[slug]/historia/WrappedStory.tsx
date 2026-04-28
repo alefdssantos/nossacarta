@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Download, Pause, Play, Share2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Heart, Mail, Moon, Pause, Play, Share2, Star } from "lucide-react";
 
 type Track = { id: string; name: string; artistas: string; albumArt: string | null };
 
@@ -577,17 +577,17 @@ function buildSlides(p: Props): Slide[] {
         {/* Grid stats */}
         <div className="mt-5 grid w-full grid-cols-2 gap-2">
           {[
-            { n: p.luas, icon: "🌕", label: "luas cheias" },
-            { n: p.natais, icon: "✦", label: "natais" },
-            { n: p.batidas, icon: "♥", label: "batidas" },
-            { n: p.diasDosNamorados, icon: "✉", label: "dia dos namorados" },
+            { n: p.luas, icon: <Moon size={14} strokeWidth={1.4} />, label: "luas cheias" },
+            { n: p.natais, icon: <Star size={14} strokeWidth={1.4} />, label: "natais" },
+            { n: p.batidas, icon: <Heart size={14} strokeWidth={1.4} />, label: "batidas" },
+            { n: p.diasDosNamorados, icon: <Mail size={14} strokeWidth={1.4} />, label: "dia dos namorados" },
           ].map(({ n, icon, label }) => (
             <div
               key={label}
               className="flex flex-col items-center rounded-md py-3"
               style={{ background: "rgba(251,239,232,0.06)", border: "1px solid rgba(251,239,232,0.08)" }}
             >
-              <span className="text-[14px] leading-none opacity-60">{icon}</span>
+              <span className="text-rose-mist/50 leading-none">{icon}</span>
               <span
                 className="mt-1 font-script text-champagne"
                 style={{ fontSize: "clamp(22px, 5.5vw, 32px)", lineHeight: 0.9 }}
