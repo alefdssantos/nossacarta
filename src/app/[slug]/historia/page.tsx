@@ -60,12 +60,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
   const track = carta.spotify_track_id ? await getTrack(carta.spotify_track_id) : null;
 
   // Trecho declaração: primeira frase ou primeiros 140 chars
-  const trecho = (() => {
-    const frases = declaracao.split(/[.!?]\s+/).filter((s) => s.trim().length > 10);
-    const primeira = frases[0]?.trim();
-    if (primeira && primeira.length <= 180) return primeira;
-    return declaracao.slice(0, 140).trim() + "…";
-  })();
+  const trecho = declaracao;
 
   // Cápsula teaser (Eterno): primeira cápsula futura
   let capsulaTeaser: { unlock_em: string } | null = null;

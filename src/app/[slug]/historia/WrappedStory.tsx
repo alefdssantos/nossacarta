@@ -373,21 +373,20 @@ function buildSlides(p: Props): Slide[] {
     ),
   });
 
-  // 5. Trecho
-  const trecho = p.trecho.length > 130 ? p.trecho.slice(0, 127).trimEnd() + "..." : p.trecho;
+  // 5. Trecho — texto completo, scroll se necessário
   slides.push({
     id: "trecho",
     bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
     render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">V</p>
-        <div className="mt-6 w-full overflow-hidden">
-          <p className="font-serif text-[48px] leading-none text-champagne/50">&ldquo;</p>
+        <div className="mt-4 flex w-full flex-col" style={{ maxHeight: "65dvh", overflowY: "auto" }}>
+          <p className="flex-shrink-0 font-serif text-[40px] leading-none text-champagne/50">&ldquo;</p>
           <div
             className="font-serif italic leading-[1.6] text-rose-mist"
-            style={{ fontSize: "clamp(14px, 3.6vw, 18px)" }}
+            style={{ fontSize: "clamp(13px, 3.4vw, 17px)" }}
           >
-            {trecho.split("\n").map((linha, idx) =>
+            {p.trecho.split("\n").map((linha, idx) =>
               linha.trim() === "" ? (
                 <br key={idx} />
               ) : (
@@ -397,7 +396,7 @@ function buildSlides(p: Props): Slide[] {
               )
             )}
           </div>
-          <p className="mt-1 text-right font-serif text-[48px] leading-none text-champagne/50">&rdquo;</p>
+          <p className="mt-1 flex-shrink-0 text-right font-serif text-[40px] leading-none text-champagne/50">&rdquo;</p>
         </div>
       </>
     ),
