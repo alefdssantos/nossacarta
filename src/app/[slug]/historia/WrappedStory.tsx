@@ -34,6 +34,7 @@ type Slide = {
   render: (extras: SlideExtras) => React.ReactNode;
   bg?: string;
   pausaAuto?: boolean;
+  justify?: "center" | "start";
 };
 
 type SlideExtras = {
@@ -210,7 +211,7 @@ export function WrappedStory(p: Props) {
       {/* Slide content */}
       <div
         ref={slideRef}
-        className="relative z-0 flex h-full w-full flex-col items-center justify-center overflow-hidden px-7 pb-16 pt-20 text-rose-mist"
+        className={`relative z-0 flex h-full w-full flex-col items-center overflow-hidden px-7 pb-16 pt-20 text-rose-mist ${slide.justify === "start" ? "justify-start" : "justify-center"}`}
         style={{ background: slide.bg ?? "#4A2D31" }}
       >
         {slide.render({ fotoIndex, setFotoIndex, fotoTotal: p.fotoUrls.length })}
@@ -373,30 +374,31 @@ function buildSlides(p: Props): Slide[] {
     ),
   });
 
-  // 5. Trecho — texto completo, scroll se necessário
+  // 5. Trecho — texto completo, usa tela inteira
   slides.push({
     id: "trecho",
     bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
+    justify: "start",
     render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">V</p>
-        <div className="mt-4 flex w-full flex-col" style={{ maxHeight: "65dvh", overflowY: "auto" }}>
-          <p className="flex-shrink-0 font-serif text-[40px] leading-none text-champagne/50">&ldquo;</p>
+        <div className="mt-4 w-full">
+          <p className="font-serif text-[40px] leading-none text-champagne/50">&ldquo;</p>
           <div
             className="font-serif italic leading-[1.6] text-rose-mist"
-            style={{ fontSize: "clamp(13px, 3.4vw, 17px)" }}
+            style={{ fontSize: "clamp(12px, 3.2vw, 16px)" }}
           >
             {p.trecho.split("\n").map((linha, idx) =>
               linha.trim() === "" ? (
                 <br key={idx} />
               ) : (
-                <p key={idx} className="mb-2 last:mb-0">
+                <p key={idx} className="mb-1.5 last:mb-0">
                   {linha}
                 </p>
               )
             )}
           </div>
-          <p className="mt-1 flex-shrink-0 text-right font-serif text-[40px] leading-none text-champagne/50">&rdquo;</p>
+          <p className="mt-1 text-right font-serif text-[40px] leading-none text-champagne/50">&rdquo;</p>
         </div>
       </>
     ),
