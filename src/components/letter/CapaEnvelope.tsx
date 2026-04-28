@@ -137,7 +137,7 @@ function SealOverlay({
       type="button"
       onClick={onClick}
       aria-label="Abrir a carta"
-      className="absolute left-1/2 bottom-[8%] -translate-x-1/2 cursor-pointer focus:outline-none"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer focus:outline-none"
       style={{
         width: 96,
         height: 96,
