@@ -53,12 +53,12 @@ export function Carta({ texto, signature, cidadeData }: Props) {
           <span
             className="float-left font-serif italic text-ruby"
             style={{
-              fontSize: "clamp(108px, 13vw, 168px)",
+              fontSize: "clamp(72px, 9vw, 108px)",
               lineHeight: 0.82,
               fontWeight: 600,
-              padding: "0 10px",
-              marginRight: 10,
-              marginTop: 0,
+              padding: "0 8px",
+              marginRight: 8,
+              marginTop: -4,
             }}
           >
             {primeiraLetra}
