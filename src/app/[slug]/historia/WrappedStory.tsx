@@ -53,6 +53,7 @@ export function WrappedStory(p: Props) {
   const [salvando, setSalvando] = useState(false);
   const [fotoIndex, setFotoIndex] = useState(0);
   const [musicaPausada, setMusicaPausada] = useState(false);
+  const [imagemSalvar, setImagemSalvar] = useState<string | null>(null);
   const slideRef = useRef<HTMLDivElement>(null);
   const inicioRef = useRef<number>(performance.now());
   const acumuladoRef = useRef<number>(0);
@@ -151,24 +152,8 @@ export function WrappedStory(p: Props) {
         pixelRatio: 3,
         backgroundColor: "#2A1518",
       });
-      const filename = `nossacarta-${p.slug}-${slides[i].id}.png`;
-      // Tenta Web Share API com arquivo (iOS/Android → salvar na galeria)
-      if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
-        try {
-          const res = await fetch(dataUrl);
-          const blob = await res.blob();
-          const file = new File([blob], filename, { type: "image/png" });
-          await navigator.share({ files: [file], title: "NossaCarta" });
-          return;
-        } catch {
-          // share cancelado ou não suportado — cai no fallback
-        }
-      }
-      // Fallback: abre a imagem em nova aba (mobile: segurar → salvar; desktop: download)
-      const link = document.createElement("a");
-      link.download = filename;
-      link.href = dataUrl;
-      link.click();
+      // Mostra overlay com a imagem — iOS: segurar → Salvar Foto; desktop: botão download
+      setImagemSalvar(dataUrl);
     } catch (err) {
       console.error("[wrapped salvar]", err);
     } finally {
@@ -186,6 +171,33 @@ export function WrappedStory(p: Props) {
       onTouchStart={pause}
       onTouchEnd={resume}
     >
+      {/* Overlay salvar imagem */}
+      {imagemSalvar && (
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/90">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={imagemSalvar} alt="slide" className="max-h-[75dvh] w-auto rounded-sm" />
+          <p className="mt-4 font-sans text-[10px] uppercase tracking-[0.28em] text-white/60">
+            Segure a imagem para salvar na galeria
+          </p>
+          <div className="mt-5 flex gap-3">
+            <a
+              href={imagemSalvar}
+              download={`nossacarta-${p.slug}.png`}
+              className="rounded-full bg-white/15 px-5 py-2.5 font-sans text-[10px] uppercase tracking-[0.24em] text-white"
+            >
+              Baixar
+            </a>
+            <button
+              type="button"
+              onClick={() => { setImagemSalvar(null); resume(); }}
+              className="rounded-full border border-white/20 px-5 py-2.5 font-sans text-[10px] uppercase tracking-[0.24em] text-white/70"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Progress bars */}
       <div className="pointer-events-none absolute left-0 right-0 top-0 z-30 flex gap-1 px-3 pt-3">
         {slides.map((s, idx) => (
@@ -511,18 +523,21 @@ function buildSlides(p: Props): Slide[] {
       id: "musica",
       bg: "linear-gradient(180deg, #1A0D10 0%, #3A1A1E 100%)",
       render: ({ musicaPausada, toggleMusica }) => (
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex w-full flex-col items-center gap-4">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
-          {p.track!.albumArt && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.track!.albumArt} alt={p.track!.name} className="h-44 w-44 rounded-sm border border-rose-mist/10 object-cover" />
-          )}
-          <div className="text-center">
-            <p className="font-serif italic text-[22px] text-rose-mist" style={{ lineHeight: 1.2 }}>
-              {p.track!.name}
-            </p>
-            <p className="mt-1 font-serif text-[14px] text-rose-mist/65">{p.track!.artistas}</p>
-          </div>
+          <p className="font-serif italic text-[13px] text-rose-mist/55">a trilha desta história</p>
+          {/* Embed Spotify */}
+          <iframe
+            src={`https://open.spotify.com/embed/track/${p.track!.id}?utm_source=generator&theme=0`}
+            width="100%"
+            height="152"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            className="rounded-xl border-0"
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+          />
+          {/* Botão pausar preview se disponível */}
           {p.track!.previewUrl && (
             <button
               type="button"
@@ -532,13 +547,10 @@ function buildSlides(p: Props): Slide[] {
               className="flex items-center gap-2 rounded-full border border-rose-mist/30 bg-rose-mist/10 px-5 py-2 font-sans text-[10px] uppercase tracking-[0.24em] text-rose-mist/80"
             >
               {musicaPausada
-                ? <><Volume2 size={12} strokeWidth={1.6} /> tocar</>
-                : <><VolumeX size={12} strokeWidth={1.6} /> pausar música</>}
+                ? <><Volume2 size={12} strokeWidth={1.6} /> tocar preview</>
+                : <><VolumeX size={12} strokeWidth={1.6} /> pausar preview</>}
             </button>
           )}
-          <p className="font-prose text-[12px] italic text-rose-mist/55">
-            a trilha desta história
-          </p>
         </div>
       ),
     });
