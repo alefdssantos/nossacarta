@@ -29,9 +29,8 @@ const planos: readonly PlanoOpt[] = [
     bullets: [
       "Fotos ilimitadas",
       "Cápsulas do tempo",
-      "Ritual envelope",
-      "Endereço próprio",
-      "Livro de visitas",
+      "Linha do tempo",
+      "Endereço exclusivo",
     ],
     destaque: true,
   },

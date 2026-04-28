@@ -375,9 +375,9 @@ function Features() {
         <FeatureItem
           n="03"
           title="Ritual do envelope"
-          line="abre na data e hora marcadas"
-          body="A página vive selada até o instante exato. Um envelope com selo de cera espera, com contagem regressiva. Ao toque, se desfaz."
-          chip="exclusivo"
+          line="lacrado até o toque no lacre"
+          body="Um envelope fechado com lacre de cera aguarda no topo da carta. Ao toque no lacre, se desdobra e revela tudo que está dentro."
+          chip="ambos os planos"
           spanClass="md:col-span-5"
           accent={<RitualVisual />}
         />
@@ -777,11 +777,9 @@ function Pricing() {
           <ul className="space-y-2.5 font-prose text-[14px] text-cocoa-soft">
             <PriceLine bold>tudo do plano Bilhete, sem prazo</PriceLine>
             <PriceLine bold>cápsulas do tempo ilimitadas</PriceLine>
-            <PriceLine bold>ritual do envelope (abre na data)</PriceLine>
             <PriceLine>fotos ilimitadas, em alta</PriceLine>
             <PriceLine>linha do tempo dos marcos</PriceLine>
-            <PriceLine>livro de visitas (família, amigos)</PriceLine>
-            <PriceLine>domínio próprio: nossacarta.love/seu-nome</PriceLine>
+            <PriceLine>endereço exclusivo: nossacarta.love/seu-nome</PriceLine>
           </ul>
           <a
             href="/cadastro"
@@ -882,7 +880,7 @@ function Faq() {
       items: [
         {
           q: "O que vem no plano Eterno que o Bilhete não tem?",
-          a: "Cápsulas do tempo seladas, mapa das estrelas, linha do tempo de marcos, fotos ilimitadas, edição contínua, livro de visitas e endereço sem expiração.",
+          a: "Cápsulas do tempo seladas, mapa das estrelas, linha do tempo de marcos, fotos ilimitadas, edição contínua e endereço exclusivo sem expiração.",
         },
         {
           q: "Como funciona a cápsula do tempo?",
