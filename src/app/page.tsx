@@ -197,16 +197,12 @@ function WaxSeal() {
       className="absolute left-1/2 bottom-[14%] -translate-x-1/2"
       style={{ animation: "seal-pulse 4.5s ease-in-out infinite" }}
     >
-      <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-ruby via-ruby-deep to-ruby-ink shadow-[0_10px_18px_-6px_rgba(74,8,16,0.55),inset_0_1px_2px_rgba(255,200,180,0.4),inset_0_-3px_6px_rgba(0,0,0,0.35)]">
-        <div className="absolute inset-1.5 rounded-full border border-rose-mist/30" />
-        <div className="text-center">
-          <div className="font-script text-3xl text-rose-mist/95 leading-none">
-            n
-          </div>
-          <div className="font-serif text-[8px] italic uppercase tracking-[0.3em] text-rose-mist/80">
-            sealed
-          </div>
-        </div>
+      <div className="relative h-20 w-20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/selo.png" alt="" className="h-full w-full object-contain" />
+        <span className="absolute inset-0 flex items-center justify-center font-script text-rose-mist/95 pointer-events-none" style={{ fontSize: 26, lineHeight: 1, paddingBottom: 3 }}>
+          n
+        </span>
       </div>
     </div>
   );

@@ -144,66 +144,31 @@ function SealOverlay({
         animation: quebrado ? undefined : "seal-breathe 4s ease-in-out infinite",
       }}
     >
-      <svg viewBox="0 0 96 96" className="h-full w-full">
-        <defs>
-          <radialGradient id="seal-gradient" cx="38%" cy="35%" r="65%">
-            <stop offset="0%" stopColor="#C0203B" />
-            <stop offset="60%" stopColor="#7C0E1D" />
-            <stop offset="100%" stopColor="#4A0810" />
-          </radialGradient>
-        </defs>
-        <g
+      <div className="relative h-full w-full">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/selo.png"
+          alt=""
+          className="h-full w-full object-contain"
           style={{
-            transition: "transform 1s cubic-bezier(0.34, 1.56, 0.64, 1)",
-            transform: quebrado ? "scale(1.06) rotate(8deg)" : "scale(1) rotate(0)",
-            transformOrigin: "48px 48px",
+            transition: "transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms ease-out",
+            transform: quebrado ? "scale(1.1) rotate(8deg)" : "scale(1) rotate(0deg)",
+            opacity: quebrado ? 0 : 1,
+          }}
+        />
+        <span
+          className="absolute inset-0 flex items-center justify-center font-script text-rose-mist pointer-events-none"
+          style={{
+            fontSize: 28,
+            lineHeight: 1,
+            transition: "opacity 400ms",
+            opacity: quebrado ? 0 : 0.95,
+            paddingBottom: 4,
           }}
         >
-          <g
-            style={{
-              transition: "transform 600ms ease-out, opacity 600ms ease-out",
-              transform: quebrado ? "translate(-12px, 6px) rotate(-8deg)" : "none",
-              opacity: quebrado ? 0.7 : 1,
-              transformOrigin: "48px 48px",
-            }}
-          >
-            <circle cx="48" cy="48" r="38" fill="url(#seal-gradient)" />
-            <ellipse cx="38" cy="36" rx="9" ry="5" fill="#D8526A" opacity="0.28" />
-            <circle cx="68" cy="78" r="3" fill="#7C0E1D" />
-            <circle cx="76" cy="68" r="2" fill="#7C0E1D" />
-          </g>
-          <g
-            style={{
-              transition: "transform 600ms ease-out, opacity 600ms ease-out",
-              transform: quebrado ? "translate(14px, -2px) rotate(12deg)" : "none",
-              opacity: quebrado ? 0.7 : 1,
-              transformOrigin: "48px 48px",
-            }}
-          >
-            <path
-              d="M48 10 A 38 38 0 0 1 86 48 L 48 48 Z"
-              fill="url(#seal-gradient)"
-              opacity={quebrado ? 0.95 : 0}
-            />
-          </g>
-          <text
-            x="48"
-            y="56"
-            textAnchor="middle"
-            fontFamily="var(--font-serif)"
-            fontStyle="italic"
-            fontWeight="600"
-            fontSize="26"
-            fill="#FBEFE8"
-            style={{
-              transition: "opacity 400ms",
-              opacity: quebrado ? 0 : 0.95,
-            }}
-          >
-            {partes ?? iniciais.charAt(0)}
-          </text>
-        </g>
-      </svg>
+          {partes ?? iniciais.charAt(0)}
+        </span>
+      </div>
 
       <style jsx>{`
         @keyframes seal-breathe {
