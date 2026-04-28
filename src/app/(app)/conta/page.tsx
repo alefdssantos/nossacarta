@@ -32,10 +32,7 @@ export default async function ContaPage() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-16 md:py-20">
       <header className="border-b border-cocoa/12 pb-8">
-        <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
-          Sua conta
-        </p>
-        <p className="mt-2 font-script text-5xl text-ruby">Bem-vindo</p>
+        <p className="font-script text-5xl text-ruby">Bem-vindo</p>
         <p className="mt-2 font-prose text-[14px] italic text-mauve">{data.user.email}</p>
       </header>
 
