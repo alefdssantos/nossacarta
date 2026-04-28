@@ -378,7 +378,6 @@ function buildSlides(p: Props): Slide[] {
   slides.push({
     id: "trecho",
     bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
-    justify: "start",
     render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">V</p>
