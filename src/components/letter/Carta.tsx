@@ -47,7 +47,7 @@ export function Carta({ texto, signature, cidadeData }: Props) {
             hyphens: "auto",
           }}
         >
-          <div className="relative float-left mr-3 mt-1" aria-hidden="true">
+          <div className="relative float-left mr-3 mt-0" aria-hidden="true">
             <DropCapFrame />
           </div>
           <span
@@ -58,7 +58,7 @@ export function Carta({ texto, signature, cidadeData }: Props) {
               fontWeight: 600,
               padding: "0 10px",
               marginRight: 10,
-              marginTop: 6,
+              marginTop: 0,
             }}
           >
             {primeiraLetra}

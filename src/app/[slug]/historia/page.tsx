@@ -46,16 +46,15 @@ export default async function WrappedPage({ params }: { params: Params }) {
   const dataRomanos = dataEmRomanos(dataInicio);
   const marcos = calcularMarcos(dataInicio);
 
-  // Foto destaque (primeira)
+  // Fotos
   const { data: medias } = await supabase
     .from("media")
     .select("id, storage_path, ordem")
     .eq("carta_id", carta.id)
-    .order("ordem", { ascending: true })
-    .limit(1);
-  const foto = medias?.[0];
-  const signed = foto ? await getSignedFotoUrls([foto.storage_path], 60 * 60 * 4) : new Map<string, string>();
-  const fotoUrl = foto ? signed.get(foto.storage_path) : null;
+    .order("ordem", { ascending: true });
+  const paths = (medias ?? []).map((m) => m.storage_path);
+  const signed = paths.length ? await getSignedFotoUrls(paths, 60 * 60 * 4) : new Map<string, string>();
+  const fotoUrls = paths.map((p) => signed.get(p)).filter((u): u is string => !!u);
 
   // Música
   const track = carta.spotify_track_id ? await getTrack(carta.spotify_track_id) : null;
@@ -97,7 +96,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
         natais={formatarBR(marcos.natais)}
         diasDosNamorados={formatarBR(marcos.diasDosNamorados)}
         trecho={trecho}
-        fotoUrl={fotoUrl ?? null}
+        fotoUrls={fotoUrls}
         track={track ? { id: track.id, name: track.name, artistas: track.artists, albumArt: track.albumArt ?? null } : null}
         capsulaUnlock={capsulaTeaser?.unlock_em ?? null}
         appUrl={publicEnv.NEXT_PUBLIC_APP_URL}

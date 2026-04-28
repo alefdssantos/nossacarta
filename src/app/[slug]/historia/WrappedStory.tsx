@@ -19,7 +19,7 @@ type Props = {
   natais: string;
   diasDosNamorados: string;
   trecho: string;
-  fotoUrl: string | null;
+  fotoUrls: string[];
   track: Track | null;
   capsulaUnlock: string | null;
   appUrl: string;
@@ -31,8 +31,15 @@ const dataLongoFmt = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "
 
 type Slide = {
   id: string;
-  render: () => React.ReactNode;
+  render: (extras: SlideExtras) => React.ReactNode;
   bg?: string;
+  pausaAuto?: boolean;
+};
+
+type SlideExtras = {
+  fotoIndex: number;
+  setFotoIndex: (n: number) => void;
+  fotoTotal: number;
 };
 
 export function WrappedStory(p: Props) {
@@ -41,9 +48,12 @@ export function WrappedStory(p: Props) {
   const [pausado, setPausado] = useState(false);
   const [progresso, setProgresso] = useState(0);
   const [salvando, setSalvando] = useState(false);
+  const [fotoIndex, setFotoIndex] = useState(0);
   const slideRef = useRef<HTMLDivElement>(null);
   const inicioRef = useRef<number>(performance.now());
   const acumuladoRef = useRef<number>(0);
+
+  const slidePausaAuto = slides[i]?.pausaAuto ?? false;
 
   useEffect(() => {
     inicioRef.current = performance.now();
@@ -51,8 +61,11 @@ export function WrappedStory(p: Props) {
     setProgresso(0);
   }, [i]);
 
+  // Reset foto index when changing slides
+  useEffect(() => { setFotoIndex(0); }, [i]);
+
   useEffect(() => {
-    if (pausado) return;
+    if (pausado || slidePausaAuto) return;
     const id = setInterval(() => {
       const agora = performance.now();
       const decorrido = acumuladoRef.current + (agora - inicioRef.current);
@@ -64,7 +77,7 @@ export function WrappedStory(p: Props) {
       }
     }, 60);
     return () => clearInterval(id);
-  }, [pausado, i, slides.length]);
+  }, [pausado, slidePausaAuto, i, slides.length]);
 
   function pause() {
     if (pausado) return;
@@ -200,7 +213,7 @@ export function WrappedStory(p: Props) {
         className="relative z-0 flex h-full w-full flex-col items-center justify-center overflow-hidden px-7 pb-16 pt-20 text-rose-mist"
         style={{ background: slide.bg ?? "#4A2D31" }}
       >
-        {slide.render()}
+        {slide.render({ fotoIndex, setFotoIndex, fotoTotal: p.fotoUrls.length })}
       </div>
 
       {/* Footer share */}
@@ -247,7 +260,7 @@ function buildSlides(p: Props): Slide[] {
   slides.push({
     id: "capa",
     bg: "linear-gradient(160deg, #2A1518 0%, #4A2D31 100%)",
-    render: () => (
+    render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">
           Volume único · I
@@ -274,7 +287,7 @@ function buildSlides(p: Props): Slide[] {
   slides.push({
     id: "dias",
     bg: "linear-gradient(180deg, #4A2D31 0%, #5C3840 100%)",
-    render: () => (
+    render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">II</p>
         <p
@@ -303,7 +316,7 @@ function buildSlides(p: Props): Slide[] {
   slides.push({
     id: "luas",
     bg: "linear-gradient(200deg, #1A0D10 0%, #3A1A1E 100%)",
-    render: () => (
+    render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">III</p>
         <p
@@ -332,7 +345,7 @@ function buildSlides(p: Props): Slide[] {
   slides.push({
     id: "batidas",
     bg: "linear-gradient(170deg, #5C2030 0%, #3A1A1E 100%)",
-    render: () => (
+    render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">IV</p>
         <p
@@ -361,18 +374,18 @@ function buildSlides(p: Props): Slide[] {
   });
 
   // 5. Trecho
-  const trecho = p.trecho.length > 180 ? p.trecho.slice(0, 177).trimEnd() + "..." : p.trecho;
+  const trecho = p.trecho.length > 130 ? p.trecho.slice(0, 127).trimEnd() + "..." : p.trecho;
   slides.push({
     id: "trecho",
     bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
-    render: () => (
+    render: (_) => (
       <>
         <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">V</p>
-        <div className="mt-6 w-full">
-          <p className="font-serif text-[56px] leading-none text-champagne/50">&ldquo;</p>
+        <div className="mt-6 w-full overflow-hidden">
+          <p className="font-serif text-[48px] leading-none text-champagne/50">&ldquo;</p>
           <div
-            className="font-serif italic leading-[1.65] text-rose-mist"
-            style={{ fontSize: "clamp(15px, 3.8vw, 20px)" }}
+            className="font-serif italic leading-[1.6] text-rose-mist"
+            style={{ fontSize: "clamp(14px, 3.6vw, 18px)" }}
           >
             {trecho.split("\n").map((linha, idx) =>
               linha.trim() === "" ? (
@@ -384,30 +397,69 @@ function buildSlides(p: Props): Slide[] {
               )
             )}
           </div>
-          <p className="mt-1 text-right font-serif text-[56px] leading-none text-champagne/50">&rdquo;</p>
+          <p className="mt-1 text-right font-serif text-[48px] leading-none text-champagne/50">&rdquo;</p>
         </div>
       </>
     ),
   });
 
-  // 6. Foto
-  if (p.fotoUrl) {
+  // 6. Fotos — carrossel, auto-advance pausado
+  if (p.fotoUrls.length > 0) {
     slides.push({
       id: "foto",
-      bg: "#1A0D10",
-      render: () => (
-        <div className="flex flex-col items-center gap-5">
+      bg: "#0F0709",
+      pausaAuto: true,
+      render: ({ fotoIndex, setFotoIndex, fotoTotal }) => (
+        <div className="flex w-full flex-col items-center gap-0">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VI</p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={p.fotoUrl ?? ""}
-            alt="foto destaque"
-            className="max-h-[58dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
+            key={fotoIndex}
+            src={p.fotoUrls[fotoIndex]}
+            alt={`foto ${fotoIndex + 1}`}
+            className="mt-4 max-h-[52dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
             style={{ filter: "saturate(0.95) sepia(0.05)" }}
           />
-          <p className="font-serif italic text-[15px] text-rose-mist/75">
+          <p className="mt-3 font-serif italic text-[14px] text-rose-mist/70">
             {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
           </p>
+          {fotoTotal > 1 && (
+            <div className="mt-4 flex items-center gap-4">
+              <button
+                type="button"
+                aria-label="foto anterior"
+                onClick={(e) => { e.stopPropagation(); setFotoIndex(Math.max(0, fotoIndex - 1)); }}
+                disabled={fotoIndex === 0}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
+              >
+                <ChevronLeft size={16} strokeWidth={1.5} className="text-rose-mist" />
+              </button>
+              <div className="flex gap-1.5">
+                {Array.from({ length: fotoTotal }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    aria-label={`ir para foto ${idx + 1}`}
+                    onClick={(e) => { e.stopPropagation(); setFotoIndex(idx); }}
+                    className="h-1.5 rounded-full transition-all"
+                    style={{
+                      width: idx === fotoIndex ? 20 : 6,
+                      background: idx === fotoIndex ? "var(--color-champagne)" : "rgba(251,239,232,0.3)",
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                aria-label="próxima foto"
+                onClick={(e) => { e.stopPropagation(); setFotoIndex(Math.min(fotoTotal - 1, fotoIndex + 1)); }}
+                disabled={fotoIndex === fotoTotal - 1}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
+              >
+                <ChevronRight size={16} strokeWidth={1.5} className="text-rose-mist" />
+              </button>
+            </div>
+          )}
         </div>
       ),
     });
@@ -418,7 +470,7 @@ function buildSlides(p: Props): Slide[] {
     slides.push({
       id: "musica",
       bg: "linear-gradient(180deg, #1A0D10 0%, #3A1A1E 100%)",
-      render: () => (
+      render: (_) => (
         <div className="flex flex-col items-center gap-6">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
           {p.track!.albumArt && (
@@ -444,7 +496,7 @@ function buildSlides(p: Props): Slide[] {
     slides.push({
       id: "capsula",
       bg: "linear-gradient(200deg, #2A1518 0%, #1A0D10 100%)",
-      render: () => (
+      render: (_) => (
         <>
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VIII</p>
           <svg width="80" height="56" viewBox="0 0 80 56" className="mt-10" aria-hidden>
@@ -472,48 +524,70 @@ function buildSlides(p: Props): Slide[] {
     });
   }
 
-  // 9. CTA final — resumo estilo Wrapped
+  // 9. CTA final — resumo estilo Wrapped, instagramável
   slides.push({
     id: "cta",
-    bg: "linear-gradient(160deg, #4A2D31 0%, #7C0E1D 100%)",
-    render: () => (
-      <div className="flex w-full flex-col items-center gap-0 text-center">
-        <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">
-          {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
-        </p>
+    bg: "linear-gradient(175deg, #0F0709 0%, #2A1518 40%, #7C0E1D 100%)",
+    render: (_) => (
+      <div className="flex w-full flex-col items-center text-center">
+        {/* Brand */}
+        <p className="font-script text-[18px] leading-none text-champagne/70">NossaCarta</p>
+
+        {/* Nomes */}
         <p
-          className="mt-5 font-script text-rose-mist"
-          style={{ fontSize: "clamp(48px, 12vw, 72px)", lineHeight: 0.9 }}
+          className="mt-4 font-script leading-[0.88] text-rose-mist"
+          style={{ fontSize: "clamp(38px, 9vw, 56px)" }}
+        >
+          {p.nomes.pessoa1}
+        </p>
+        <p className="font-script italic text-champagne/60" style={{ fontSize: 28 }}>&amp;</p>
+        <p
+          className="font-script leading-[0.88] text-rose-mist"
+          style={{ fontSize: "clamp(38px, 9vw, 56px)" }}
+        >
+          {p.nomes.pessoa2}
+        </p>
+
+        {/* Dias — destaque */}
+        <p
+          className="mt-5 font-script text-ruby"
+          style={{ fontSize: "clamp(80px, 20vw, 120px)", lineHeight: 0.82 }}
         >
           {p.diasFmt}
         </p>
-        <p className="mt-2 font-serif italic text-[14px] text-rose-mist/70">dias juntos</p>
+        <p className="mt-1 font-sans text-[9px] uppercase tracking-[0.38em] text-rose-mist/55">
+          dias juntos
+        </p>
 
-        <div className="mt-7 grid w-full grid-cols-2 gap-3">
+        {/* Grid stats */}
+        <div className="mt-5 grid w-full grid-cols-2 gap-2">
           {[
-            { n: p.luas, label: "luas cheias" },
-            { n: p.natais, label: "natais" },
-            { n: p.batidas, label: "batidas" },
-            { n: p.diasDosNamorados, label: "dias dos namorados" },
-          ].map(({ n, label }) => (
-            <div key={label} className="flex flex-col items-center rounded-sm bg-rose-mist/8 py-3">
+            { n: p.luas, icon: "🌕", label: "luas cheias" },
+            { n: p.natais, icon: "✦", label: "natais" },
+            { n: p.batidas, icon: "♥", label: "batidas" },
+            { n: p.diasDosNamorados, icon: "✉", label: "dias namorados" },
+          ].map(({ n, icon, label }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center rounded-md py-3"
+              style={{ background: "rgba(251,239,232,0.06)", border: "1px solid rgba(251,239,232,0.08)" }}
+            >
+              <span className="text-[14px] leading-none opacity-60">{icon}</span>
               <span
-                className="font-script text-champagne"
-                style={{ fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 0.9 }}
+                className="mt-1 font-script text-champagne"
+                style={{ fontSize: "clamp(22px, 5.5vw, 32px)", lineHeight: 0.9 }}
               >
                 {n}
               </span>
-              <span className="mt-1.5 font-sans text-[8px] uppercase tracking-[0.22em] text-rose-mist/60">
+              <span className="mt-1 font-sans text-[7px] uppercase tracking-[0.2em] text-rose-mist/50">
                 {label}
               </span>
             </div>
           ))}
         </div>
 
-        <p
-          className="mt-7 font-script text-ruby"
-          style={{ fontSize: "clamp(22px, 5.5vw, 32px)", lineHeight: 1, transform: "rotate(-2deg)" }}
-        >
+        {/* URL */}
+        <p className="mt-5 font-sans text-[9px] uppercase tracking-[0.3em] text-rose-mist/40">
           nossacarta.love/{p.slug}
         </p>
       </div>
