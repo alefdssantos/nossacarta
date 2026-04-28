@@ -155,7 +155,7 @@ export function WrappedStory(p: Props) {
 
   return (
     <div
-      className="relative mx-auto flex h-[100dvh] w-full max-w-[440px] flex-col overflow-hidden bg-cocoa text-rose-mist"
+      className="relative mx-auto flex h-[100dvh] w-full max-w-[440px] flex-col overflow-hidden bg-cocoa text-rose-mist [&_*]:focus-visible:outline-none"
       onMouseDown={pause}
       onMouseUp={resume}
       onTouchStart={pause}
@@ -420,21 +420,21 @@ function buildSlides(p: Props): Slide[] {
       bg: "#0F0709",
       pausaAuto: true,
       render: ({ fotoIndex, setFotoIndex, fotoTotal }) => (
-        <div className="flex w-full flex-col items-center gap-0">
+        <div className="relative flex w-full flex-col items-center">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VI</p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             key={fotoIndex}
             src={p.fotoUrls[fotoIndex]}
             alt={`foto ${fotoIndex + 1}`}
-            className="mt-4 max-h-[52dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
+            className="mt-4 max-h-[54dvh] w-auto rounded-sm border border-rose-mist/15 object-cover"
             style={{ filter: "saturate(0.95) sepia(0.05)" }}
           />
           <p className="mt-3 font-serif italic text-[14px] text-rose-mist/70">
             {p.nomes.pessoa1} &amp; {p.nomes.pessoa2}
           </p>
           {fotoTotal > 1 && (
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-5 flex items-center gap-4">
               <button
                 type="button"
                 aria-label="foto anterior"
