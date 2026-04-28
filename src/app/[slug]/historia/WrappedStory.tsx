@@ -580,7 +580,7 @@ function buildSlides(p: Props): Slide[] {
             { n: p.luas, icon: "🌕", label: "luas cheias" },
             { n: p.natais, icon: "✦", label: "natais" },
             { n: p.batidas, icon: "♥", label: "batidas" },
-            { n: p.diasDosNamorados, icon: "✉", label: "dias namorados" },
+            { n: p.diasDosNamorados, icon: "✉", label: "dia dos namorados" },
           ].map(({ n, icon, label }) => (
             <div
               key={label}
