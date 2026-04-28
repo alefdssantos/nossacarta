@@ -18,7 +18,14 @@ export function SmoothScroll() {
     };
     rafId = requestAnimationFrame(raf);
 
+    const stop = () => lenis.stop();
+    const start = () => lenis.start();
+    window.addEventListener("lenis:stop", stop);
+    window.addEventListener("lenis:start", start);
+
     return () => {
+      window.removeEventListener("lenis:stop", stop);
+      window.removeEventListener("lenis:start", start);
       cancelAnimationFrame(rafId);
       lenis.destroy();
     };

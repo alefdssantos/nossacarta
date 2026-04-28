@@ -19,11 +19,15 @@ export function CapaEnvelope({ paraNome, dataInicioRomanos, cidade, iniciaisMono
     return () => clearTimeout(t);
   }, [estado]);
 
-  // Lock scroll while envelope is visible
+  // Lock scroll while envelope is visible (stops Lenis + native scroll)
   useEffect(() => {
     if (estado === "aberto") return;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    window.dispatchEvent(new Event("lenis:stop"));
+    return () => {
+      document.body.style.overflow = "";
+      window.dispatchEvent(new Event("lenis:start"));
+    };
   }, [estado]);
 
   useEffect(() => {
