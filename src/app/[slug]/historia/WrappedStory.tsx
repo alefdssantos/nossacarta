@@ -152,17 +152,19 @@ export function WrappedStory(p: Props) {
         backgroundColor: "#2A1518",
       });
       const filename = `nossacarta-${p.slug}-${slides[i].id}.png`;
-      // Try Web Share API (iOS/Android save to gallery)
-      if (typeof navigator !== "undefined" && navigator.canShare) {
-        const res = await fetch(dataUrl);
-        const blob = await res.blob();
-        const file = new File([blob], filename, { type: "image/png" });
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({ files: [file] });
+      // Tenta Web Share API com arquivo (iOS/Android → salvar na galeria)
+      if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+        try {
+          const res = await fetch(dataUrl);
+          const blob = await res.blob();
+          const file = new File([blob], filename, { type: "image/png" });
+          await navigator.share({ files: [file], title: "NossaCarta" });
           return;
+        } catch {
+          // share cancelado ou não suportado — cai no fallback
         }
       }
-      // Fallback: browser download
+      // Fallback: abre a imagem em nova aba (mobile: segurar → salvar; desktop: download)
       const link = document.createElement("a");
       link.download = filename;
       link.href = dataUrl;
