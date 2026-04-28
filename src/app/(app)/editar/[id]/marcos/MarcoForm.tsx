@@ -101,6 +101,17 @@ export function MarcoForm({ cartaId }: { cartaId: string }) {
           type="file"
           name="foto"
           accept="image/jpeg,image/png,image/webp"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) {
+              alert(`"${file.name}" é maior que 5 MB. Reduza o tamanho antes de subir.`);
+              e.target.value = "";
+            } else if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+              alert(`"${file.name}" não é JPG, PNG ou WebP.`);
+              e.target.value = "";
+            }
+          }}
           className="block w-full font-prose text-sm text-cocoa file:mr-4 file:rounded-full file:border file:border-cocoa/20 file:bg-paper file:px-4 file:py-2 file:font-sans file:text-[10px] file:uppercase file:tracking-[0.18em] file:text-cocoa hover:file:border-ruby/40 hover:file:text-ruby"
         />
         <span className="font-prose text-[12px] italic text-mauve">
