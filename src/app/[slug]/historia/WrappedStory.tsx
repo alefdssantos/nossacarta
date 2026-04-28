@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Download, Heart, Mail, Moon, Pause, Play, Share2, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Heart, Mail, Moon, Pause, Play, Share2, Star, Volume2, VolumeX } from "lucide-react";
 
-type Track = { id: string; name: string; artistas: string; albumArt: string | null };
+type Track = { id: string; name: string; artistas: string; albumArt: string | null; previewUrl: string | null };
 
 type Props = {
   slug: string;
@@ -41,6 +41,8 @@ type SlideExtras = {
   fotoIndex: number;
   setFotoIndex: (n: number) => void;
   fotoTotal: number;
+  musicaPausada: boolean;
+  toggleMusica: () => void;
 };
 
 export function WrappedStory(p: Props) {
@@ -50,9 +52,11 @@ export function WrappedStory(p: Props) {
   const [progresso, setProgresso] = useState(0);
   const [salvando, setSalvando] = useState(false);
   const [fotoIndex, setFotoIndex] = useState(0);
+  const [musicaPausada, setMusicaPausada] = useState(false);
   const slideRef = useRef<HTMLDivElement>(null);
   const inicioRef = useRef<number>(performance.now());
   const acumuladoRef = useRef<number>(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const slidePausaAuto = slides[i]?.pausaAuto ?? false;
 
@@ -64,6 +68,25 @@ export function WrappedStory(p: Props) {
     ].filter((u): u is string => !!u);
     urls.forEach((url) => { const img = new Image(); img.src = url; });
   }, []);
+
+  // Audio preview
+  useEffect(() => {
+    if (!p.track?.previewUrl) return;
+    const audio = new Audio(p.track.previewUrl);
+    audio.loop = true;
+    audio.volume = 0.5;
+    audioRef.current = audio;
+    audio.play().catch(() => {});
+    return () => { audio.pause(); audio.src = ""; audioRef.current = null; };
+  }, []);
+
+  // Sincroniza pausa da história com o áudio
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (pausado || musicaPausada) audio.pause();
+    else audio.play().catch(() => {});
+  }, [pausado, musicaPausada]);
 
   useEffect(() => {
     inicioRef.current = performance.now();
@@ -225,7 +248,7 @@ export function WrappedStory(p: Props) {
         className={`relative z-0 flex h-full w-full flex-col items-center overflow-hidden px-7 pb-16 pt-20 text-rose-mist ${slide.justify === "start" ? "justify-start" : "justify-center"}`}
         style={{ background: slide.bg ?? "#4A2D31" }}
       >
-        {slide.render({ fotoIndex, setFotoIndex, fotoTotal: p.fotoUrls.length })}
+        {slide.render({ fotoIndex, setFotoIndex, fotoTotal: p.fotoUrls.length, musicaPausada, toggleMusica: () => setMusicaPausada((v) => !v) })}
       </div>
 
       {/* Footer share */}
@@ -485,7 +508,7 @@ function buildSlides(p: Props): Slide[] {
     slides.push({
       id: "musica",
       bg: "linear-gradient(180deg, #1A0D10 0%, #3A1A1E 100%)",
-      render: (_) => (
+      render: ({ musicaPausada, toggleMusica }) => (
         <div className="flex flex-col items-center gap-6">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
           {p.track!.albumArt && (
@@ -498,6 +521,19 @@ function buildSlides(p: Props): Slide[] {
             </p>
             <p className="mt-1 font-serif text-[14px] text-rose-mist/65">{p.track!.artistas}</p>
           </div>
+          {p.track!.previewUrl && (
+            <button
+              type="button"
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onClick={(e) => { e.stopPropagation(); toggleMusica(); }}
+              className="flex items-center gap-2 rounded-full border border-rose-mist/30 bg-rose-mist/10 px-5 py-2 font-sans text-[10px] uppercase tracking-[0.24em] text-rose-mist/80"
+            >
+              {musicaPausada
+                ? <><Volume2 size={12} strokeWidth={1.6} /> tocar</>
+                : <><VolumeX size={12} strokeWidth={1.6} /> pausar música</>}
+            </button>
+          )}
           <p className="font-prose text-[12px] italic text-rose-mist/55">
             a trilha desta história
           </p>

@@ -92,7 +92,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
         diasDosNamorados={formatarBR(marcos.diasDosNamorados)}
         trecho={trecho}
         fotoUrls={fotoUrls}
-        track={track ? { id: track.id, name: track.name, artistas: track.artists, albumArt: track.albumArt ?? null } : null}
+        track={track ? { id: track.id, name: track.name, artistas: track.artists, albumArt: track.albumArt ?? null, previewUrl: track.previewUrl ?? null } : null}
         capsulaUnlock={capsulaTeaser?.unlock_em ?? null}
         appUrl={publicEnv.NEXT_PUBLIC_APP_URL}
       />
