@@ -195,7 +195,7 @@ export function WrappedStory(p: Props) {
         type="button"
         aria-label="anterior"
         onClick={voltar}
-        className="pointer-events-auto absolute inset-y-0 left-0 z-10 flex w-1/3 items-center justify-start pl-2"
+        className="pointer-events-auto absolute inset-y-0 left-0 z-10 flex w-1/3 items-center justify-start pl-2 focus:outline-none"
       >
         {i > 0 && <ChevronLeft size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
       </button>
@@ -203,7 +203,7 @@ export function WrappedStory(p: Props) {
         type="button"
         aria-label="próximo"
         onClick={avancar}
-        className="pointer-events-auto absolute inset-y-0 right-0 z-10 flex w-1/3 items-center justify-end pr-2"
+        className="pointer-events-auto absolute inset-y-0 right-0 z-10 flex w-1/3 items-center justify-end pr-2 focus:outline-none"
       >
         {i < slides.length - 1 && <ChevronRight size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
       </button>
@@ -219,36 +219,35 @@ export function WrappedStory(p: Props) {
 
       {/* Footer share */}
       <div className="pointer-events-none absolute bottom-5 left-0 right-0 z-20 flex flex-col items-center gap-2">
-        {i === slides.length - 1 ? (
+        {i === slides.length - 1 && (
           <a
             href={`${p.appUrl}/${p.slug}`}
             className="pointer-events-auto rounded-full bg-rose-mist px-6 py-2.5 font-sans text-[10px] uppercase tracking-[0.28em] text-cocoa shadow-foil"
           >
             Abrir a carta →
           </a>
-        ) : (
-          <div className="pointer-events-auto flex items-center gap-2">
-            <button
-              type="button"
-              onClick={salvarSlideAtual}
-              disabled={salvando}
-              aria-label="salvar imagem"
-              className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur disabled:opacity-50"
-            >
-              <Download size={11} strokeWidth={1.6} />
-              {salvando ? "salvando" : "salvar"}
-            </button>
-            <button
-              type="button"
-              onClick={compartilhar}
-              aria-label="compartilhar"
-              className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur"
-            >
-              <Share2 size={11} strokeWidth={1.6} />
-              compartilhar
-            </button>
-          </div>
         )}
+        <div className="pointer-events-auto flex items-center gap-2">
+          <button
+            type="button"
+            onClick={salvarSlideAtual}
+            disabled={salvando}
+            aria-label="salvar imagem"
+            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur disabled:opacity-50"
+          >
+            <Download size={11} strokeWidth={1.6} />
+            {salvando ? "salvando" : "salvar"}
+          </button>
+          <button
+            type="button"
+            onClick={compartilhar}
+            aria-label="compartilhar"
+            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur"
+          >
+            <Share2 size={11} strokeWidth={1.6} />
+            compartilhar
+          </button>
+        </div>
       </div>
     </div>
   );
