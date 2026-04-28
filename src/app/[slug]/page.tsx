@@ -117,9 +117,10 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
   const inicial2 = nomes.pessoa2.charAt(0).toLocaleUpperCase("pt-BR");
   const iniciais = `${inicial1}&${inicial2}`;
   const primeiroNomePessoa1 = nomes.pessoa1.split(/\s+/)[0] ?? nomes.pessoa1;
+  const tema = conteudo?.tema ?? "ruby-couture";
 
   return (
-    <main className="bg-rose-mist text-cocoa">
+    <main className="bg-rose-mist text-cocoa" data-tema={tema}>
       <CapaEnvelope
         paraNome={nomes.pessoa2}
         dataInicioRomanos={dataRomanos}

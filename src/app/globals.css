@@ -61,6 +61,47 @@ html.lenis body {
   overflow: clip;
 }
 
+/* ── TEMAS DA CARTA ──────────────────────────────────────────
+   Sobrescreve os tokens de cor por data-tema no <main> da carta pública.
+   ruby-couture é o padrão (sem override necessário).
+──────────────────────────────────────────────────────────── */
+
+[data-tema="cocoa-vintage"] {
+  --color-rose-mist:      #F3E6CB;
+  --color-rose-powder:    #EBD9B8;
+  --color-rose-fog:       #DFCCA0;
+  --color-paper:          #EDE0C2;
+  --color-ruby:           #2C1008;
+  --color-ruby-deep:      #1A0805;
+  --color-ruby-ink:       #100503;
+  --color-blush:          #C4946A;
+  --color-blush-soft:     #D4AA88;
+  --color-champagne:      #A8893A;
+  --color-champagne-soft: #C8A85A;
+  --color-champagne-deep: #706020;
+  --color-cocoa:          #150805;
+  --color-cocoa-soft:     #3D1C0C;
+  --color-mauve:          #7A5A4A;
+}
+
+[data-tema="champagne-foil"] {
+  --color-rose-mist:      #FBF5E6;
+  --color-rose-powder:    #F5EACC;
+  --color-rose-fog:       #EEE0B4;
+  --color-paper:          #F7EFDA;
+  --color-ruby:           #9A7020;
+  --color-ruby-deep:      #7A5618;
+  --color-ruby-ink:       #5A3C10;
+  --color-blush:          #E090A0;
+  --color-blush-soft:     #EDB8C4;
+  --color-champagne:      #D4A840;
+  --color-champagne-soft: #E8C870;
+  --color-champagne-deep: #9A7828;
+  --color-cocoa:          #2A1A0E;
+  --color-cocoa-soft:     #4A3020;
+  --color-mauve:          #9A7870;
+}
+
 /* Tipografia moderna: balance pra titulos serif (Cormorant) */
 .font-serif,
 h1, h2, h3 {
