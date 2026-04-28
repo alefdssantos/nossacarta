@@ -19,6 +19,13 @@ export function CapaEnvelope({ paraNome, dataInicioRomanos, cidade, iniciaisMono
     return () => clearTimeout(t);
   }, [estado]);
 
+  // Lock scroll while envelope is visible
+  useEffect(() => {
+    if (estado === "aberto") return;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [estado]);
+
   useEffect(() => {
     if (estado !== "aberto") return;
     document.documentElement.style.scrollBehavior = "auto";

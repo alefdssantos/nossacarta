@@ -143,6 +143,20 @@ body {
   color: var(--color-rose-mist);
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-rose-powder);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ruby);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ruby-deep);
+}
+
 @utility foil {
   background: linear-gradient(
     115deg,
