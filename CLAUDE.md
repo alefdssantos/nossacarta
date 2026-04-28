@@ -51,6 +51,14 @@ criarPagamentoAction -> AbacatePay checkout -> redirect -> webhook POST -> valid
 - RLS ativa em todas as tabelas -- admin ops usam SUPABASE_SERVICE_ROLE_KEY
 - Antes de features sensiveis (auth, pagamento, webhook): rodar /security-review
 
+## Fluxo de branches (OBRIGATORIO)
+
+- Todo desenvolvimento vai para `dev`, NUNCA direto para `main`
+- `dev` → Vercel cria preview automatico (testa antes de subir)
+- Merge `dev` → `main` somente quando aprovado → vai para producao
+- Commits e pushes sempre em `dev`: `git push origin dev`
+- Para subir para prod: `git checkout main && git merge dev && git push origin main && git checkout dev`
+
 ## Comandos
 
 ```bash
