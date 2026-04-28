@@ -180,8 +180,10 @@ export function WrappedStory(p: Props) {
           <button
             type="button"
             aria-label={pausado ? "continuar" : "pausar"}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             onClick={() => (pausado ? resume() : pause())}
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-rose-mist/30 bg-cocoa/40 backdrop-blur"
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-rose-mist/30 bg-cocoa/40 backdrop-blur focus:outline-none"
           >
             {pausado
               ? <Play size={12} strokeWidth={1.8} className="text-rose-mist/80 translate-x-px" />
@@ -233,7 +235,7 @@ export function WrappedStory(p: Props) {
             onClick={salvarSlideAtual}
             disabled={salvando}
             aria-label="salvar imagem"
-            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur focus:outline-none disabled:opacity-50"
           >
             <Download size={11} strokeWidth={1.6} />
             {salvando ? "salvando" : "salvar"}
@@ -242,7 +244,7 @@ export function WrappedStory(p: Props) {
             type="button"
             onClick={compartilhar}
             aria-label="compartilhar"
-            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur"
+            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur focus:outline-none"
           >
             <Share2 size={11} strokeWidth={1.6} />
             compartilhar
