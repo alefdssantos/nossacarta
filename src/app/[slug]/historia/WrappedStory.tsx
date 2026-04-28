@@ -526,11 +526,11 @@ function buildSlides(p: Props): Slide[] {
         <div className="flex w-full flex-col items-center gap-4">
           <p className="font-sans text-[9px] uppercase tracking-[0.42em] text-champagne">VII</p>
           <p className="font-serif italic text-[13px] text-rose-mist/55">a trilha desta história</p>
-          {/* Embed Spotify */}
+          {/* Embed Spotify — quadrado centralizado, play no centro */}
           <iframe
             src={`https://open.spotify.com/embed/track/${p.track!.id}?utm_source=generator&theme=0`}
-            width="100%"
-            height="152"
+            width="232"
+            height="232"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
             className="rounded-xl border-0"
