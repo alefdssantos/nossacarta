@@ -3,6 +3,7 @@ import { Allura, Cormorant_Garamond, Lora, Inter } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { CookieBanner } from "@/components/CookieBanner";
 import { MetaPixel } from "@/components/MetaPixel";
@@ -63,6 +64,7 @@ export default function RootLayout({
         <CookieBanner />
         <MetaPixel />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
