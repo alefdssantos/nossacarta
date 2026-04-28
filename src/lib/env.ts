@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const serverSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
-  SUPABASE_DB_URL: z.string().url(),
+  SUPABASE_DB_URL: z.string().url().optional(),
   CRON_SECRET: z.string().min(16).or(z.literal("")).optional(),
 });
 
