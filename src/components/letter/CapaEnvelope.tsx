@@ -107,9 +107,16 @@ function EnvelopeSvg({
         )}
       </g>
 
-      <g transform="translate(556, 160)">
-        <rect x="0" y="0" width="100" height="100" fill="var(--color-paper)" stroke="var(--color-cocoa)" strokeOpacity="0.4" strokeDasharray="3 2" />
-        <image href="/selo.png" x="8" y="8" width="84" height="84" />
+      <g transform="translate(560, 60)">
+        <rect x="0" y="0" width="100" height="120" fill="var(--color-paper)" stroke="var(--color-cocoa)" strokeOpacity="0.4" strokeDasharray="3 2" />
+        <g transform="translate(50, 60)">
+          <path d="M0,-12 C-4,-18 -16,-18 -16,-8 C-16,2 0,12 0,12 C0,12 16,2 16,-8 C16,-18 4,-18 0,-12 Z"
+                fill="var(--color-champagne)" opacity="0.85" />
+        </g>
+        <circle cx="50" cy="60" r="32" fill="none" stroke="var(--color-ruby)" strokeWidth="0.8" strokeDasharray="2 1.5" transform="rotate(-12 50 60)" />
+        <text x="50" y="64" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="8" letterSpacing="1.2" fill="var(--color-ruby)" transform="rotate(-12 50 60)">
+          {dataInicioRomanos}
+        </text>
       </g>
     </svg>
   );
