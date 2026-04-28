@@ -26,6 +26,7 @@ export default async function CriarPage() {
   const { data: rascunhos } = await supabase
     .from("cartas")
     .select("id, plano, atualizada_em")
+    .eq("owner_id", data.user.id)
     .eq("status", "rascunho")
     .order("atualizada_em", { ascending: false })
     .limit(1);
