@@ -439,7 +439,7 @@ function buildSlides(p: Props): Slide[] {
 
           {/* Navegação fixada no fundo do slide, acima dos botões do footer */}
           {fotoTotal > 1 && (
-            <div className="absolute bottom-20 left-0 right-0 flex items-center justify-center gap-4">
+            <div className="absolute bottom-20 left-0 right-0 z-20 flex items-center justify-center gap-4">
               <button
                 type="button"
                 aria-label="foto anterior"
