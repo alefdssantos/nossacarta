@@ -163,7 +163,7 @@ function SealOverlay({
             lineHeight: 1,
             transition: "opacity 400ms",
             opacity: quebrado ? 0 : 0.95,
-            paddingBottom: 4,
+            transform: "translateY(-2px)",
           }}
         >
           {partes ?? iniciais.charAt(0)}
