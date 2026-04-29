@@ -6,8 +6,34 @@ import type { Database } from "@/lib/supabase/database.types";
 const PROTECTED_PREFIXES = ["/conta", "/criar", "/editar", "/pagamento", "/checkout"];
 const AUTH_ONLY_PREFIXES = ["/login", "/cadastro"];
 
+// Rotas raiz que NÃO são slugs de carta
+const KNOWN_ROOT_ROUTES = new Set([
+  "",
+  "login",
+  "cadastro",
+  "conta",
+  "criar",
+  "editar",
+  "pagamento",
+  "checkout",
+  "api",
+  "qr",
+]);
+
 function pathStartsWithAny(path: string, prefixes: string[]) {
   return prefixes.some((p) => path === p || path.startsWith(`${p}/`));
+}
+
+// Detecta /[slug] e /[slug]/historia — requer auth
+function isCartaRota(path: string): boolean {
+  const segments = path.split("/").filter(Boolean);
+  if (segments.length === 0) return false;
+  const first = segments[0];
+  if (KNOWN_ROOT_ROUTES.has(first)) return false;
+  // aceita /slug ou /slug/historia
+  if (segments.length === 1) return true;
+  if (segments.length === 2 && segments[1] === "historia") return true;
+  return false;
 }
 
 export async function updateSession(request: NextRequest) {
@@ -38,7 +64,7 @@ export async function updateSession(request: NextRequest) {
   const user = data.user;
   const path = request.nextUrl.pathname;
 
-  if (!user && pathStartsWithAny(path, PROTECTED_PREFIXES)) {
+  if (!user && (pathStartsWithAny(path, PROTECTED_PREFIXES) || isCartaRota(path))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.search = `?next=${encodeURIComponent(path + request.nextUrl.search)}`;
