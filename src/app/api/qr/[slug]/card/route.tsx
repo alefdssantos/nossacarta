@@ -9,6 +9,21 @@ export const runtime = "nodejs";
 
 type Params = Promise<{ slug: string }>;
 
+async function loadGoogleFontTTF(family: string): Promise<ArrayBuffer | null> {
+  try {
+    const css = await fetch(
+      `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}&display=swap`,
+      { headers: { "User-Agent": "Mozilla/4.0 (compatible; MSIE 5.0; Windows 95)" } },
+    ).then((r) => r.text());
+    const match = css.match(/src:\s*url\(([^)]+)\)/);
+    if (!match) return null;
+    const res = await fetch(match[1]);
+    if (!res.ok) return null;
+    return res.arrayBuffer();
+  } catch {
+    return null;
+  }
+}
 
 export async function GET(_req: NextRequest, { params }: { params: Params }) {
   const { slug } = await params;
@@ -42,6 +57,11 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
     width: 400,
   });
 
+
+  const alluraData = await loadGoogleFontTTF("Allura");
+  const fonts = alluraData
+    ? [{ name: "Allura", data: alluraData, weight: 400 as const, style: "normal" as const }]
+    : [];
 
   try {
     const img = new ImageResponse(
@@ -92,9 +112,9 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
               paddingBottom: 28,
             }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span style={{ fontSize: 38, color: "#B01228", fontStyle: "italic" }}>Nossa</span>
-              <span style={{ fontSize: 30, color: "#2A1518", fontStyle: "italic" }}>Carta</span>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+              <span style={{ fontSize: 52, color: "#B01228", fontFamily: "Allura, cursive" }}>Nossa</span>
+              <span style={{ fontSize: 52, color: "#2A1518", fontFamily: "Allura, cursive" }}>Carta</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 10 }}>
               <div style={{ width: 60, height: 1, background: "#C9A84C" }} />
@@ -105,7 +125,7 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
 
           {/* Nomes */}
           <div style={{ display: "flex", justifyContent: "center", paddingBottom: 32 }}>
-            <span style={{ fontSize: 26, color: "#2A1518", fontStyle: "italic", letterSpacing: "0.05em" }}>
+            <span style={{ fontSize: 36, color: "#2A1518", fontFamily: "Allura, cursive" }}>
               {nomesLabel}
             </span>
           </div>
@@ -172,6 +192,7 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
       {
         width: 600,
         height: 800,
+        fonts: fonts.length ? fonts : undefined,
       },
     );
 
