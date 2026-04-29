@@ -70,7 +70,7 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
     fonts.push({ name: "Playfair", data: playfairItalic, weight: 400, style: "italic" });
   }
 
-  return new ImageResponse(
+  const img = new ImageResponse(
     (
       <div
         style={{
@@ -234,13 +234,18 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
       width: 600,
       height: 800,
       fonts: fonts.length ? fonts : undefined,
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=86400, immutable",
-        "Content-Disposition": `attachment; filename="nossacarta-${slug}.png"`,
-      },
     },
   );
+
+  const buf = await img.arrayBuffer();
+  return new Response(buf, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=86400, immutable",
+      "Content-Disposition": `attachment; filename="nossacarta-${slug}.png"`,
+    },
+  });
 }
 
 function CornerMark({ style }: { style: Record<string, string | number> }) {
