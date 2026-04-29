@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { dataEmRomanos } from "@/lib/cartas/algarismos-romanos";
 import { getSignedFotoUrls } from "@/lib/supabase/storage";
@@ -42,16 +42,26 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
   const { slug } = await params;
   const supabase = await createClient();
 
-  const { data: carta } = await supabase
+  // Verificar usuário autenticado (middleware já garante, mas confirmamos aqui)
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Admin client ignora RLS — acesso controlado no nível da aplicação abaixo
+  const admin = createAdminClient();
+  const { data: carta } = await admin
     .from("cartas")
     .select(
-      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id",
+      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id, owner_id, destinatario_email",
     )
     .eq("slug", slug)
     .eq("status", "publicada")
     .maybeSingle();
 
   if (!carta) notFound();
+
+  // Acesso: criador ou destinatário com email cadastrado
+  const podeAcessar =
+    user && (carta.owner_id === user.id || carta.destinatario_email === user.email);
+  if (!podeAcessar) notFound();
 
   const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
   const conteudo = conteudoParse.success ? conteudoParse.data : null;

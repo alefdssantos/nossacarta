@@ -1,7 +1,8 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
-import { publicEnv } from "@/lib/env";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { publicEnv, getServerEnv } from "@/lib/env";
 import type { Database } from "@/lib/supabase/database.types";
 
 export async function createClient() {
@@ -26,5 +27,14 @@ export async function createClient() {
         },
       },
     },
+  );
+}
+
+export function createAdminClient() {
+  const env = getServerEnv();
+  return createSupabaseClient<Database>(
+    publicEnv.NEXT_PUBLIC_SUPABASE_URL,
+    env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false, autoRefreshToken: false } },
   );
 }
