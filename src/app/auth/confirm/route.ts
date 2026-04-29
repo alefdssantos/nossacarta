@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const token_hash = url.searchParams.get("token_hash");
   const type = url.searchParams.get("type") as EmailOtpType | null;
   const next = url.searchParams.get("next") ?? "/conta";
-  const safeNext = next.startsWith("/") && !next.startsWith("//") ? next : "/conta";
+  const safeNext = /^\/[^/\\]/.test(next) ? next : "/conta";
 
   if (!token_hash || !type) {
     redirect("/login?error=missing_code");

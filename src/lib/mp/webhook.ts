@@ -30,5 +30,11 @@ export function validarAssinaturaMp(
   const a = Buffer.from(expected);
   const b = Buffer.from(v1);
   if (a.length !== b.length) return "fail";
-  return crypto.timingSafeEqual(a, b) ? "ok" : "fail";
+  if (!crypto.timingSafeEqual(a, b)) return "fail";
+
+  // Rejeita webhooks com timestamp > 5 min (replay protection)
+  const tsNum = parseInt(ts, 10);
+  if (isNaN(tsNum) || Date.now() - tsNum * 1000 > 5 * 60 * 1000) return "fail";
+
+  return "ok";
 }

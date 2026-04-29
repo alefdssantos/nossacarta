@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const nextParam = url.searchParams.get("next");
-  const next = nextParam && nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/conta";
+  const next = nextParam && /^\/[^/\\]/.test(nextParam) ? nextParam : "/conta";
 
   if (!code) {
     return NextResponse.redirect(new URL("/login?error=missing_code", url.origin));

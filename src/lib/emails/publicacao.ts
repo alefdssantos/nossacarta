@@ -13,6 +13,15 @@ type Input = {
   expiraEm?: string | null;
 };
 
+function esc(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const formatadorData = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
   month: "long",
@@ -63,7 +72,7 @@ function montarHtml({ pessoa1, pessoa2, slug, plano, expiraEm, qrUrl, url }: {
               <td style="padding:16px 0;">
                 <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-style:italic;line-height:1.4;color:#2A1518;">Sua carta está no ar.</p>
                 <p style="margin:14px 0 0 0;font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#4A2D31;">
-                  A história de <strong>${pessoa1}</strong> e <strong>${pessoa2}</strong> agora está selada e pronta para ser entregue.
+                  A história de <strong>${esc(pessoa1)}</strong> e <strong>${esc(pessoa2)}</strong> agora está selada e pronta para ser entregue.
                 </p>
                 ${expiraLinha}
               </td>
@@ -110,7 +119,7 @@ export async function enviarEmailPublicacao(input: Input): Promise<{ id: string 
   const qrUrl = `${publicEnv.NEXT_PUBLIC_APP_URL}/api/qr/${input.slug}`;
 
   const html = montarHtml({ ...input, url, qrUrl });
-  const subject = `Sua carta está no ar — ${input.pessoa1} & ${input.pessoa2}`;
+  const subject = `Sua carta está no ar — ${esc(input.pessoa1)} & ${esc(input.pessoa2)}`;
 
   return enviarEmail({ to: input.destinatarioEmail, subject, html });
 }
@@ -141,9 +150,9 @@ function montarHtmlDestinatario({ pessoa1, pessoa2, slug, url }: {
             </tr>
             <tr>
               <td style="padding:16px 0;">
-                <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-style:italic;line-height:1.4;color:#2A1518;">${pessoa1} escreveu uma carta para você.</p>
+                <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-style:italic;line-height:1.4;color:#2A1518;">${esc(pessoa1)} escreveu uma carta para você.</p>
                 <p style="margin:14px 0 0 0;font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#4A2D31;">
-                  Uma carta de amor foi criada especialmente para <strong>${pessoa2}</strong>. Só você — com este e-mail — pode abri-la.
+                  Uma carta de amor foi criada especialmente para <strong>${esc(pessoa2)}</strong>. Só você — com este e-mail — pode abri-la.
                 </p>
               </td>
             </tr>
@@ -165,7 +174,7 @@ function montarHtmlDestinatario({ pessoa1, pessoa2, slug, url }: {
             <tr>
               <td align="center" style="padding-top:24px;">
                 <span style="font-family:'Brush Script MT',cursive;font-size:20px;color:#B01228;">com amor,</span>
-                <span style="font-family:Georgia,serif;font-style:italic;font-size:13px;color:#4A2D31;margin-left:6px;">${pessoa1}</span>
+                <span style="font-family:Georgia,serif;font-style:italic;font-size:13px;color:#4A2D31;margin-left:6px;">${esc(pessoa1)}</span>
               </td>
             </tr>
           </table>
@@ -185,6 +194,6 @@ export async function enviarEmailParaDestinatario(input: {
 }): Promise<{ id: string } | null> {
   const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${input.slug}`;
   const html = montarHtmlDestinatario({ ...input, url });
-  const subject = `${input.pessoa1} escreveu uma carta para você`;
+  const subject = `${esc(input.pessoa1)} escreveu uma carta para você`;
   return enviarEmail({ to: input.destinatarioEmail, subject, html });
 }

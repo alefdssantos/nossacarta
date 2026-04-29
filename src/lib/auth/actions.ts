@@ -22,7 +22,7 @@ async function getCallbackUrl(next?: string) {
     : origin
       ? `https://${origin}`
       : publicEnv.NEXT_PUBLIC_APP_URL;
-  const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "/conta";
+  const safeNext = next && /^\/[^/\\]/.test(next) ? next : "/conta";
   return `${base}/auth/callback?next=${encodeURIComponent(safeNext)}`;
 }
 
