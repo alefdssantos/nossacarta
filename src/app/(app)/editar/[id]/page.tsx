@@ -4,6 +4,9 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PlanoPill, StatusPill } from "@/components/StatusPill";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
+import { CopiarLink } from "./CopiarLink";
+import { DestinatarioEmailForm } from "./DestinatarioEmailForm";
+import { publicEnv } from "@/lib/env";
 
 export const metadata: Metadata = { title: "Editar carta — NossaCarta" };
 
@@ -20,7 +23,7 @@ export default async function EditarPage({ params }: { params: Params }) {
   const { data: carta } = await supabase
     .from("cartas")
     .select(
-      "id, slug, plano, status, conteudo, data_inicio_relacionamento, publicada_em, expira_em, owner_id",
+      "id, slug, plano, status, conteudo, data_inicio_relacionamento, publicada_em, expira_em, owner_id, acesso_token, destinatario_email",
     )
     .eq("id", id)
     .maybeSingle();
@@ -69,18 +72,36 @@ export default async function EditarPage({ params }: { params: Params }) {
       </header>
 
       <section className="mt-10 rounded-2xl border border-cocoa/12 bg-paper px-6 py-6 shadow-engrave">
-        <h2 className="font-serif text-xl italic text-cocoa">Endereço da carta</h2>
-        <p className="mt-2 font-prose text-[15px] text-cocoa">nossacarta.love/{carta.slug}</p>
+        <h2 className="font-serif text-xl italic text-cocoa">Compartilhar carta</h2>
+        <p className="mt-1 font-prose text-[12px] italic text-mauve">
+          {carta.destinatario_email
+            ? `Destinatária: ${carta.destinatario_email}`
+            : "Nenhum e-mail de destinatária cadastrado"}
+        </p>
+        <p className="mt-3 break-all font-mono text-[11px] text-cocoa/70">
+          nossacarta.love/{carta.slug}?t={carta.acesso_token}
+        </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
-            href={`/${carta.slug}`}
+            href={`/${carta.slug}?t=${carta.acesso_token}`}
             target="_blank"
             rel="noopener"
             className="rounded-full bg-ruby px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
           >
             Abrir carta →
           </Link>
+          <CopiarLink url={`${publicEnv.NEXT_PUBLIC_APP_URL}/${carta.slug}?t=${carta.acesso_token}`} />
+          <Link
+            href={`/api/qr/${carta.slug}`}
+            target="_blank"
+            rel="noopener"
+            className="rounded-full border border-cocoa/25 px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
+            download={`qr-${carta.slug}.png`}
+          >
+            Baixar QR ↓
+          </Link>
         </div>
+        <DestinatarioEmailForm cartaId={carta.id} emailAtual={carta.destinatario_email} />
       </section>
 
       {carta.plano === "eterno" ? (

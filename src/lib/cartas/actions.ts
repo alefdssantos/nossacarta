@@ -11,7 +11,7 @@ import {
   criarCartaInputSchema,
 } from "./schema";
 import { slugValido } from "./slug";
-import type { ActionState } from "./types";
+import type { ActionState, MediaActionState } from "./types";
 
 async function requireUser() {
   const supabase = await createClient();
@@ -230,3 +230,27 @@ export async function atualizarDeclaracaoTemaAction(
   redirect(`/criar/${cartaId}/fotos`);
 }
 
+export async function atualizarDestinatarioEmailAction(
+  _prev: MediaActionState,
+  formData: FormData,
+): Promise<MediaActionState> {
+  const cartaId = String(formData.get("cartaId") ?? "");
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+
+  if (!cartaId) return { status: "error", message: "Carta inválida." };
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { status: "error", message: "E-mail inválido." };
+  }
+
+  const { supabase, user } = await requireUser();
+  const { error } = await supabase
+    .from("cartas")
+    .update({ destinatario_email: email || null })
+    .eq("id", cartaId)
+    .eq("owner_id", user.id);
+
+  if (error) return { status: "error", message: "Não foi possível salvar." };
+
+  revalidatePath(`/editar/${cartaId}`);
+  return { status: "ok" };
+}
