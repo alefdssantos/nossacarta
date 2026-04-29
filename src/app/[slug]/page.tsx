@@ -168,6 +168,7 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
         slug={slug}
         appUrl={publicEnv.NEXT_PUBLIC_APP_URL}
         publicadaEm={carta.publicada_em ?? new Date().toISOString()}
+        acessoToken={token ?? carta.acesso_token}
       />
     </main>
   );

@@ -92,11 +92,11 @@ export default async function EditarPage({ params }: { params: Params }) {
           </Link>
           <CopiarLink url={`${publicEnv.NEXT_PUBLIC_APP_URL}/${carta.slug}?t=${carta.acesso_token}`} />
           <Link
-            href={`/api/qr/${carta.slug}`}
+            href={`/api/qr/${carta.slug}/card`}
             target="_blank"
             rel="noopener"
             className="rounded-full border border-cocoa/25 px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
-            download={`qr-${carta.slug}.png`}
+            download={`nossacarta-${carta.slug}.png`}
           >
             Baixar QR ↓
           </Link>

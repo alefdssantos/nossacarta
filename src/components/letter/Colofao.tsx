@@ -6,12 +6,14 @@ type Props = {
   slug: string;
   appUrl: string;
   publicadaEm: string;
+  acessoToken?: string | null;
 };
 
 const formatadorMes = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" });
 
-export async function Colofao({ pessoa2, slug, appUrl, publicadaEm }: Props) {
-  const url = `${appUrl}/${slug}`;
+export async function Colofao({ pessoa2, slug, appUrl, publicadaEm, acessoToken }: Props) {
+  const tokenQuery = acessoToken ? `?t=${acessoToken}` : "";
+  const url = `${appUrl}/${slug}${tokenQuery}`;
   const qrSvg = await QRCode.toString(url, {
     type: "svg",
     margin: 0,
@@ -51,7 +53,7 @@ export async function Colofao({ pessoa2, slug, appUrl, publicadaEm }: Props) {
         </div>
 
         <a
-          href={`/${slug}/historia`}
+          href={`/${slug}/historia${tokenQuery}`}
           className="mt-12 inline-flex items-center gap-3 rounded-full bg-ruby px-8 py-4 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
         >
           ver história em capítulos →
