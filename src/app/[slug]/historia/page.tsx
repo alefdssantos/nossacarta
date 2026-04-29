@@ -63,7 +63,7 @@ export default async function WrappedPage({ params, searchParams }: { params: Pa
   const marcos = calcularMarcos(dataInicio);
 
   // Fotos
-  const { data: medias } = await supabase
+  const { data: medias } = await admin
     .from("media")
     .select("id, storage_path, ordem")
     .eq("carta_id", carta.id)
@@ -81,7 +81,7 @@ export default async function WrappedPage({ params, searchParams }: { params: Pa
   // Cápsula teaser (Eterno): primeira cápsula futura
   let capsulaTeaser: { unlock_em: string } | null = null;
   if (carta.plano === "eterno") {
-    const { data: caps } = await supabase
+    const { data: caps } = await admin
       .from("capsulas")
       .select("unlock_em")
       .eq("carta_id", carta.id)

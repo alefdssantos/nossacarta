@@ -1,5 +1,5 @@
 import "server-only";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 
 const BUCKET = "carta-fotos";
 const DEFAULT_TTL_SECONDS = 60 * 60;
@@ -8,8 +8,8 @@ export async function getSignedFotoUrl(
   storagePath: string,
   expiresIn: number = DEFAULT_TTL_SECONDS,
 ): Promise<string> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.storage
+  const admin = createAdminClient();
+  const { data, error } = await admin.storage
     .from(BUCKET)
     .createSignedUrl(storagePath, expiresIn);
   if (error) throw error;
@@ -20,8 +20,8 @@ export async function getSignedFotoUrls(
   storagePaths: string[],
   expiresIn: number = DEFAULT_TTL_SECONDS,
 ): Promise<Map<string, string>> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.storage
+  const admin = createAdminClient();
+  const { data, error } = await admin.storage
     .from(BUCKET)
     .createSignedUrls(storagePaths, expiresIn);
   if (error) throw error;

@@ -39,7 +39,7 @@ export function Carta({ texto, signature, cidadeData }: Props) {
         </p>
 
         <article
-          className="font-prose text-cocoa"
+          className="overflow-hidden font-prose text-cocoa"
           style={{
             fontSize: "clamp(17px, 2.4vw, 20px)",
             lineHeight: 1.85,

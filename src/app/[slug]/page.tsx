@@ -67,8 +67,6 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
     (token && carta.acesso_token === token);
   if (!podeAcessar) notFound();
 
-  const supabase = await createClient();
-
   const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
   const conteudo = conteudoParse.success ? conteudoParse.data : null;
   const nomes = conteudo?.nomes;
@@ -77,7 +75,7 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
 
   if (!nomes || !dataInicio || !declaracao) notFound();
 
-  const { data: medias } = await supabase
+  const { data: medias } = await admin
     .from("media")
     .select("id, storage_path, ordem, caption")
     .eq("carta_id", carta.id)
@@ -99,7 +97,7 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
     fotoUrl: string | null;
   }> = [];
   if (carta.plano === "eterno") {
-    const { data: marcosData } = await supabase
+    const { data: marcosData } = await admin
       .from("marcos")
       .select("id, data, titulo, descricao, foto_path")
       .eq("carta_id", carta.id)
@@ -118,7 +116,7 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
     }));
   }
   if (carta.plano === "eterno") {
-    const { data } = await supabase.rpc("carta_capsulas_publicas", { p_carta_id: carta.id });
+    const { data } = await admin.rpc("carta_capsulas_publicas", { p_carta_id: carta.id });
     capsulas = (data ?? []).map((c) => ({
       id: c.id,
       unlock_em: c.unlock_em,
