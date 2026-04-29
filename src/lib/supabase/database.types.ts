@@ -55,6 +55,7 @@ export type Database = {
           conteudo: Json
           criada_em: string
           data_inicio_relacionamento: string | null
+          destinatario_email: string | null
           expira_em: string | null
           id: string
           owner_id: string
@@ -69,6 +70,7 @@ export type Database = {
           conteudo?: Json
           criada_em?: string
           data_inicio_relacionamento?: string | null
+          destinatario_email?: string | null
           expira_em?: string | null
           id?: string
           owner_id: string
@@ -83,6 +85,7 @@ export type Database = {
           conteudo?: Json
           criada_em?: string
           data_inicio_relacionamento?: string | null
+          destinatario_email?: string | null
           expira_em?: string | null
           id?: string
           owner_id?: string

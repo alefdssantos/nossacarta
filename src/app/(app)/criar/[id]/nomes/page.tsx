@@ -22,7 +22,7 @@ export default async function NomesPage({ params }: { params: Params }) {
 
   const { data: carta, error } = await supabase
     .from("cartas")
-    .select("id, slug, plano, status, conteudo, data_inicio_relacionamento, owner_id")
+    .select("id, slug, plano, status, conteudo, data_inicio_relacionamento, owner_id, destinatario_email")
     .eq("id", id)
     .maybeSingle();
 
@@ -64,6 +64,7 @@ export default async function NomesPage({ params }: { params: Params }) {
           pessoa2Inicial={nomes?.pessoa2 ?? ""}
           dataInicial={carta.data_inicio_relacionamento ?? ""}
           slugInicial={slugInicial}
+          destinatarioEmailInicial={carta.destinatario_email ?? ""}
         />
       </section>
     </main>

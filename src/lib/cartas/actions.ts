@@ -79,12 +79,14 @@ export async function atualizarNomesAction(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
+  const rawEmail = formData.get("destinatarioEmail");
   const parsed = atualizarNomesInputSchema.safeParse({
     cartaId: formData.get("cartaId"),
     pessoa1: formData.get("pessoa1"),
     pessoa2: formData.get("pessoa2"),
     dataInicio: formData.get("dataInicio"),
     slug: formData.get("slug"),
+    destinatarioEmail: rawEmail && String(rawEmail).trim() ? String(rawEmail).trim() : undefined,
   });
 
   if (!parsed.success) {
@@ -96,7 +98,7 @@ export async function atualizarNomesAction(
     };
   }
 
-  const { cartaId, pessoa1, pessoa2, dataInicio, slug } = parsed.data;
+  const { cartaId, pessoa1, pessoa2, dataInicio, slug, destinatarioEmail } = parsed.data;
   const { supabase, user } = await requireUser();
 
   if (!slugValido(slug)) {
@@ -135,6 +137,7 @@ export async function atualizarNomesAction(
       slug,
       data_inicio_relacionamento: dataInicio,
       conteudo,
+      destinatario_email: destinatarioEmail ?? null,
     })
     .eq("id", cartaId)
     .eq("owner_id", user.id);

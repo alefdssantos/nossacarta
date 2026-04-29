@@ -33,6 +33,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
       "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id",
     )
     .eq("slug", slug)
+    .eq("status", "publicada")
     .maybeSingle();
   if (!carta) notFound();
 

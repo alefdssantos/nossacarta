@@ -11,6 +11,7 @@ type Props = {
   pessoa2Inicial: string;
   dataInicial: string;
   slugInicial: string;
+  destinatarioEmailInicial: string;
 };
 
 export function NomesForm({
@@ -19,6 +20,7 @@ export function NomesForm({
   pessoa2Inicial,
   dataInicial,
   slugInicial,
+  destinatarioEmailInicial,
 }: Props) {
   const [state, action, pending] = useActionState<ActionState, FormData>(
     atualizarNomesAction,
@@ -118,6 +120,14 @@ export function NomesForm({
           Letras minúsculas, números e hífen. 2 a 40 caracteres.
         </p>
       </div>
+
+      <Field
+        label="E-mail da pessoa amada"
+        name="destinatarioEmail"
+        type="email"
+        defaultValue={destinatarioEmailInicial}
+        error={state.status === "error" && state.field === "destinatarioEmail" ? state.message : null}
+      />
 
       {erroGeral && (
         <p role="alert" className="font-prose text-sm text-ruby-deep">

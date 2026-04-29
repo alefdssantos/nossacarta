@@ -41,6 +41,7 @@ export const atualizarNomesInputSchema = z.object({
   pessoa2: z.string().min(1).max(50).trim(),
   dataInicio: z.iso.date(),
   slug: slugSchema,
+  destinatarioEmail: z.email("E-mail inválido.").max(254).trim().optional(),
 });
 
 export const atualizarDeclaracaoTemaInputSchema = z.object({
