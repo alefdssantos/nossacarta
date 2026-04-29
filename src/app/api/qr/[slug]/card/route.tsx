@@ -224,10 +224,10 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
         </div>
 
         {/* Cantos decorativos */}
-        <CornerMark style={{ top: 28, left: 28 }} />
-        <CornerMark style={{ top: 28, right: 28, transform: "rotate(90deg)" }} />
-        <CornerMark style={{ bottom: 28, right: 28, transform: "rotate(180deg)" }} />
-        <CornerMark style={{ bottom: 28, left: 28, transform: "rotate(270deg)" }} />
+        <CornerMark style={{ top: 28, left: 28, borderTop: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" }} />
+        <CornerMark style={{ top: 28, right: 28, borderTop: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" }} />
+        <CornerMark style={{ bottom: 28, right: 28, borderBottom: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" }} />
+        <CornerMark style={{ bottom: 28, left: 28, borderBottom: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" }} />
       </div>
     ),
     {
@@ -258,10 +258,6 @@ function CornerMark({ style }: { style: Record<string, string | number> }) {
         display: "flex",
         ...style,
       }}
-    >
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <path d="M2 14 L2 2 L14 2" fill="none" stroke="#C9A84C" strokeWidth="1" />
-      </svg>
-    </div>
+    />
   );
 }
