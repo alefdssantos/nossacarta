@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { publicEnv } from "@/lib/env";
 
 const emailSchema = z.email().max(254).trim().toLowerCase();
 const nomeSchema = z.string().min(2).max(80).trim().optional();
@@ -16,7 +17,11 @@ export type AuthFormState =
 async function getCallbackUrl(next?: string) {
   const h = await headers();
   const origin = h.get("origin") ?? h.get("x-forwarded-host") ?? "";
-  const base = origin.startsWith("http") ? origin : `https://${origin}`;
+  const base = origin.startsWith("http")
+    ? origin
+    : origin
+      ? `https://${origin}`
+      : publicEnv.NEXT_PUBLIC_APP_URL;
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "/conta";
   return `${base}/auth/callback?next=${encodeURIComponent(safeNext)}`;
 }

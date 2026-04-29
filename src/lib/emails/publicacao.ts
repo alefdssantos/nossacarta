@@ -112,9 +112,79 @@ export async function enviarEmailPublicacao(input: Input): Promise<{ id: string 
   const html = montarHtml({ ...input, url, qrUrl });
   const subject = `Sua carta está no ar — ${input.pessoa1} & ${input.pessoa2}`;
 
-  return enviarEmail({
-    to: input.destinatarioEmail,
-    subject,
-    html,
-  });
+  return enviarEmail({ to: input.destinatarioEmail, subject, html });
+}
+
+function montarHtmlDestinatario({ pessoa1, pessoa2, slug, url }: {
+  pessoa1: string;
+  pessoa2: string;
+  slug: string;
+  url: string;
+}): string {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+  <body style="margin:0;padding:0;background:#FBEFE8;font-family:Georgia,serif;color:#2A1518;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#FBEFE8;padding:40px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="background:#FAF1EA;border:1px solid rgba(42,21,24,0.12);border-radius:8px;padding:48px 40px;">
+            <tr>
+              <td align="center" style="padding-bottom:8px;">
+                <span style="font-family:'Brush Script MT',cursive;font-size:36px;color:#B01228;line-height:1;">Nossa</span>
+                <span style="font-family:Georgia,serif;font-style:italic;font-size:28px;color:#2A1518;line-height:1;margin-left:6px;">Carta</span>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:8px 0 24px 0;">
+                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">— você recebeu uma carta —</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 0;">
+                <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-style:italic;line-height:1.4;color:#2A1518;">${pessoa1} escreveu uma carta para você.</p>
+                <p style="margin:14px 0 0 0;font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#4A2D31;">
+                  Uma carta de amor foi criada especialmente para <strong>${pessoa2}</strong>. Só você — com este e-mail — pode abri-la.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:24px 0 8px 0;">
+                <a href="${url}" style="display:inline-block;background:#B01228;color:#FBEFE8;text-decoration:none;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.24em;text-transform:uppercase;padding:14px 28px;border-radius:999px;">
+                  Abrir minha carta &rarr;
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px 0 0 0;border-top:1px solid rgba(42,21,24,0.08);">
+                <p style="margin:0;font-family:Georgia,serif;font-size:13px;font-style:italic;color:#8B6A6F;line-height:1.55;">
+                  Ao abrir o link, você vai criar uma conta gratuita com este e-mail para acessar a carta. Guarde o link — você pode voltar quando quiser.
+                </p>
+                <p style="margin:12px 0 0 0;font-family:'Courier New',monospace;font-size:11px;color:#7C0E1D;">nossacarta.love/${slug}</p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding-top:24px;">
+                <span style="font-family:'Brush Script MT',cursive;font-size:20px;color:#B01228;">com amor,</span>
+                <span style="font-family:Georgia,serif;font-style:italic;font-size:13px;color:#4A2D31;margin-left:6px;">${pessoa1}</span>
+              </td>
+            </tr>
+          </table>
+          <p style="margin:16px 0 0 0;font-family:Georgia,serif;font-size:11px;font-style:italic;color:#8B6A6F;">© NossaCarta · nossacarta.love</p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}
+
+export async function enviarEmailParaDestinatario(input: {
+  destinatarioEmail: string;
+  pessoa1: string;
+  pessoa2: string;
+  slug: string;
+}): Promise<{ id: string } | null> {
+  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${input.slug}`;
+  const html = montarHtmlDestinatario({ ...input, url });
+  const subject = `${input.pessoa1} escreveu uma carta para você`;
+  return enviarEmail({ to: input.destinatarioEmail, subject, html });
 }
