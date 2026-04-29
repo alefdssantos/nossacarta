@@ -10,7 +10,7 @@ export async function notificarPublicacao(
 ): Promise<void> {
   const { data: carta } = await supa
     .from("cartas")
-    .select("id, slug, plano, owner_id, conteudo, expira_em, destinatario_email")
+    .select("id, slug, plano, owner_id, conteudo, expira_em, destinatario_email, acesso_token")
     .eq("id", cartaId)
     .maybeSingle();
 
@@ -53,6 +53,7 @@ export async function notificarPublicacao(
             pessoa1: nomes.pessoa1,
             pessoa2: nomes.pessoa2,
             slug: carta.slug,
+            acessoToken: carta.acesso_token,
           })
         : Promise.resolve(null),
     ]);

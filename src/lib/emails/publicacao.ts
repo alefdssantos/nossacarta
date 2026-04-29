@@ -191,8 +191,9 @@ export async function enviarEmailParaDestinatario(input: {
   pessoa1: string;
   pessoa2: string;
   slug: string;
+  acessoToken: string;
 }): Promise<{ id: string } | null> {
-  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${input.slug}`;
+  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${input.slug}?t=${input.acessoToken}`;
   const html = montarHtmlDestinatario({ ...input, url });
   const subject = `${esc(input.pessoa1)} escreveu uma carta para você`;
   return enviarEmail({ to: input.destinatarioEmail, subject, html });

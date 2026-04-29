@@ -51,6 +51,7 @@ export type Database = {
       }
       cartas: {
         Row: {
+          acesso_token: string
           atualizada_em: string
           conteudo: Json
           criada_em: string
@@ -66,6 +67,7 @@ export type Database = {
           status: Database["public"]["Enums"]["status_carta"]
         }
         Insert: {
+          acesso_token?: string
           atualizada_em?: string
           conteudo?: Json
           criada_em?: string
@@ -81,6 +83,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["status_carta"]
         }
         Update: {
+          acesso_token?: string
           atualizada_em?: string
           conteudo?: Json
           criada_em?: string

@@ -22,6 +22,7 @@ import { Colofao } from "@/components/letter/Colofao";
 import type { CapsulaPublica } from "@/lib/cartas/types";
 
 type Params = Promise<{ slug: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const dynamic = "force-dynamic";
 
@@ -39,8 +40,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-export default async function CartaPublicaPage({ params }: { params: Params }) {
+export default async function CartaPublicaPage({ params, searchParams }: { params: Params; searchParams: SearchParams }) {
   const { slug } = await params;
+  const sp = await searchParams;
+  const token = typeof sp.t === "string" ? sp.t : undefined;
+
   // Identidade vem de headers setados pelo middleware (confiável em Next.js 16)
   const h = await headers();
   const userId = h.get("x-user-id");
@@ -50,7 +54,7 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
   const { data: carta } = await admin
     .from("cartas")
     .select(
-      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id, owner_id, destinatario_email",
+      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id, owner_id, destinatario_email, acesso_token",
     )
     .eq("slug", slug)
     .eq("status", "publicada")
@@ -59,7 +63,8 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
   if (!carta) notFound();
 
   const podeAcessar =
-    userId && (carta.owner_id === userId || carta.destinatario_email === userEmail);
+    (userId && (carta.owner_id === userId || carta.destinatario_email === userEmail)) ||
+    (token && carta.acesso_token === token);
   if (!podeAcessar) notFound();
 
   const supabase = await createClient();

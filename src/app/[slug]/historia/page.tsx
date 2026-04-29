@@ -12,6 +12,7 @@ import { publicEnv } from "@/lib/env";
 import { WrappedStory } from "./WrappedStory";
 
 type Params = Promise<{ slug: string }>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export const dynamic = "force-dynamic";
 
@@ -24,8 +25,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-export default async function WrappedPage({ params }: { params: Params }) {
+export default async function WrappedPage({ params, searchParams }: { params: Params; searchParams: SearchParams }) {
   const { slug } = await params;
+  const sp = await searchParams;
+  const token = typeof sp.t === "string" ? sp.t : undefined;
+
   const supabase = await createClient();
 
   const h = await headers();
@@ -36,7 +40,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
   const { data: carta } = await admin
     .from("cartas")
     .select(
-      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id, owner_id, destinatario_email",
+      "id, slug, plano, status, expira_em, publicada_em, conteudo, data_inicio_relacionamento, spotify_track_id, owner_id, destinatario_email, acesso_token",
     )
     .eq("slug", slug)
     .eq("status", "publicada")
@@ -44,7 +48,8 @@ export default async function WrappedPage({ params }: { params: Params }) {
   if (!carta) notFound();
 
   const podeAcessar =
-    userId && (carta.owner_id === userId || carta.destinatario_email === userEmail);
+    (userId && (carta.owner_id === userId || carta.destinatario_email === userEmail)) ||
+    (token && carta.acesso_token === token);
   if (!podeAcessar) notFound();
 
   const cParse = conteudoCartaV1Schema.safeParse(carta.conteudo);

@@ -65,10 +65,15 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   if (!user && (pathStartsWithAny(path, PROTECTED_PREFIXES) || isCartaRota(path))) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = `?next=${encodeURIComponent(path + request.nextUrl.search)}`;
-    return NextResponse.redirect(url);
+    // Carta com token de acesso: deixa passar, a page valida o token no DB
+    if (isCartaRota(path) && request.nextUrl.searchParams.get("t")) {
+      // fall through
+    } else {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.search = `?next=${encodeURIComponent(path + request.nextUrl.search)}`;
+      return NextResponse.redirect(url);
+    }
   }
 
   if (user && pathStartsWithAny(path, AUTH_ONLY_PREFIXES)) {
