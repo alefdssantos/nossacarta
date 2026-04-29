@@ -8,7 +8,7 @@ SaaS sazonal de cartas de amor. Deadline: 12-jun-2026 (Dia dos Namorados BR).
 
 - Next.js 16 App Router + React 19 + Tailwind v4 + Turbopack
 - Supabase (Postgres + Auth magic link + Storage privado)
-- AbacatePay (PIX one-time, webhook HMAC-SHA256)
+- Mercado Pago (PIX + cartão, webhook HMAC-SHA256)
 - Spotify Web API (Client Credentials, embed oficial)
 - Resend (email transacional)
 - Vercel (deploy + cron hourly)
@@ -33,14 +33,14 @@ SaaS sazonal de cartas de amor. Deadline: 12-jun-2026 (Dia dos Namorados BR).
 [slug]/         <- carta publica editorial
 [slug]/historia/<- wrapped story 9:16
 
-api/abacate/webhook/ <- recebe eventos AbacatePay
+api/mp/webhook/     <- recebe eventos Mercado Pago
 api/cron/expirar-bilhete/ <- Vercel Cron, hourly
 api/qr/[slug]/  <- gera QR code SVG inline
 ```
 
 ## Fluxo de pagamento
 
-criarPagamentoAction -> AbacatePay checkout -> redirect -> webhook POST -> validarQuerySecret + validarHmacSeConfigurado -> atualiza pagamentos.status='approved' + cartas.status='publicada' -> notificarPublicacao (Resend)
+criarPagamentoAction -> Mercado Pago checkout -> redirect -> webhook POST /api/mp/webhook -> validarAssinaturaMp -> atualiza pagamentos.status='approved' + cartas.status='publicada' -> notificarPublicacao (Resend)
 
 ## Convencoes
 

@@ -130,7 +130,7 @@ export async function criarPagamentoAction(formData: FormData): Promise<void> {
   redirect(checkoutUrl);
 }
 
-// DEV: cria pagamento aprovado + flipa carta sem chamar AbacatePay.
+// DEV: cria pagamento aprovado + flipa carta sem chamar Mercado Pago.
 export async function bypassPagamentoDevAction(formData: FormData): Promise<void> {
   if (process.env.NODE_ENV === "production") return;
   const cartaId = String(formData.get("cartaId") ?? "");

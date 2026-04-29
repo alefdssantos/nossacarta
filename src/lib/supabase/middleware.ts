@@ -78,5 +78,21 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return response;
+  // Propaga identidade do usuário como request headers para server components.
+  // Necessário porque em Next.js 16 a sessão renovada pelo middleware não
+  // chega confiável via cookies() nas pages — os headers são o canal seguro.
+  const reqHeaders = new Headers(request.headers);
+  // Remove qualquer header spoofado pelo cliente antes de sobrescrever
+  reqHeaders.delete("x-user-id");
+  reqHeaders.delete("x-user-email");
+  if (user) {
+    reqHeaders.set("x-user-id", user.id);
+    reqHeaders.set("x-user-email", user.email ?? "");
+  }
+  const responseWithHeaders = NextResponse.next({ request: { headers: reqHeaders } });
+  // Preserva os Set-Cookie da renovação de sessão do Supabase
+  for (const cookie of response.headers.getSetCookie()) {
+    responseWithHeaders.headers.append("set-cookie", cookie);
+  }
+  return responseWithHeaders;
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { dataEmRomanos } from "@/lib/cartas/algarismos-romanos";
@@ -27,7 +28,9 @@ export default async function WrappedPage({ params }: { params: Params }) {
   const { slug } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const h = await headers();
+  const userId = h.get("x-user-id");
+  const userEmail = h.get("x-user-email");
 
   const admin = createAdminClient();
   const { data: carta } = await admin
@@ -41,7 +44,7 @@ export default async function WrappedPage({ params }: { params: Params }) {
   if (!carta) notFound();
 
   const podeAcessar =
-    user && (carta.owner_id === user.id || carta.destinatario_email === user.email);
+    userId && (carta.owner_id === userId || carta.destinatario_email === userEmail);
   if (!podeAcessar) notFound();
 
   const cParse = conteudoCartaV1Schema.safeParse(carta.conteudo);

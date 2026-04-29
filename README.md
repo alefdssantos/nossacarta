@@ -17,7 +17,7 @@ Abrir http://localhost:3000
 Ver `.env.example`. Grupos:
 
 - **Supabase** — URL, anon key, service role key
-- **AbacatePay** — API key, webhook secret, public key, product IDs
+- **Mercado Pago** — access token, webhook secret
 - **Spotify** — client ID + secret (Client Credentials)
 - **Resend** — API key + from address
 - **Vercel** — CRON_SECRET
@@ -30,21 +30,21 @@ src/
   app/
     (app)/          # rotas protegidas (auth via proxy.ts)
     [slug]/         # carta publica + /historia wrapped story
-    api/            # webhook AbacatePay, cron, QR
+    api/            # webhook Mercado Pago, cron, QR
   lib/
     auth/           # magic link Supabase
     cartas/         # CRUD + schema + pagamento
     emails/         # Resend templates
     supabase/       # clientes SSR/browser + middleware
     spotify/        # Web API Client Credentials
-    abacate/        # checkout + webhook HMAC
+    mp/             # checkout + webhook HMAC (Mercado Pago)
   components/
     letter/         # renderizacao editorial da carta
 ```
 
 ## Fluxo critico
 
-Criar carta (wizard 6 etapas) -> pagar PIX (AbacatePay) -> webhook -> publicar -> email com link + QR
+Criar carta (wizard 6 etapas) -> pagar PIX (Mercado Pago) -> webhook -> publicar -> email com link + QR
 
 ## Deploy
 

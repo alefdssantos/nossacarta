@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient, createAdminClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { dataEmRomanos } from "@/lib/cartas/algarismos-romanos";
@@ -40,12 +41,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function CartaPublicaPage({ params }: { params: Params }) {
   const { slug } = await params;
-  const supabase = await createClient();
+  // Identidade vem de headers setados pelo middleware (confiável em Next.js 16)
+  const h = await headers();
+  const userId = h.get("x-user-id");
+  const userEmail = h.get("x-user-email");
 
-  // Verificar usuário autenticado (middleware já garante, mas confirmamos aqui)
-  const { data: { user } } = await supabase.auth.getUser();
-
-  // Admin client ignora RLS — acesso controlado no nível da aplicação abaixo
   const admin = createAdminClient();
   const { data: carta } = await admin
     .from("cartas")
@@ -58,10 +58,11 @@ export default async function CartaPublicaPage({ params }: { params: Params }) {
 
   if (!carta) notFound();
 
-  // Acesso: criador ou destinatário com email cadastrado
   const podeAcessar =
-    user && (carta.owner_id === user.id || carta.destinatario_email === user.email);
+    userId && (carta.owner_id === userId || carta.destinatario_email === userEmail);
   if (!podeAcessar) notFound();
+
+  const supabase = await createClient();
 
   const conteudoParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
   const conteudo = conteudoParse.success ? conteudoParse.data : null;
