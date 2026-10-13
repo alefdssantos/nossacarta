@@ -32,7 +32,7 @@ on conflict (id) do nothing;
 -- Convenção de path: <carta_id>/<filename>
 -- Acesso só permitido se primeiro segmento for ID de carta que o user é dono.
 
--- SELECT público (bucket público) — qualquer um lê fotos de cartas publicadas
+-- SELECT público (bucket público): qualquer um lê fotos de cartas publicadas
 -- já vem habilitado por bucket public=true. Mas restringimos a cartas ativas:
 create policy "carta-fotos: leitura pública só de cartas ativas"
   on storage.objects for select

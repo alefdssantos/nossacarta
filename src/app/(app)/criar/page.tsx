@@ -6,7 +6,7 @@ import { Stepper } from "@/components/Stepper";
 import { PlanoForm } from "./PlanoForm";
 
 export const metadata: Metadata = {
-  title: "Criar carta — NossaCarta",
+  title: "Criar carta · NossaCarta",
 };
 
 export const wizardSteps = [

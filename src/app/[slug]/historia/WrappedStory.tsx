@@ -152,7 +152,7 @@ export function WrappedStory(p: Props) {
         pixelRatio: 3,
         backgroundColor: "#2A1518",
       });
-      // Mostra overlay com a imagem — iOS: segurar → Salvar Foto; desktop: botão download
+      // Mostra overlay com a imagem. iOS: segurar → Salvar Foto; desktop: botão download
       setImagemSalvar(dataUrl);
     } catch (err) {
       console.error("[wrapped salvar]", err);
@@ -421,7 +421,7 @@ function buildSlides(p: Props): Slide[] {
     ),
   });
 
-  // 5. Trecho — texto completo, usa tela inteira
+  // 5. Trecho: texto completo, usa tela inteira
   slides.push({
     id: "trecho",
     bg: "linear-gradient(160deg, #3D2428 0%, #4A2D31 60%, #3A1A1E 100%)",
@@ -450,7 +450,7 @@ function buildSlides(p: Props): Slide[] {
     ),
   });
 
-  // 6. Fotos — carrossel, auto-advance pausado
+  // 6. Fotos: carrossel, auto-advance pausado
   if (p.fotoUrls.length > 0) {
     slides.push({
       id: "foto",
@@ -576,7 +576,7 @@ function buildSlides(p: Props): Slide[] {
     });
   }
 
-  // 9. CTA final — resumo estilo Wrapped, instagramável
+  // 9. CTA final: resumo estilo Wrapped, instagramável
   slides.push({
     id: "cta",
     bg: "linear-gradient(175deg, #0F0709 0%, #2A1518 40%, #7C0E1D 100%)",
@@ -600,7 +600,7 @@ function buildSlides(p: Props): Slide[] {
           {p.nomes.pessoa2}
         </p>
 
-        {/* Dias — destaque */}
+        {/* Dias, destaque */}
         <p
           className="mt-5 font-script text-ruby"
           style={{ fontSize: "clamp(80px, 20vw, 120px)", lineHeight: 0.82 }}

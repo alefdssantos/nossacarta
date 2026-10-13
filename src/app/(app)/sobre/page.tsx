@@ -34,13 +34,13 @@ export default function SobrePage() {
         <p className="mt-4">
           A NossaCarta nasceu de uma frustração simples: presentes digitais para
           casais haviam virado commodity. Carrosséis automáticos, contadores de
-          neon, fontes Pacifico, corações vermelhos pulsando em CSS — tudo igual,
+          neon, fontes Pacifico, corações vermelhos pulsando em CSS, tudo igual,
           tudo barulhento, nenhum capaz de fazer alguém parar e ler.
         </p>
         <p className="mt-4">
           Queríamos o oposto: uma página que se comportasse como uma peça
           impressa. Que tivesse capa, frontispício, drop cap, colofão. Que
-          honrasse a tradição de quando uma carta era mesmo objeto — selada,
+          honrasse a tradição de quando uma carta era mesmo objeto, selada,
           guardada, relida.
         </p>
 
@@ -49,8 +49,8 @@ export default function SobrePage() {
           Toda carta da NossaCarta é composta com tipografia honesta. Cormorant
           Garamond para os títulos, Allura para os manuscritos, Lora para a
           prosa, Inter para as letras de máquina. Nenhuma decoração desnecessária.
-          Nenhum gradiente neon. Os números de marco — luas cheias, batidas do
-          coração, dias dos namorados — são calculados, não inventados.
+          Nenhum gradiente neon. Os números de marco (luas cheias, batidas do
+          coração, dias dos namorados) são calculados, não inventados.
         </p>
         <p className="mt-4">
           O ritual de abrir a carta começa em um envelope com lacre de cera que

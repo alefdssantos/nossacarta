@@ -1,6 +1,6 @@
 # NossaCarta
 
-Site personalizado de carta de amor — contador, fotos, musica Spotify, declaracao, capsulas do tempo, ritual envelope e QR code. Lançamento: Dia dos Namorados 2026.
+Site personalizado de carta de amor: contador, fotos, musica Spotify, declaracao, capsulas do tempo, ritual envelope e QR code. Lançamento: Dia dos Namorados 2026.
 
 ## Setup local
 
@@ -16,12 +16,12 @@ Abrir http://localhost:3000
 
 Ver `.env.example`. Grupos:
 
-- **Supabase** — URL, anon key, service role key
-- **Mercado Pago** — access token, webhook secret
-- **Spotify** — client ID + secret (Client Credentials)
-- **Resend** — API key + from address
-- **Vercel** — CRON_SECRET
-- **Meta Ads** — NEXT_PUBLIC_META_PIXEL_ID (opcional)
+- **Supabase:** URL, anon key, service role key
+- **Mercado Pago:** access token, webhook secret
+- **Spotify:** client ID + secret (Client Credentials)
+- **Resend:** API key + from address
+- **Vercel:** CRON_SECRET
+- **Meta Ads:** NEXT_PUBLIC_META_PIXEL_ID (opcional)
 
 ## Arquitetura
 

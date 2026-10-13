@@ -11,7 +11,7 @@ import { MapaEstrelas } from "@/components/letter/MapaEstrelas";
 import { CapsulasSeladas } from "@/components/letter/CapsulasSeladas";
 
 export const metadata: Metadata = {
-  title: "Exemplo — NossaCarta",
+  title: "Exemplo · NossaCarta",
   description: "Veja como sua carta vai ficar.",
 };
 
@@ -90,7 +90,7 @@ export default function ExemploPage() {
             </p>
             <p className="mt-4 font-script text-5xl text-ruby">A próxima é a sua.</p>
             <p className="mt-4 font-prose text-[15px] italic text-cocoa-soft">
-              Em 5 minutos vocês têm uma carta como esta — com seus nomes, suas fotos, sua música e sua declaração.
+              Em 5 minutos vocês têm uma carta como esta, com seus nomes, suas fotos, sua música e sua declaração.
             </p>
             <Link
               href="/cadastro"

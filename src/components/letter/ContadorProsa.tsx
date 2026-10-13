@@ -10,7 +10,7 @@ type Props = {
 };
 
 // Snapshot determinístico (UTC midnight da dataInicio + 1 dia) usado no SSR e
-// no primeiro render cliente — evita hydration mismatch. Após mount, useEffect
+// no primeiro render cliente, evita hydration mismatch. Após mount, useEffect
 // passa pra Date() em tempo real.
 function snapshotInicial(dataInicio: string): Date {
   const inicio = new Date(`${dataInicio}T00:00:00-03:00`);

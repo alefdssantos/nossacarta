@@ -42,7 +42,7 @@ const magicLinkHtml = `<!DOCTYPE html>
             </tr>
             <tr>
               <td align="center" style="padding:8px 0 24px 0;">
-                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">— um pequeno selo independente —</span>
+                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">· um pequeno selo independente ·</span>
               </td>
             </tr>
             <tr>
@@ -69,7 +69,7 @@ const magicLinkHtml = `<!DOCTYPE html>
             <tr>
               <td style="padding:32px 0 0 0;border-top:1px solid rgba(42,21,24,0.08);">
                 <p style="margin:0;font-family:Georgia,serif;font-size:13px;font-style:italic;color:#8B6A6F;line-height:1.55;">
-                  Se você não solicitou este e-mail, pode ignorar — ninguém entrou na sua conta.
+                  Se você não solicitou este e-mail, pode ignorar. Ninguém entrou na sua conta.
                 </p>
               </td>
             </tr>

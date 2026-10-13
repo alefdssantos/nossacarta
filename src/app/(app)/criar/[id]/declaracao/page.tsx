@@ -9,7 +9,7 @@ import { wizardSteps } from "@/app/(app)/criar/page";
 import { DeclaracaoForm } from "./DeclaracaoForm";
 
 export const metadata: Metadata = {
-  title: "Sua declaração — NossaCarta",
+  title: "Sua declaração · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;
@@ -52,7 +52,7 @@ export default async function DeclaracaoPage({ params }: { params: Params }) {
         </p>
         <p className="mt-2 font-script text-5xl text-ruby">A sua declaração</p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
-          O coração da carta. Escreva sem pressa — só você sabe o que quer dizer.
+          O coração da carta. Escreva sem pressa. Só você sabe o que quer dizer.
         </p>
       </header>
 

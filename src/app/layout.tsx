@@ -35,12 +35,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NossaCarta — Uma carta eterna pra vocês",
+  title: "NossaCarta · Uma carta eterna pra vocês",
   description:
     "Crie um site único com a história de vocês. Contador, fotos, música, declaração e cápsulas do tempo. O presente que ela vai guardar pra sempre.",
   metadataBase: new URL("https://nossacarta.love"),
   openGraph: {
-    title: "NossaCarta — Uma carta eterna pra vocês",
+    title: "NossaCarta · Uma carta eterna pra vocês",
     description: "O presente que ela vai guardar pra sempre.",
     url: "https://nossacarta.love",
     siteName: "NossaCarta",

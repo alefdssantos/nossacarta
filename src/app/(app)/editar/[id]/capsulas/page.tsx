@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { removerCapsulaAction } from "@/lib/cartas/capsulas-actions";
 import { CapsulaForm } from "./CapsulaForm";
 
-export const metadata: Metadata = { title: "Cápsulas — NossaCarta" };
+export const metadata: Metadata = { title: "Cápsulas · NossaCarta" };
 
 type Params = Promise<{ id: string }>;
 

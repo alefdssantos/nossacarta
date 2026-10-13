@@ -10,7 +10,7 @@ import { bypassPagamentoDevAction, criarPagamentoAction } from "@/lib/cartas/pag
 import { PRECOS_CENTAVOS } from "@/lib/mp/client";
 
 export const metadata: Metadata = {
-  title: "Publicar carta — NossaCarta",
+  title: "Publicar carta · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;
@@ -74,13 +74,13 @@ export default async function PublicarPage({ params }: { params: Params }) {
           </Link>
         </div>
         <p className="mt-5 font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
-          Etapa 6 — última
+          Etapa 6, última
         </p>
         <p className="mt-2 font-script text-5xl text-ruby">Selar a carta</p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
           {carta.plano === "bilhete"
             ? "O Bilhete fica disponível por 7 dias após a publicação."
-            : "O plano Eterno é vitalício — não expira."}
+            : "O plano Eterno é vitalício e não expira."}
         </p>
       </header>
 
@@ -116,7 +116,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
           <div>
             <p className="font-sans text-[10px] uppercase tracking-[0.18em] text-mauve">Endereço</p>
             <p className="mt-1 font-serif italic text-cocoa">
-              nossacarta.love/{carta.slug.startsWith("rascunho-") ? "—" : carta.slug}
+              nossacarta.love/{carta.slug.startsWith("rascunho-") ? "..." : carta.slug}
             </p>
           </div>
           <div>

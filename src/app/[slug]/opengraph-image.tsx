@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { dataEmRomanos } from "@/lib/cartas/algarismos-romanos";
 
-export const alt = "NossaCarta — uma carta eterna";
+export const alt = "NossaCarta · uma carta eterna";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

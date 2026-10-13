@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidade — NossaCarta",
+  title: "Política de Privacidade · NossaCarta",
   description: "Como tratamos seus dados pessoais conforme a LGPD.",
 };
 
@@ -17,7 +17,7 @@ export default function PrivacidadePage() {
       <div className="mt-10 flex flex-col gap-6 font-prose text-[15px] leading-relaxed text-cocoa/85">
         <p>
           Esta política descreve como a <strong>NossaCarta</strong> trata dados pessoais,
-          de acordo com a Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018).
+          de acordo com a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018).
         </p>
 
         <h2 className="font-serif text-2xl text-cocoa">1. Dados coletados</h2>
@@ -25,7 +25,7 @@ export default function PrivacidadePage() {
           <li>E-mail (autenticação e contato).</li>
           <li>Nome (opcional).</li>
           <li>Conteúdo da carta: nomes, datas, declaração, fotos, faixa Spotify.</li>
-          <li>Dados de pagamento processados pelo Mercado Pago — não armazenamos cartão.</li>
+          <li>Dados de pagamento processados pelo Mercado Pago. Não armazenamos cartão.</li>
         </ul>
 
         <h2 className="font-serif text-2xl text-cocoa">2. Finalidade</h2>

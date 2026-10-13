@@ -67,7 +67,7 @@ export async function GET(request: NextRequest, { params }: { params: Params }) 
             position: "relative",
           }}
         >
-          {/* Borda externa — sem inset (não suportado pelo Satori) */}
+          {/* Borda externa, sem inset (não suportado pelo Satori) */}
           <div
             style={{
               position: "absolute",

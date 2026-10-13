@@ -8,7 +8,7 @@ import { removerMarcoAction } from "@/lib/cartas/marcos-actions";
 import { formatarDataLongoBR } from "@/lib/cartas/datas";
 import { MarcoForm } from "./MarcoForm";
 
-export const metadata: Metadata = { title: "Linha do tempo — NossaCarta" };
+export const metadata: Metadata = { title: "Linha do tempo · NossaCarta" };
 
 type Params = Promise<{ id: string }>;
 
@@ -54,7 +54,7 @@ export default async function MarcosPage({ params }: { params: Params }) {
         </p>
         <p className="mt-2 font-script text-5xl text-ruby">Os marcos de vocês</p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
-          Datas que importam — primeiro encontro, primeira viagem, casamento, mudanças. Aparecem
+          Datas que importam: primeiro encontro, primeira viagem, casamento, mudanças. Aparecem
           em ordem cronológica na carta.
         </p>
       </header>

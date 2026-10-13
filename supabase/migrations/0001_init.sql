@@ -1,4 +1,4 @@
--- NossaCarta — schema inicial
+-- NossaCarta: schema inicial
 -- Convenções:
 -- * RLS habilitada em TODAS as tabelas; nada acessível por anon/authenticated sem policy explícita
 -- * Service role bypassa RLS automaticamente (usado em webhooks MP, jobs)
@@ -145,7 +145,7 @@ insert into public.slugs_reservados (slug, motivo) values
   ('sitemap', 'reservado');
 
 -- =========================================================================
--- TRIGGERS — atualizado_em / criar perfil ao registrar
+-- TRIGGERS: atualizado_em / criar perfil ao registrar
 -- =========================================================================
 
 create or replace function public.tg_set_atualizado_em()
@@ -232,7 +232,7 @@ as $$
 $$;
 
 -- =========================================================================
--- RLS — habilitar e restringir
+-- RLS: habilitar e restringir
 -- =========================================================================
 
 alter table public.perfis enable row level security;
@@ -410,7 +410,7 @@ create policy "slugs_reservados: leitura pública"
 -- INSERT/UPDATE/DELETE: somente service_role
 
 -- =========================================================================
--- GRANTS — anon/authenticated só usam via RLS; revoke direto desnecessário em supabase
+-- GRANTS: anon/authenticated só usam via RLS; revoke direto desnecessário em supabase
 -- =========================================================================
 
 -- Em Supabase, as roles anon e authenticated já têm GRANTs padrão; RLS restringe linhas.

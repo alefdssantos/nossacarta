@@ -8,7 +8,7 @@ import { CopiarLink } from "./CopiarLink";
 import { DestinatarioEmailForm } from "./DestinatarioEmailForm";
 import { publicEnv } from "@/lib/env";
 
-export const metadata: Metadata = { title: "Editar carta — NossaCarta" };
+export const metadata: Metadata = { title: "Editar carta · NossaCarta" };
 
 type Params = Promise<{ id: string }>;
 

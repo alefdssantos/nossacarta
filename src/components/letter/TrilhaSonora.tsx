@@ -22,7 +22,7 @@ export function TrilhaSonora({ trackId, trackName, artistas }: Props) {
 
           <div className="mt-6 overflow-hidden rounded-sm border border-cocoa/10">
             <iframe
-              title={`${trackName} — ${artistas}`}
+              title={`${trackName} · ${artistas}`}
               src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`}
               width="100%"
               height="80"

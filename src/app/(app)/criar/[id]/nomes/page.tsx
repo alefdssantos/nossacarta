@@ -9,7 +9,7 @@ import { wizardSteps } from "@/app/(app)/criar/page";
 import { NomesForm } from "./NomesForm";
 
 export const metadata: Metadata = {
-  title: "Quem são vocês — NossaCarta",
+  title: "Quem são vocês · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;

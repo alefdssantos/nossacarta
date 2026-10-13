@@ -1,4 +1,4 @@
-// Mapa estelar editorial — não é astronomia precisa, é símbolo.
+// Mapa estelar editorial. Não é astronomia precisa, é símbolo.
 // Dataset compacto pro hemisfério sul brasileiro: Cruzeiro como âncora + algumas constelações reconhecíveis.
 // Coordenadas em projeção estilizada (x,y em [-1, 1]), não estereográfica real.
 
@@ -37,7 +37,7 @@ const centaurus: Constelacao = {
   ],
 };
 
-// Escorpião — caudal arco. Direita-superior.
+// Escorpião: caudal arco. Direita-superior.
 const escorpiao: Constelacao = {
   nome: "Escorpião",
   estrelas: [
@@ -61,7 +61,7 @@ const escorpiao: Constelacao = {
   ],
 };
 
-// Orion — três marias + Betelgeuse + Rigel. Inferior direita.
+// Orion: três marias + Betelgeuse + Rigel. Inferior direita.
 const orion: Constelacao = {
   nome: "Órion",
   estrelas: [
@@ -83,7 +83,7 @@ const orion: Constelacao = {
   ],
 };
 
-// Canis Major — Sirius + cauda. Inferior esquerda.
+// Canis Major: Sirius + cauda. Inferior esquerda.
 const canisMajor: Constelacao = {
   nome: "Canis Major",
   estrelas: [
@@ -99,7 +99,7 @@ const canisMajor: Constelacao = {
   ],
 };
 
-// Estrelas dispersas (sky background) — ~50 pontos pseudo-fixos.
+// Estrelas dispersas (sky background): ~50 pontos pseudo-fixos.
 const estrelasFundo: Estrela[] = [
   { x: -0.85, y: -0.35, mag: 4 }, { x: -0.7, y: 0.45, mag: 3 }, { x: -0.62, y: 0.6, mag: 4 },
   { x: -0.5, y: -0.55, mag: 3.5 }, { x: -0.4, y: -0.7, mag: 4 }, { x: -0.78, y: 0.18, mag: 3.5 },

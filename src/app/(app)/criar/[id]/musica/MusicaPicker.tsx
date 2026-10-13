@@ -66,7 +66,7 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
             </button>
           </div>
           <iframe
-            title={`${selecionada.name} — ${selecionada.artists}`}
+            title={`${selecionada.name} · ${selecionada.artists}`}
             src={`https://open.spotify.com/embed/track/${selecionada.id}?utm_source=generator&theme=0`}
             width="100%"
             height="152"

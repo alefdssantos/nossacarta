@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   return {
-    title: `História de ${slug} — NossaCarta`,
+    title: `História de ${slug} · NossaCarta`,
     description: "Uma carta eterna em capítulos.",
     robots: { index: false, follow: false },
   };

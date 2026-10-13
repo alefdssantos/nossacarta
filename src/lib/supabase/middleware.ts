@@ -24,7 +24,7 @@ function pathStartsWithAny(path: string, prefixes: string[]) {
   return prefixes.some((p) => path === p || path.startsWith(`${p}/`));
 }
 
-// Detecta /[slug] e /[slug]/historia — requer auth
+// Detecta /[slug] e /[slug]/historia. Requer auth
 function isCartaRota(path: string): boolean {
   const segments = path.split("/").filter(Boolean);
   if (segments.length === 0) return false;
@@ -85,7 +85,7 @@ export async function updateSession(request: NextRequest) {
 
   // Propaga identidade do usuário como request headers para server components.
   // Necessário porque em Next.js 16 a sessão renovada pelo middleware não
-  // chega confiável via cookies() nas pages — os headers são o canal seguro.
+  // chega confiável via cookies() nas pages. Os headers são o canal seguro.
   const reqHeaders = new Headers(request.headers);
   // Remove qualquer header spoofado pelo cliente antes de sobrescrever
   reqHeaders.delete("x-user-id");

@@ -7,7 +7,7 @@ import { PixView } from "./PixView";
 import { simularPagamentoAction } from "@/lib/cartas/pagamento-actions";
 
 export const metadata: Metadata = {
-  title: "Pagamento — NossaCarta",
+  title: "Pagamento · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;

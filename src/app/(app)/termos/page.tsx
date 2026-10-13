@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Termos de Uso — NossaCarta",
+  title: "Termos de Uso · NossaCarta",
   description: "Termos de Uso da plataforma NossaCarta.",
 };
 

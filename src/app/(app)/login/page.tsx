@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { MagicLinkForm } from "./MagicLinkForm";
 
 export const metadata: Metadata = {
-  title: "Entrar — NossaCarta",
+  title: "Entrar · NossaCarta",
   description: "Acesse sua carta no NossaCarta com um link enviado pro seu e-mail.",
 };
 

@@ -12,7 +12,7 @@ import { ArrowUp, ArrowDown, X } from "lucide-react";
 import { FotoUploader } from "./FotoUploader";
 
 export const metadata: Metadata = {
-  title: "Fotos — NossaCarta",
+  title: "Fotos · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;

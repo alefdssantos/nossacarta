@@ -28,7 +28,7 @@ export function FotoUploader({ cartaId, count }: Props) {
       setErro(
         invalidas.map((f) =>
           f.size > MAX_BYTES
-            ? `"${f.name}" é maior que 5 MB — reduza o tamanho antes de subir.`
+            ? `"${f.name}" é maior que 5 MB. Reduza o tamanho antes de subir.`
             : `"${f.name}" não é JPG, PNG ou WebP.`
         ).join(" | ")
       );

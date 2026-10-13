@@ -1,5 +1,5 @@
 -- Substitui subquery em auth.users (sem permissão para authenticated)
--- por auth.email() — função nativa Supabase que lê do JWT sem acesso à tabela.
+-- por auth.email(), função nativa Supabase que lê do JWT sem acesso à tabela.
 DROP POLICY IF EXISTS "cartas: destinatário lê carta publicada" ON cartas;
 
 CREATE POLICY "cartas: destinatário lê carta publicada"

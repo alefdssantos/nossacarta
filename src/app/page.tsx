@@ -105,7 +105,7 @@ function Hero() {
             <EnvelopeFigure />
             <figcaption className="mt-5 flex items-center justify-center gap-3 font-prose text-[12px] italic text-mauve">
               <span className="h-px w-8 bg-champagne/60" />
-              fig. 1 — uma carta selada para você
+              fig. 1 · uma carta selada para você
               <span className="h-px w-8 bg-champagne/60" />
             </figcaption>
           </div>
@@ -145,7 +145,7 @@ function EnvelopeFigure() {
             <span className="h-px w-6 bg-champagne" />
           </div>
           <p className="mt-4 font-prose text-[11px] italic text-mauve">
-            12 de junho — 19:30
+            12 de junho, 19:30
           </p>
         </div>
 
@@ -271,7 +271,7 @@ function HowItWorks() {
       title: "Conte a história",
       caption: "Data do primeiro olhar, fotos, música, declaração.",
       body:
-        "Em cinco minutos você reúne os pequenos pedaços do que vocês construíram. Sem login complicado, sem papelada — só lembrança e palavra.",
+        "Em cinco minutos você reúne os pequenos pedaços do que vocês construíram. Sem login complicado, sem papelada, só lembrança e palavra.",
     },
     {
       n: "II.",
@@ -285,7 +285,7 @@ function HowItWorks() {
       title: "Entregue o tempo",
       caption: "Cápsulas que abrem em datas futuras. Para sempre.",
       body:
-        "A cada aniversário, mensário, primeira viagem, um envelope novo se abre dentro do site. O presente continua chegando — sem mensalidade, sem renovação.",
+        "A cada aniversário, mensário, primeira viagem, um envelope novo se abre dentro do site. O presente continua chegando, sem mensalidade, sem renovação.",
     },
   ];
 
@@ -334,7 +334,7 @@ function Features() {
           </p>
           <p className="mt-4 font-prose text-[14px] italic leading-relaxed text-mauve">
             Cada elemento da NossaCarta foi pensado como uma página de papelaria
-            antiga — feita para durar mais que a moda.
+            antiga, feita para durar mais que a moda.
           </p>
         </aside>
         <div className="md:col-span-9">
@@ -342,7 +342,7 @@ function Features() {
             Não é um cartão digital. É uma página feita à mão, com tipografia
             de livro antigo, ornamentos dourados e uma carta selada à
             cera. Por dentro, sete pequenos rituais para que ela releia tudo
-            como se fosse a primeira vez — e descubra novas surpresas com o
+            como se fosse a primeira vez e descubra novas surpresas com o
             passar dos meses.
           </p>
         </div>
@@ -363,7 +363,7 @@ function Features() {
           n="02"
           title="Cápsula do tempo"
           line="mensagens lacradas para datas futuras"
-          body="Você escreve hoje. Ela recebe daqui a três meses, no próximo aniversário, no Natal — sempre como surpresa, dentro do mesmo site."
+          body="Você escreve hoje. Ela recebe daqui a três meses, no próximo aniversário, no Natal, sempre como surpresa, dentro do mesmo site."
           chip="presente recorrente"
           spanClass="md:col-span-5"
           accent={<TimeCapsuleVisual />}
@@ -381,7 +381,7 @@ function Features() {
           n="04"
           title="Trilha sonora"
           line="busca direta no Spotify"
-          body="A música que ficou marcada na história de vocês — embutida em alta qualidade, com capa do álbum e link oficial."
+          body="A música que ficou marcada na história de vocês, embutida em alta qualidade, com capa do álbum e link oficial."
           chip="Spotify"
           spanClass="md:col-span-7"
           accent={<SpotifyVisual />}
@@ -631,19 +631,19 @@ function Testimonials() {
       quote:
         "Ela leu em silêncio até o fim, voltou três vezes na primeira frase e disse que era o presente mais bonito que já tinha visto. Eu também acho.",
       who: "Lucas, 27",
-      meta: "presenteou Ana — 3 anos juntos",
+      meta: "presenteou Ana, 3 anos juntos",
     },
     {
       quote:
         "A cápsula que abriu no meu aniversário, três meses depois, me fez chorar no meio da reunião de trabalho. Funciona.",
       who: "Marina, 31",
-      meta: "presenteada por Pedro — 5 anos juntos",
+      meta: "presenteada por Pedro, 5 anos juntos",
     },
     {
       quote:
         "Imprimi o QR Code num bilhete, escondi no livro dela. Ela achou no domingo de manhã. Foi a melhor manhã do ano.",
       who: "Rafael, 24",
-      meta: "presenteou Júlia — 2 anos juntos",
+      meta: "presenteou Júlia, 2 anos juntos",
     },
   ];
 
@@ -833,7 +833,7 @@ function ChamadaIntermediaria() {
           Uma carta inteira.
         </p>
         <p className="mx-auto mt-6 max-w-[36ch] font-prose text-[15px] italic text-cocoa-soft">
-          Uma página digital, em até cinco minutos. Pix ou cartão — sem assinatura.
+          Uma página digital, em até cinco minutos. Pix ou cartão, sem assinatura.
         </p>
         <a
           href="/cadastro"
@@ -855,11 +855,11 @@ function Faq() {
       items: [
         {
           q: "É físico? Vou receber pelo correio?",
-          a: "Não. NossaCarta é 100% digital — uma página única na internet, com link e QR Code próprios. Nada chega pelo correio. Você presenteia compartilhando o link, ou imprimindo o QR Code pra colocar dentro de um cartão físico que você mesmo escolheu.",
+          a: "Não. NossaCarta é 100% digital: uma página única na internet, com link e QR Code próprios. Nada chega pelo correio. Você presenteia compartilhando o link, ou imprimindo o QR Code pra colocar dentro de um cartão físico que você mesmo escolheu.",
         },
         {
           q: "Quanto tempo leva pra criar a carta?",
-          a: "Cinco minutos é o suficiente — escolha o plano, preencha nomes, suba algumas fotos, escreva a declaração e selecione a música. O wizard salva automaticamente a cada etapa.",
+          a: "Cinco minutos é o suficiente. Escolha o plano, preencha nomes, suba algumas fotos, escreva a declaração e selecione a música. O wizard salva automaticamente a cada etapa.",
         },
         {
           q: "Funciona com qualquer música do Spotify?",
@@ -880,7 +880,7 @@ function Faq() {
         },
         {
           q: "Como funciona a cápsula do tempo?",
-          a: "Você escreve uma mensagem hoje e escolhe a data em que ela aparecerá no site. Pode programar até 24 cápsulas — uma para cada mês, para cada aniversário, para o próximo Natal. A pessoa presenteada vê apenas as cápsulas já abertas.",
+          a: "Você escreve uma mensagem hoje e escolhe a data em que ela aparecerá no site. Pode programar até 24 cápsulas, uma para cada mês, para cada aniversário, para o próximo Natal. A pessoa presenteada vê apenas as cápsulas já abertas.",
         },
         {
           q: "O mapa das estrelas é real?",
@@ -897,11 +897,11 @@ function Faq() {
         },
         {
           q: "O site fica no ar pra sempre?",
-          a: "No plano Eterno, sim — sem prazo. No plano Bilhete, a página fica disponível por 7 dias após a publicação, depois é arquivada.",
+          a: "No plano Eterno, sim, sem prazo. No plano Bilhete, a página fica disponível por 7 dias após a publicação, depois é arquivada.",
         },
         {
           q: "Posso editar depois que pagar?",
-          a: "No plano Eterno você pode editar tudo a qualquer momento — adicionar fotos, mudar a música, criar novas cápsulas. O plano Bilhete tem edição livre por 72 horas após a publicação.",
+          a: "No plano Eterno você pode editar tudo a qualquer momento: adicionar fotos, mudar a música, criar novas cápsulas. O plano Bilhete tem edição livre por 72 horas após a publicação.",
         },
         {
           q: "Tem reembolso?",
@@ -950,7 +950,7 @@ function Faq() {
             >
               ola@nossacarta.love
             </a>
-            {" "}— respondemos em até uma hora.
+            . Respondemos em até uma hora.
           </p>
         </aside>
         <div className="md:col-span-8">

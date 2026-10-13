@@ -6,7 +6,7 @@ import { PlanoPill, StatusPill } from "@/components/StatusPill";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 
 export const metadata: Metadata = {
-  title: "Sua conta — NossaCarta",
+  title: "Sua conta · NossaCarta",
 };
 
 const dataFmt = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
@@ -82,7 +82,7 @@ export default async function ContaPage() {
                       </div>
                       <p className="mt-4 font-serif text-[22px] italic text-cocoa">{titulo}</p>
                       <p className="mt-1 font-prose text-[12px] italic text-mauve">
-                        nossacarta.love/{c.slug.startsWith("rascunho-") ? "—" : c.slug}
+                        nossacarta.love/{c.slug.startsWith("rascunho-") ? "..." : c.slug}
                       </p>
                     </div>
                     <div className="flex items-center justify-between font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55">

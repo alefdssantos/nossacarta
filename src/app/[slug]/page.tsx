@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const nomes = parsed?.success ? parsed.data.nomes : null;
   const titulo = nomes ? `${nomes.pessoa1} & ${nomes.pessoa2}` : "NossaCarta";
   return {
-    title: `${titulo} — NossaCarta`,
+    title: `${titulo} · NossaCarta`,
     description: "Uma carta eterna, em uma só página.",
     robots: { index: false, follow: false },
   };

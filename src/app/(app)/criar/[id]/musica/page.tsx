@@ -10,7 +10,7 @@ import { getSpotifyEnv } from "@/lib/env";
 import { MusicaPicker } from "./MusicaPicker";
 
 export const metadata: Metadata = {
-  title: "Música — NossaCarta",
+  title: "Música · NossaCarta",
 };
 
 type Params = Promise<{ id: string }>;

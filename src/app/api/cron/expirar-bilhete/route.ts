@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Vercel Cron — roda de hora em hora.
+ * Vercel Cron. Roda de hora em hora.
  * Marca cartas Bilhete com expira_em < now() como status='expirada'.
  *
  * Auth: header `Authorization: Bearer <CRON_SECRET>` enviado automaticamente pela Vercel

@@ -44,7 +44,7 @@ export function CookieBanner() {
         </p>
         <p className="mt-2 font-prose text-[14px] leading-relaxed text-cocoa">
           Usamos cookies essenciais para autenticação. Cookies de medição de uso
-          ajudam a melhorar a experiência — só ativamos com sua permissão.
+          ajudam a melhorar a experiência. Só ativamos com sua permissão.
         </p>
         <p className="mt-2 font-prose text-[12px] italic text-mauve">
           <Link href="/privacidade" className="text-ruby underline-offset-4 hover:underline">

@@ -53,7 +53,7 @@ export function MapaEstrelas({ dataInicio, cidade }: Props) {
             viewBox={`0 0 ${VIEW} ${VIEW}`}
             className="h-full w-full"
             role="img"
-            aria-label={`Mapa estelar — ${dataRomanos}`}
+            aria-label={`Mapa estelar · ${dataRomanos}`}
           >
             <defs>
               <radialGradient id="sky-grad" cx="50%" cy="50%" r="50%">

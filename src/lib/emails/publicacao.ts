@@ -50,7 +50,7 @@ function montarHtml({ pessoa1, pessoa2, slug, plano, expiraEm, qrUrl, url }: {
 
   const dicaCapsulas =
     plano === "eterno"
-      ? `<tr><td style="padding:8px 0 0 0;"><p style="margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.65;color:#4A2D31;">Você pode adicionar <strong>cápsulas do tempo</strong> agora — cartas seladas que se abrem em datas futuras. Acesse sua conta para criá-las.</p></td></tr>`
+      ? `<tr><td style="padding:8px 0 0 0;"><p style="margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.65;color:#4A2D31;">Você pode adicionar <strong>cápsulas do tempo</strong> agora, cartas seladas que se abrem em datas futuras. Acesse sua conta para criá-las.</p></td></tr>`
       : "";
 
   return `<!DOCTYPE html>
@@ -68,7 +68,7 @@ function montarHtml({ pessoa1, pessoa2, slug, plano, expiraEm, qrUrl, url }: {
             </tr>
             <tr>
               <td align="center" style="padding:8px 0 24px 0;">
-                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">— pagamento confirmado · plano ${tituloPlano} —</span>
+                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">· pagamento confirmado · plano ${tituloPlano} ·</span>
               </td>
             </tr>
             <tr>
@@ -126,7 +126,7 @@ export async function prepararEmailPublicacao(input: Input): Promise<{ url: stri
     width: 320,
   });
   const html = montarHtml({ ...input, url, qrUrl });
-  const subject = `Sua carta está no ar — ${esc(input.pessoa1)} & ${esc(input.pessoa2)}`;
+  const subject = `Sua carta está no ar: ${esc(input.pessoa1)} & ${esc(input.pessoa2)}`;
   return { url, html, subject };
 }
 
@@ -156,14 +156,14 @@ function montarHtmlDestinatario({ pessoa1, pessoa2, slug, url }: {
             </tr>
             <tr>
               <td align="center" style="padding:8px 0 24px 0;">
-                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">— você recebeu uma carta —</span>
+                <span style="font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;color:#8C6A30;">· você recebeu uma carta ·</span>
               </td>
             </tr>
             <tr>
               <td style="padding:16px 0;">
                 <p style="margin:0;font-family:Georgia,serif;font-size:22px;font-style:italic;line-height:1.4;color:#2A1518;">${esc(pessoa1)} escreveu uma carta para você.</p>
                 <p style="margin:14px 0 0 0;font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#4A2D31;">
-                  Uma carta de amor foi criada especialmente para <strong>${esc(pessoa2)}</strong>. Só você — com este e-mail — pode abri-la.
+                  Uma carta de amor foi criada especialmente para <strong>${esc(pessoa2)}</strong>. Só você, com este e-mail, pode abri-la.
                 </p>
               </td>
             </tr>
@@ -177,7 +177,7 @@ function montarHtmlDestinatario({ pessoa1, pessoa2, slug, url }: {
             <tr>
               <td style="padding:24px 0 0 0;border-top:1px solid rgba(42,21,24,0.08);">
                 <p style="margin:0;font-family:Georgia,serif;font-size:13px;font-style:italic;color:#8B6A6F;line-height:1.55;">
-                  Ao abrir o link, você vai criar uma conta gratuita com este e-mail para acessar a carta. Guarde o link — você pode voltar quando quiser.
+                  Ao abrir o link, você vai criar uma conta gratuita com este e-mail para acessar a carta. Guarde o link. Você pode voltar quando quiser.
                 </p>
                 <p style="margin:12px 0 0 0;font-family:'Courier New',monospace;font-size:11px;color:#7C0E1D;">nossacarta.love/${slug}</p>
               </td>
