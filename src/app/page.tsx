@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { WordReveal } from "@/components/WordReveal";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -561,15 +562,16 @@ function SpotifyVisual() {
 function GalleryVisual() {
   return (
     <div className="relative grid grid-cols-3 gap-2">
-      {[0, 1, 2].map((i) => (
+      {["/exemplo/primeira-viagem.jpg", "/exemplo/janela.jpg", "/exemplo/tarde.jpg"].map((src, i) => (
         <div
-          key={i}
-          className="paper aspect-[3/4] rounded-sm border border-cocoa/10 shadow-[0_18px_24px_-18px_rgba(74,8,16,0.35)]"
+          key={src}
+          className="paper relative aspect-[3/4] overflow-hidden rounded-sm border border-cocoa/10 shadow-[0_18px_24px_-18px_rgba(74,8,16,0.35)]"
           style={{
             transform: `rotate(${(i - 1) * 1.6}deg)`,
-            backgroundImage: `radial-gradient(at 30% 30%, rgba(176,18,40,0.10), transparent 60%), radial-gradient(at 70% 70%, rgba(196,154,85,0.18), transparent 55%)`,
           }}
-        />
+        >
+          <Image src={src} alt="" fill sizes="(min-width: 768px) 180px, 30vw" className="object-cover" />
+        </div>
       ))}
     </div>
   );

@@ -27,17 +27,17 @@ Eu te peço pra continuar comigo nesse exercício de conjugação. Que a gente s
 const fotosStock = [
   {
     id: "demo-1",
-    url: "https://picsum.photos/seed/nc-helena-1/1600/1200",
+    url: "/exemplo/primeira-viagem.jpg",
     caption: "São Paulo, primavera, primeira viagem.",
   },
   {
     id: "demo-2",
-    url: "https://picsum.photos/seed/nc-helena-2/1200/1600",
+    url: "/exemplo/janela.jpg",
     caption: "A janela do quarto na rua que não existe mais.",
   },
   {
     id: "demo-3",
-    url: "https://picsum.photos/seed/nc-helena-3/1600/1200",
+    url: "/exemplo/tarde.jpg",
     caption: null,
   },
 ];
