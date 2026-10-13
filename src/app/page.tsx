@@ -9,6 +9,7 @@ export default function Home() {
   return (
     <div className="relative w-full overflow-x-clip">
       <SiteHeader variant="landing" />
+      <main id="conteudo">
       <Hero />
       <FullChapter id="como-funciona" numeral="I" title="Como funciona">
         <HowItWorks />
@@ -26,6 +27,7 @@ export default function Home() {
       <FullChapter id="duvidas" numeral="V" title="Dúvidas">
         <Faq />
       </FullChapter>
+      </main>
       <SiteFooter variant="landing" />
     </div>
   );
@@ -72,14 +74,14 @@ function Hero() {
           >
             <a
               href="#tarifa"
-              className="group relative inline-flex items-center gap-3 rounded-full bg-ruby px-8 py-4 font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
+              className="group relative inline-flex min-h-11 items-center gap-3 rounded-full bg-ruby px-8 py-4 font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
             >
               <span>Criar nossa carta</span>
               <span className="text-[14px] transition group-hover:translate-x-0.5">→</span>
             </a>
             <a
               href="/exemplo"
-              className="font-prose text-[15px] italic text-cocoa underline decoration-champagne decoration-1 underline-offset-[6px] transition hover:text-ruby hover:decoration-ruby"
+              className="inline-flex min-h-11 items-center font-prose text-[15px] italic text-cocoa underline decoration-champagne decoration-1 underline-offset-[6px] transition hover:text-ruby hover:decoration-ruby"
             >
               ler um exemplo
             </a>
@@ -727,7 +729,7 @@ function Pricing() {
           </ul>
           <a
             href="/cadastro"
-            className="mt-auto inline-flex items-center justify-center rounded-full border border-cocoa/30 bg-paper px-6 py-3 font-sans text-[11px] uppercase tracking-[0.3em] text-cocoa transition hover:border-ruby/50 hover:text-ruby"
+            className="mt-auto inline-flex min-h-11 items-center justify-center rounded-full border border-cocoa/30 bg-paper px-6 font-sans text-[12px] uppercase tracking-[0.3em] text-cocoa transition hover:border-ruby/50 hover:text-ruby"
           >
             Começar bilhete
           </a>
@@ -772,7 +774,7 @@ function Pricing() {
           </ul>
           <a
             href="/cadastro"
-            className="mt-auto inline-flex items-center justify-center gap-3 rounded-full bg-ruby px-7 py-4 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.6)] transition hover:bg-ruby-deep"
+            className="mt-auto inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-ruby px-7 py-4 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.6)] transition hover:bg-ruby-deep"
           >
             <span>Selar para sempre</span>
             <span>→</span>
@@ -830,7 +832,7 @@ function ChamadaIntermediaria() {
         </p>
         <a
           href="/cadastro"
-          className="mt-8 inline-flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.28em] text-ruby underline-offset-[6px] hover:underline"
+          className="mt-8 inline-flex min-h-11 items-center gap-2 font-sans text-[12px] uppercase tracking-[0.22em] text-ruby underline-offset-[6px] hover:underline"
         >
           começar uma carta <span aria-hidden>→</span>
         </a>
@@ -959,7 +961,7 @@ function Faq() {
                     className="border-t border-cocoa/15 py-6 first:border-t-0"
                   >
                     <details className="group">
-                      <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
+                      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6">
                         <span className="font-serif text-[20px] italic font-medium leading-snug text-cocoa md:text-[24px]">
                           {item.q}
                         </span>

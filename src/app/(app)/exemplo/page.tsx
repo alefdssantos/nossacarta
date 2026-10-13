@@ -55,21 +55,21 @@ const capsulasDemo = [
 export default function ExemploPage() {
   return (
     <>
-      <div className="sticky top-0 z-30 w-full border-b border-cocoa/12 bg-paper/90 px-6 py-2.5 backdrop-blur md:py-3">
+      <div className="sticky top-[4.5rem] z-30 w-full border-b border-cocoa/12 bg-paper/90 px-6 py-2.5 backdrop-blur md:top-20 md:py-3">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
           <p className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft">
             Demonstração · não é uma carta real
           </p>
           <Link
             href="/cadastro"
-            className="rounded-full bg-ruby px-4 py-1.5 font-sans text-[10px] uppercase tracking-[0.22em] text-rose-mist shadow-foil transition hover:bg-ruby-deep"
+            className="inline-flex min-h-11 items-center rounded-full bg-ruby px-4 font-sans text-[12px] uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep"
           >
             criar a minha →
           </Link>
         </div>
       </div>
 
-      <main className="bg-rose-mist text-cocoa">
+      <main id="conteudo" className="bg-rose-mist text-cocoa">
         <Frontispicio pessoa1="Tomás" pessoa2="Helena" dataRomanos={dataRomanos} />
         <Dedicatoria texto="que a gente envelheça do mesmo jeito que aprende: devagar, e com curiosidade." />
         <MapaEstrelas dataInicio={dataInicio} />
@@ -94,7 +94,7 @@ export default function ExemploPage() {
             </p>
             <Link
               href="/cadastro"
-              className="mt-8 inline-flex rounded-full bg-ruby px-7 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
+              className="mt-8 inline-flex min-h-11 items-center justify-center rounded-full bg-ruby px-7 font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
             >
               Começar minha carta →
             </Link>

@@ -34,7 +34,7 @@ export default async function DeclaracaoPage({ params }: { params: Params }) {
   const temaInicial = conteudoParse.success ? conteudoParse.data.tema : "ruby-couture";
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
       <Stepper steps={wizardSteps} current={2} />
 
       <header className="mt-10">
@@ -42,7 +42,7 @@ export default async function DeclaracaoPage({ params }: { params: Params }) {
           <PlanoPill plano={carta.plano} />
           <Link
             href={`/criar/${carta.id}/nomes`}
-            className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+            className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
           >
             ← voltar
           </Link>

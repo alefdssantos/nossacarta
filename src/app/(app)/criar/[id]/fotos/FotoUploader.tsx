@@ -74,7 +74,7 @@ export function FotoUploader({ cartaId, count }: Props) {
           disabled={isPending}
           className="sr-only"
         />
-        <span className="mt-2 rounded-full border border-cocoa/25 bg-paper px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa hover:border-ruby/40 hover:text-ruby">
+        <span className="mt-2 inline-flex min-h-11 items-center rounded-full border border-cocoa/25 bg-paper px-5 font-sans text-[12px] uppercase tracking-[0.18em] text-cocoa hover:border-ruby/40 hover:text-ruby">
           {isPending && progress
             ? `Subindo ${progress.atual} de ${progress.total}…`
             : "Selecionar fotos"}

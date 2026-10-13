@@ -165,7 +165,7 @@ export function WrappedStory(p: Props) {
 
   return (
     <div
-      className="relative mx-auto flex h-[100dvh] w-full max-w-[440px] flex-col overflow-hidden bg-cocoa text-rose-mist [&_*]:focus-visible:outline-none"
+      className="relative mx-auto flex h-[100dvh] w-full max-w-[440px] flex-col overflow-hidden bg-cocoa text-rose-mist"
       onMouseDown={pause}
       onMouseUp={resume}
       onTouchStart={pause}
@@ -183,14 +183,14 @@ export function WrappedStory(p: Props) {
             <a
               href={imagemSalvar}
               download={`nossacarta-${p.slug}.png`}
-              className="rounded-full bg-white/15 px-5 py-2.5 font-sans text-[10px] uppercase tracking-[0.24em] text-white"
+              className="inline-flex min-h-11 items-center rounded-full bg-white/15 px-5 font-sans text-[12px] uppercase tracking-[0.18em] text-white"
             >
               Baixar
             </a>
             <button
               type="button"
               onClick={() => { setImagemSalvar(null); resume(); }}
-              className="rounded-full border border-white/20 px-5 py-2.5 font-sans text-[10px] uppercase tracking-[0.24em] text-white/70"
+              className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 font-sans text-[12px] uppercase tracking-[0.18em] text-white"
             >
               Fechar
             </button>
@@ -199,7 +199,7 @@ export function WrappedStory(p: Props) {
       )}
 
       {/* Progress bars */}
-      <div className="pointer-events-none absolute left-0 right-0 top-0 z-30 flex gap-1 px-3 pt-3">
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex gap-1 px-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
         {slides.map((s, idx) => (
           <div key={s.id} className="h-0.5 flex-1 overflow-hidden rounded-full bg-rose-mist/25">
             <div
@@ -214,7 +214,7 @@ export function WrappedStory(p: Props) {
       </div>
 
       {/* Header brand */}
-      <header className="absolute left-0 right-0 top-6 z-20 flex items-center justify-between px-5">
+      <header className="absolute inset-x-0 top-[max(1.75rem,env(safe-area-inset-top))] z-20 flex items-center justify-between px-5">
         <div className="pointer-events-none flex items-baseline gap-1.5">
           <span className="font-script text-[20px] leading-none text-rose-mist">Nossa</span>
           <span className="font-serif text-[14px] italic leading-none text-rose-mist/85">Carta</span>
@@ -229,7 +229,7 @@ export function WrappedStory(p: Props) {
             onMouseDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
             onClick={() => (pausado ? resume() : pause())}
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-rose-mist/30 bg-cocoa/40 backdrop-blur focus:outline-none"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-rose-mist/30 bg-cocoa/40 backdrop-blur"
           >
             {pausado
               ? <Play size={12} strokeWidth={1.8} className="text-rose-mist/80 translate-x-px" />
@@ -243,7 +243,7 @@ export function WrappedStory(p: Props) {
         type="button"
         aria-label="anterior"
         onClick={voltar}
-        className="pointer-events-auto absolute inset-y-0 left-0 z-10 flex w-1/3 items-center justify-start pl-2 focus:outline-none"
+        className="pointer-events-auto absolute inset-y-0 left-0 z-10 flex w-1/3 items-center justify-start pl-2"
       >
         {i > 0 && <ChevronLeft size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
       </button>
@@ -251,7 +251,7 @@ export function WrappedStory(p: Props) {
         type="button"
         aria-label="próximo"
         onClick={avancar}
-        className="pointer-events-auto absolute inset-y-0 right-0 z-10 flex w-1/3 items-center justify-end pr-2 focus:outline-none"
+        className="pointer-events-auto absolute inset-y-0 right-0 z-10 flex w-1/3 items-center justify-end pr-2"
       >
         {i < slides.length - 1 && <ChevronRight size={22} strokeWidth={1.4} className="text-rose-mist/40" />}
       </button>
@@ -266,11 +266,11 @@ export function WrappedStory(p: Props) {
       </div>
 
       {/* Footer share */}
-      <div className="pointer-events-none absolute bottom-5 left-0 right-0 z-20 flex flex-col items-center gap-2">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[max(1.25rem,env(safe-area-inset-bottom))] z-20 flex flex-col items-center gap-2">
         {i === slides.length - 1 && (
           <a
             href={`${p.appUrl}/${p.slug}`}
-            className="pointer-events-auto rounded-full bg-rose-mist px-6 py-2.5 font-sans text-[10px] uppercase tracking-[0.28em] text-cocoa shadow-foil"
+            className="pointer-events-auto inline-flex min-h-11 items-center rounded-full bg-rose-mist px-6 font-sans text-[12px] uppercase tracking-[0.18em] text-cocoa shadow-foil"
           >
             Abrir a carta →
           </a>
@@ -281,7 +281,7 @@ export function WrappedStory(p: Props) {
             onClick={salvarSlideAtual}
             disabled={salvando}
             aria-label="salvar imagem"
-            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur focus:outline-none disabled:opacity-50"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-4 font-sans text-[12px] uppercase tracking-[0.16em] text-rose-mist backdrop-blur disabled:opacity-50"
           >
             <Download size={11} strokeWidth={1.6} />
             {salvando ? "salvando" : "salvar"}
@@ -290,7 +290,7 @@ export function WrappedStory(p: Props) {
             type="button"
             onClick={compartilhar}
             aria-label="compartilhar"
-            className="flex items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.24em] text-rose-mist/85 backdrop-blur focus:outline-none"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-rose-mist/30 bg-cocoa/40 px-4 font-sans text-[12px] uppercase tracking-[0.16em] text-rose-mist backdrop-blur"
           >
             <Share2 size={11} strokeWidth={1.6} />
             compartilhar
@@ -482,7 +482,7 @@ function buildSlides(p: Props): Slide[] {
                 aria-label="foto anterior"
                 onClick={(e) => { e.stopPropagation(); setFotoIndex(Math.max(0, fotoIndex - 1)); }}
                 disabled={fotoIndex === 0}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
               >
                 <ChevronLeft size={16} strokeWidth={1.5} className="text-rose-mist" />
               </button>
@@ -506,7 +506,7 @@ function buildSlides(p: Props): Slide[] {
                 aria-label="próxima foto"
                 onClick={(e) => { e.stopPropagation(); setFotoIndex(Math.min(fotoTotal - 1, fotoIndex + 1)); }}
                 disabled={fotoIndex === fotoTotal - 1}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-rose-mist/30 bg-rose-mist/10 disabled:opacity-25"
               >
                 <ChevronRight size={16} strokeWidth={1.5} className="text-rose-mist" />
               </button>
@@ -631,7 +631,7 @@ function buildSlides(p: Props): Slide[] {
               >
                 {n}
               </span>
-              <span className="mt-1 font-sans text-[7px] uppercase tracking-[0.2em] text-rose-mist/50">
+              <span className="mt-1 text-center font-sans text-[11px] uppercase leading-tight tracking-[0.08em] text-rose-mist">
                 {label}
               </span>
             </div>

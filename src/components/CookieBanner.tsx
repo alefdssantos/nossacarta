@@ -36,7 +36,7 @@ export function CookieBanner() {
     <div
       role="dialog"
       aria-label="Preferências de cookies"
-      className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 sm:left-auto sm:right-4 sm:max-w-md"
+      className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:left-auto sm:right-4 sm:max-w-md"
     >
       <div className="rounded-2xl border border-cocoa/15 bg-paper p-5 shadow-foil backdrop-blur">
         <p className="font-sans text-[10px] uppercase tracking-[0.32em] text-champagne-deep">
@@ -56,14 +56,14 @@ export function CookieBanner() {
           <button
             type="button"
             onClick={() => decidir("essential")}
-            className="rounded-full border border-cocoa/25 bg-paper px-4 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa hover:border-ruby/40 hover:text-ruby"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-cocoa/25 bg-paper px-4 font-sans text-[12px] uppercase tracking-[0.18em] text-cocoa hover:border-ruby/40 hover:text-ruby"
           >
             Apenas essenciais
           </button>
           <button
             type="button"
             onClick={() => decidir("accepted")}
-            className="rounded-full bg-ruby px-5 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-ruby px-5 font-sans text-[12px] uppercase tracking-[0.18em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
           >
             Aceitar todos
           </button>

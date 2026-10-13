@@ -88,7 +88,7 @@ export function NomesForm({
             <button
               type="button"
               onClick={() => setSlugManual(true)}
-              className="font-prose text-[11px] uppercase tracking-[0.16em] text-ruby underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center font-prose text-[12px] uppercase tracking-[0.16em] text-ruby underline-offset-4 hover:underline"
             >
               Editar
             </button>
@@ -138,7 +138,7 @@ export function NomesForm({
       <button
         type="submit"
         disabled={pending}
-        className="self-center rounded-md bg-ruby px-8 py-3 font-prose text-sm uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex min-h-11 items-center justify-center self-center rounded-md bg-ruby px-8 font-prose text-sm uppercase tracking-[0.18em] text-rose-mist shadow-foil transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Salvando…" : "Salvar e continuar →"}
       </button>

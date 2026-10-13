@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function SobrePage() {
   return (
-    <main className="mx-auto w-full max-w-[680px] px-6 py-16 md:py-24">
+    <main id="conteudo" className="mx-auto w-full max-w-[680px] px-6 py-16 md:py-24">
       <header className="text-center">
         <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
           Sobre nós
@@ -98,7 +98,7 @@ export default function SobrePage() {
         <FleuronTriplo />
         <Link
           href="/cadastro"
-          className="rounded-full bg-ruby px-7 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
+          className="rounded-full bg-ruby px-7 inline-flex min-h-11 items-center justify-center font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
         >
           Começar uma carta →
         </Link>

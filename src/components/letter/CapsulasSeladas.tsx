@@ -64,7 +64,7 @@ function CapsulaItem({ capsula }: { capsula: CapsulaPublica }) {
           <p className="font-serif italic text-[18px] text-cocoa md:text-[22px]">
             {desbloqueada ? "Carta aberta" : "Cápsula selada"}
           </p>
-          <p className="mt-1 font-sans text-[9px] uppercase tracking-[0.18em] text-mauve md:text-[10px] md:tracking-[0.22em]">
+          <p className="mt-1 font-sans text-[12px] uppercase tracking-[0.16em] text-mauve">
             {desbloqueada ? "aberta em" : "abre em"} {formatadorData.format(data)}
           </p>
           {!desbloqueada && (
@@ -79,7 +79,7 @@ function CapsulaItem({ capsula }: { capsula: CapsulaPublica }) {
             <button
               type="button"
               onClick={() => setAberta((s) => !s)}
-              className="font-serif italic text-[14px] text-ruby underline-offset-4 hover:underline"
+              className="inline-flex min-h-11 items-center font-serif italic text-[14px] text-ruby underline-offset-4 hover:underline"
             >
               {aberta ? "fechar" : "ler"}
             </button>

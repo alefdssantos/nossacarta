@@ -45,10 +45,10 @@ export default async function PagamentoPage({ params }: { params: Params }) {
   const valorReais = (pagamento.valor_centavos / 100).toFixed(2).replace(".", ",");
 
   return (
-    <main className="mx-auto w-full max-w-xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-xl px-6 py-12 md:py-16">
       <Link
         href={`/criar/${id}/publicar`}
-        className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+        className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
       >
         ← voltar
       </Link>
@@ -82,7 +82,7 @@ export default async function PagamentoPage({ params }: { params: Params }) {
             <input type="hidden" name="pagamentoId" value={pagamento.id} />
             <button
               type="submit"
-              className="font-sans text-[9px] uppercase tracking-[0.18em] text-cocoa/45 underline-offset-4 hover:text-ruby hover:underline"
+              className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
             >
               simular pagamento aprovado (dev) →
             </button>

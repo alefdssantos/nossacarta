@@ -46,11 +46,11 @@ export default async function EditarPage({ params }: { params: Params }) {
   const expirada = carta.expira_em && new Date(carta.expira_em) < new Date();
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-16 md:py-20">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-16 md:py-20">
       <header className="border-b border-cocoa/12 pb-8">
         <Link
           href="/conta"
-          className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+          className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
         >
           ← minha conta
         </Link>
@@ -78,7 +78,7 @@ export default async function EditarPage({ params }: { params: Params }) {
             ? `Destinatária: ${carta.destinatario_email}`
             : "Nenhum e-mail de destinatária cadastrado"}
         </p>
-        <p className="mt-3 break-all font-mono text-[11px] text-cocoa/70">
+        <p className="mt-3 break-all font-mono text-sm text-cocoa-soft">
           nossacarta.love/{carta.slug}?t={carta.acesso_token}
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
@@ -86,14 +86,14 @@ export default async function EditarPage({ params }: { params: Params }) {
             href={`/${carta.slug}?t=${carta.acesso_token}`}
             target="_blank"
             rel="noopener"
-            className="rounded-full bg-ruby px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+            className="inline-flex min-h-11 items-center rounded-full bg-ruby px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
           >
             Abrir carta →
           </Link>
           <CopiarLink url={`${publicEnv.NEXT_PUBLIC_APP_URL}/${carta.slug}?t=${carta.acesso_token}`} />
           <a
             href={`/api/qr/${carta.slug}/card`}
-            className="rounded-full border border-cocoa/25 px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
+            className="inline-flex min-h-11 items-center rounded-full border border-cocoa/25 px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
             download={`nossacarta-${carta.slug}.png`}
           >
             Baixar QR ↓

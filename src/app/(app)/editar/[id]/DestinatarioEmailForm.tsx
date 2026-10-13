@@ -32,7 +32,7 @@ export function DestinatarioEmailForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded-full bg-ruby px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-rose-mist hover:bg-ruby-deep disabled:opacity-50"
+          className="inline-flex min-h-11 items-center rounded-full bg-ruby px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-rose-mist hover:bg-ruby-deep disabled:opacity-50"
         >
           {pending ? "Salvando…" : "Salvar"}
         </button>

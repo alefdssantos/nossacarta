@@ -3,7 +3,7 @@ type Status = "rascunho" | "aguardando_pagamento" | "publicada" | "expirada";
 const config: Record<Status, { label: string; cls: string }> = {
   rascunho: {
     label: "rascunho",
-    cls: "border-cocoa/25 bg-paper text-cocoa/65",
+    cls: "border-cocoa/25 bg-paper text-cocoa-soft",
   },
   aguardando_pagamento: {
     label: "aguardando pagamento",
@@ -23,7 +23,7 @@ export function StatusPill({ status }: { status: Status }) {
   const c = config[status] ?? config.rascunho;
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-sans text-[10px] uppercase tracking-[0.18em] ${c.cls}`}
+      className={`inline-flex min-h-6 items-center rounded-full border px-2.5 font-sans text-[12px] uppercase tracking-[0.16em] ${c.cls}`}
     >
       {c.label}
     </span>
@@ -34,10 +34,10 @@ export function PlanoPill({ plano }: { plano: "bilhete" | "eterno" }) {
   const cls =
     plano === "eterno"
       ? "border-champagne/60 bg-paper text-champagne-deep"
-      : "border-cocoa/25 bg-paper text-cocoa/70";
+      : "border-cocoa/25 bg-paper text-cocoa-soft";
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 font-serif text-[11px] italic ${cls}`}
+      className={`inline-flex min-h-6 items-center rounded-full border px-2.5 font-serif text-[12px] italic ${cls}`}
     >
       {plano}
     </span>

@@ -15,7 +15,7 @@ export default async function CadastroPage() {
   if (data.user) redirect("/conta");
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16 md:py-24">
+    <main id="conteudo" className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16 md:py-24">
       <header className="text-center">
         <p className="font-script text-5xl leading-tight text-ruby">
           Sua carta começa aqui

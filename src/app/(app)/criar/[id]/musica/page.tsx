@@ -36,7 +36,7 @@ export default async function MusicaPage({ params }: { params: Params }) {
     : null;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
       <Stepper steps={wizardSteps} current={4} />
 
       <header className="mt-10">
@@ -44,7 +44,7 @@ export default async function MusicaPage({ params }: { params: Params }) {
           <PlanoPill plano={carta.plano} />
           <Link
             href={`/criar/${carta.id}/fotos`}
-            className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+            className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
           >
             ← voltar
           </Link>
@@ -65,7 +65,7 @@ export default async function MusicaPage({ params }: { params: Params }) {
           </p>
           <Link
             href={`/conta`}
-            className="mt-4 inline-flex rounded-full bg-ruby px-7 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+            className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-ruby px-7 font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
           >
             Pular →
           </Link>

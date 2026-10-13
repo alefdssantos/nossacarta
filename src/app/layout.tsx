@@ -59,6 +59,9 @@ export default function RootLayout({
       className={`${allura.variable} ${cormorant.variable} ${lora.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a className="skip-link" href="#conteudo">
+          Pular para o conteúdo
+        </a>
         <SmoothScroll />
         {children}
         <CookieBanner />

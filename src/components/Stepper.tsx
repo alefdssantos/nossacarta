@@ -21,7 +21,7 @@ export function Stepper({ steps, current }: { steps: Step[]; current: number }) 
               {i + 1}
             </span>
             <span
-              className={`hidden sm:inline ${
+              className={`sr-only sm:not-sr-only sm:inline ${
                 active ? "text-cocoa" : done ? "text-cocoa/70" : "text-cocoa/45"
               }`}
             >

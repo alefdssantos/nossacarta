@@ -27,22 +27,28 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      <form action={action} className="flex w-full gap-2">
-        <input
-          type="text"
-          name="q"
-          required
-          maxLength={100}
-          placeholder="Música, artista ou álbum"
-          className="min-w-0 flex-1 rounded-md border border-cocoa/20 bg-paper px-4 py-3 font-prose text-cocoa placeholder:text-cocoa/35 focus:border-ruby focus:outline-none focus:ring-1 focus:ring-ruby/40"
-        />
-        <button
-          type="submit"
-          disabled={pending}
-          className="shrink-0 rounded-full bg-ruby px-5 py-3 font-sans text-[11px] uppercase tracking-[0.22em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:opacity-60"
-        >
-          {pending ? "Buscando…" : "Buscar"}
-        </button>
+      <form action={action} className="flex w-full flex-col gap-2">
+        <label htmlFor="busca-musica" className="font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft">
+          Buscar música
+        </label>
+        <div className="flex w-full items-center gap-2">
+          <input
+            id="busca-musica"
+            type="text"
+            name="q"
+            required
+            maxLength={100}
+            placeholder="Música, artista ou álbum"
+            className="min-w-0 flex-1 rounded-md border border-cocoa/20 bg-paper px-4 font-prose text-cocoa placeholder:text-cocoa/35 focus:border-ruby focus:outline-none focus:ring-1 focus:ring-ruby/40"
+          />
+          <button
+            type="submit"
+            disabled={pending}
+            className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-ruby px-5 font-sans text-[12px] uppercase tracking-[0.18em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:opacity-60"
+          >
+            {pending ? "Buscando…" : "Buscar"}
+          </button>
+        </div>
       </form>
 
       {state.status === "error" && (
@@ -60,7 +66,7 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
             <button
               type="button"
               onClick={() => setSelecionada(null)}
-              className="font-sans text-[10px] uppercase tracking-[0.18em] text-cocoa/60 underline-offset-4 hover:text-ruby hover:underline"
+              className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
             >
               trocar
             </button>
@@ -92,7 +98,7 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
                 <button
                   type="button"
                   onClick={() => setSelecionada(t)}
-                  className={`flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition ${
+                  className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition ${
                     ativa
                       ? "bg-ruby/8 ring-1 ring-ruby/30"
                       : "hover:bg-rose-mist/60"
@@ -116,11 +122,11 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
                     >
                       {t.name}
                     </p>
-                    <p className="truncate font-prose text-[12px] text-cocoa/55">
+                    <p className="truncate font-prose text-[12px] text-cocoa-soft">
                       {t.artists}
                     </p>
                   </div>
-                  <span className="font-sans text-[11px] tracking-[0.06em] text-cocoa/45">
+                  <span className="font-sans text-[12px] tracking-[0.06em] text-cocoa-soft">
                     {fmtDuracao(t.durationMs)}
                   </span>
                 </button>
@@ -139,7 +145,7 @@ export function MusicaPicker({ cartaId, trackAtual }: Props) {
         <button
           type="submit"
           disabled={saving || pending}
-          className="rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full bg-ruby px-8 inline-flex min-h-11 items-center justify-center font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Salvando…" : selecionada ? "Salvar e continuar →" : "Pular sem música →"}
         </button>

@@ -60,7 +60,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
   const tudoOk = checks.every((c) => c.ok);
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
       <Stepper steps={wizardSteps} current={5} />
 
       <header className="mt-10">
@@ -68,7 +68,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
           <PlanoPill plano={carta.plano} />
           <Link
             href={`/criar/${id}/musica`}
-            className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+            className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
           >
             ← voltar
           </Link>
@@ -103,7 +103,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
               {!c.ok && c.href && (
                 <Link
                   href={c.href}
-                  className="font-sans text-[10px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+                  className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-ruby underline-offset-4 hover:underline"
                 >
                   resolver →
                 </Link>
@@ -146,7 +146,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
               </p>
               <button
                 type="submit"
-                className="rounded-full bg-ruby px-9 py-3.5 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-ruby px-9 font-sans text-[12px] uppercase tracking-[0.28em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep"
               >
                 Pagar e publicar →
               </button>
@@ -160,7 +160,7 @@ export default async function PublicarPage({ params }: { params: Params }) {
                 <input type="hidden" name="cartaId" value={id} />
                 <button
                   type="submit"
-                  className="rounded-full border border-dashed border-cocoa/30 bg-paper px-5 py-2 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 hover:border-ruby/40 hover:text-ruby"
+                  className="inline-flex min-h-11 items-center rounded-full border border-dashed border-cocoa/30 bg-paper px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft hover:border-ruby/40 hover:text-ruby"
                 >
                   bypass pagamento (dev) →
                 </button>

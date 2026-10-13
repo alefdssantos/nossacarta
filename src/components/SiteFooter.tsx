@@ -78,7 +78,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   if (isExternal) {
     return (
       <li>
-        <a href={href} className="font-prose text-[14px] italic text-cocoa transition hover:text-ruby">
+        <a href={href} className="inline-flex min-h-11 items-center font-prose text-[14px] italic text-cocoa transition hover:text-ruby">
           {children}
         </a>
       </li>
@@ -88,7 +88,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
     <li>
       <Link
         href={href}
-        className="font-prose text-[14px] italic text-cocoa transition hover:text-ruby"
+        className="inline-flex min-h-11 items-center font-prose text-[14px] italic text-cocoa transition hover:text-ruby"
       >
         {children}
       </Link>

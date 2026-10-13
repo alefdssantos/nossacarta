@@ -33,7 +33,7 @@ export default async function CriarPage() {
   const rascunho = rascunhos?.[0];
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-12 md:py-16">
       <Stepper steps={wizardSteps} current={0} />
 
       <header className="mt-10 text-center">
@@ -53,7 +53,7 @@ export default async function CriarPage() {
           </p>
           <Link
             href={`/criar/${rascunho.id}/nomes`}
-            className="mt-3 inline-flex items-center font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+            className="mt-3 inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.18em] text-ruby underline-offset-4 hover:underline"
           >
             Continuar rascunho ({rascunho.plano}) <span className="ml-2">→</span>
           </Link>

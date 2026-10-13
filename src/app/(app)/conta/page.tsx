@@ -30,7 +30,7 @@ export default async function ContaPage() {
     .limit(10);
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16 md:py-20">
+    <main id="conteudo" className="mx-auto w-full max-w-3xl px-6 py-16 md:py-20">
       <header className="border-b border-cocoa/12 pb-8">
         <p className="font-script text-5xl text-ruby">Bem-vindo</p>
         <p className="mt-2 font-prose text-[14px] italic text-mauve">{data.user.email}</p>
@@ -41,7 +41,7 @@ export default async function ContaPage() {
           <h2 className="font-serif text-2xl italic text-cocoa">Suas cartas</h2>
           <Link
             href="/criar"
-            className="rounded-full bg-ruby px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
+            className="inline-flex min-h-11 items-center rounded-full bg-ruby px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep"
           >
             + Nova carta
           </Link>
@@ -55,7 +55,7 @@ export default async function ContaPage() {
             </p>
             <Link
               href="/criar"
-              className="mt-6 inline-flex items-center gap-2 font-sans text-[11px] uppercase tracking-[0.22em] text-ruby underline-offset-4 hover:underline"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 font-sans text-[12px] uppercase tracking-[0.18em] text-ruby underline-offset-4 hover:underline"
             >
               Começar agora <span aria-hidden>→</span>
             </Link>

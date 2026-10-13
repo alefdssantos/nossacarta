@@ -35,7 +35,7 @@ export default async function NomesPage({ params }: { params: Params }) {
   const slugInicial = carta.slug.startsWith("rascunho-") ? "" : carta.slug;
 
   return (
-    <main className="mx-auto w-full max-w-xl px-6 py-12 md:py-16">
+    <main id="conteudo" className="mx-auto w-full max-w-xl px-6 py-12 md:py-16">
       <Stepper steps={wizardSteps} current={1} />
 
       <header className="mt-10">
@@ -43,7 +43,7 @@ export default async function NomesPage({ params }: { params: Params }) {
           <PlanoPill plano={carta.plano} />
           <Link
             href="/criar"
-            className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+            className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
           >
             ← trocar plano
           </Link>

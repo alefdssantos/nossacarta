@@ -14,7 +14,7 @@ export function CopiarLink({ url }: { url: string }) {
   return (
     <button
       onClick={copiar}
-      className="rounded-full border border-cocoa/25 px-5 py-2 font-sans text-[11px] uppercase tracking-[0.22em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
+      className="inline-flex min-h-11 items-center rounded-full border border-cocoa/25 px-5 font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa transition hover:border-ruby/40 hover:text-ruby"
     >
       {copiado ? "Copiado ✓" : "Copiar link"}
     </button>

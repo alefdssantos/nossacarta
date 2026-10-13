@@ -91,7 +91,7 @@ export function CapsulaForm({ cartaId }: { cartaId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="self-center rounded-full bg-ruby px-7 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:opacity-60"
+        className="self-center rounded-full bg-ruby px-7 inline-flex min-h-11 items-center justify-center font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] hover:bg-ruby-deep disabled:opacity-60"
       >
         {pending ? "Selando…" : "Selar cápsula"}
       </button>

@@ -46,11 +46,11 @@ export default async function CapsulasPage({ params }: { params: Params }) {
   const cheio = lista.length >= MAX_CAPSULAS_POR_CARTA;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-16 md:py-20">
+    <main id="conteudo" className="mx-auto w-full max-w-2xl px-6 py-16 md:py-20">
       <header className="border-b border-cocoa/12 pb-8">
         <Link
           href={`/editar/${id}`}
-          className="font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa/55 underline-offset-4 hover:text-ruby hover:underline"
+          className="inline-flex min-h-11 items-center font-sans text-[12px] uppercase tracking-[0.16em] text-cocoa-soft underline-offset-4 hover:text-ruby hover:underline"
         >
           ← carta
         </Link>
@@ -96,7 +96,7 @@ export default async function CapsulasPage({ params }: { params: Params }) {
                       <button
                         type="submit"
                         aria-label="remover"
-                        className="flex h-7 w-7 items-center justify-center rounded-full border border-cocoa/15 bg-paper text-ruby-deep transition hover:bg-ruby hover:text-rose-mist"
+                        className="flex h-11 w-11 items-center justify-center rounded-full border border-cocoa/15 bg-paper text-ruby-deep transition hover:bg-ruby hover:text-rose-mist"
                       >
                         <X size={14} strokeWidth={1.8} />
                       </button>

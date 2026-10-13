@@ -92,7 +92,7 @@ export default async function WrappedPage({ params, searchParams }: { params: Pa
   }
 
   return (
-    <main className="min-h-[100dvh] w-full bg-cocoa text-rose-mist">
+    <main id="conteudo" className="min-h-[100dvh] w-full bg-cocoa text-rose-mist">
       <WrappedStory
         slug={carta.slug}
         plano={carta.plano}

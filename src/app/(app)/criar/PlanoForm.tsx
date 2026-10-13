@@ -52,7 +52,7 @@ export function PlanoForm() {
           return (
             <label
               key={p.valor}
-              className={`relative flex cursor-pointer flex-col gap-3 rounded-2xl border p-6 transition ${
+              className={`relative flex min-h-11 cursor-pointer flex-col gap-3 rounded-2xl border p-6 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ruby ${
                 sel
                   ? "border-ruby bg-paper shadow-foil"
                   : "border-cocoa/15 bg-rose-mist/40 hover:border-cocoa/30"
@@ -100,7 +100,7 @@ export function PlanoForm() {
       <button
         type="submit"
         disabled={pending}
-        className="self-center rounded-full bg-ruby px-8 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
+        className="self-center rounded-full bg-ruby px-8 inline-flex min-h-11 items-center justify-center font-sans text-[12px] uppercase tracking-[0.24em] text-rose-mist shadow-[0_18px_30px_-18px_rgba(124,14,29,0.55)] transition hover:bg-ruby-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Criando…" : "Continuar →"}
       </button>

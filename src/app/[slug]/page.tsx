@@ -135,7 +135,7 @@ export default async function CartaPublicaPage({ params, searchParams }: { param
   const tema = conteudo?.tema ?? "ruby-couture";
 
   return (
-    <main className="bg-rose-mist text-cocoa" data-tema={tema}>
+    <main id="conteudo" className="bg-rose-mist text-cocoa" data-tema={tema}>
       <CapaEnvelope
         paraNome={nomes.pessoa2}
         dataInicioRomanos={dataRomanos}

@@ -26,7 +26,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16 md:py-24">
+    <main id="conteudo" className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 py-16 md:py-24">
       <header className="text-center">
         <p className="font-script text-5xl text-ruby">Entrar</p>
         <p className="mt-3 font-prose text-[15px] italic leading-relaxed text-cocoa-soft">
