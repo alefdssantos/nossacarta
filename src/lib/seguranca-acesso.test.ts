@@ -90,9 +90,13 @@ test("migration 0017 remove as cinco policies e trava preco", () => {
     "marcos_select_publica",
     "capsulas: público lê desbloqueadas em carta pública",
     "carta-fotos: leitura pública só de cartas ativas",
+    "media_select_publica",
+    "capsulas_select_publica",
+    "carta_fotos_select_publica",
   ]) {
     expect(sql).toContain(nome);
   }
+  expect(sql).toContain("revoke all on function public.carta_publica_ativa(uuid) from anon");
   expect(sql).toContain("revoke all on function public.carta_capsulas_publicas(uuid) from anon");
   expect(sql).toContain("publicacao direta bloqueada");
   expect(sql).toContain("pagamentos.valor_centavos = 1790");

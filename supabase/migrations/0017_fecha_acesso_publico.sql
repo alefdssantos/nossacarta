@@ -5,17 +5,38 @@
 drop policy if exists "cartas: público lê publicadas e ativas" on public.cartas;
 drop policy if exists cartas_select_publica on public.cartas;
 drop policy if exists "media: público lê em carta pública" on public.media;
+drop policy if exists media_select_publica on public.media;
 drop policy if exists "marcos_select_publica" on public.marcos;
+drop policy if exists marcos_select_publica on public.marcos;
 drop policy if exists "capsulas: público lê desbloqueadas em carta pública" on public.capsulas;
+drop policy if exists capsulas_select_publica on public.capsulas;
 drop policy if exists "carta-fotos: leitura pública só de cartas ativas" on storage.objects;
+drop policy if exists carta_fotos_select_publica on storage.objects;
 
 alter table storage.objects enable row level security;
+
+-- Destinatario logado continua lendo. Anon nao entra na policy.
+drop policy if exists "cartas: destinatário lê carta publicada" on public.cartas;
+create policy "cartas: destinatário lê carta publicada"
+  on public.cartas for select
+  to authenticated
+  using (
+    status = 'publicada'
+    and (expira_em is null or expira_em > now())
+    and destinatario_email = auth.email()
+  );
 
 -- So o service role (pagina, webhook) executa. Anon e authenticated nao.
 revoke all on function public.carta_capsulas_publicas(uuid) from public;
 revoke all on function public.carta_capsulas_publicas(uuid) from anon;
 revoke all on function public.carta_capsulas_publicas(uuid) from authenticated;
 grant execute on function public.carta_capsulas_publicas(uuid) to service_role;
+
+-- So diz se a carta esta publicada. Nao precisa ficar na API anonima.
+revoke all on function public.carta_publica_ativa(uuid) from public;
+revoke all on function public.carta_publica_ativa(uuid) from anon;
+revoke all on function public.carta_publica_ativa(uuid) from authenticated;
+grant execute on function public.carta_publica_ativa(uuid) to service_role;
 
 -- Dono edita conteudo e pode ir a aguardando_pagamento.
 -- Nao altera plano, prazo, token, dono, nem publica.
