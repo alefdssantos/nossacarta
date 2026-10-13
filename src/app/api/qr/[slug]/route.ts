@@ -1,26 +1,19 @@
 import { type NextRequest } from "next/server";
 import QRCode from "qrcode";
 import { publicEnv } from "@/lib/env";
-import { createAdminClient } from "@/lib/supabase/server";
+import { linkCartaComToken } from "@/lib/cartas/link-publico";
+import { CACHE_QR, cartaParaQr } from "@/lib/cartas/qr-acesso";
 
 export const runtime = "nodejs";
 
 type Params = Promise<{ slug: string }>;
 
-export async function GET(_req: NextRequest, { params }: { params: Params }) {
+export async function GET(request: NextRequest, { params }: { params: Params }) {
   const { slug } = await params;
-  if (!/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])?$/.test(slug)) {
-    return new Response("invalid slug", { status: 400 });
-  }
-  const admin = createAdminClient();
-  const { data } = await admin
-    .from("cartas")
-    .select("id, acesso_token")
-    .eq("slug", slug)
-    .eq("status", "publicada")
-    .maybeSingle();
-  if (!data) return new Response("not found", { status: 404 });
-  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${slug}?t=${data.acesso_token}`;
+  const acesso = await cartaParaQr(request, slug);
+  if (!acesso.ok) return acesso.response;
+
+  const url = linkCartaComToken(publicEnv.NEXT_PUBLIC_APP_URL, slug, acesso.carta.acessoToken);
   const png = await QRCode.toBuffer(url, {
     margin: 1,
     color: { dark: "#2A1518", light: "#FAF1EA" },
@@ -31,7 +24,7 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
     status: 200,
     headers: {
       "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=86400, immutable",
+      "Cache-Control": CACHE_QR,
     },
   });
 }

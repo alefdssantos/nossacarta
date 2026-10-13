@@ -1,6 +1,8 @@
 import "server-only";
+import QRCode from "qrcode";
 import { enviarEmail } from "./resend";
 import { publicEnv } from "@/lib/env";
+import { linkCartaComToken } from "@/lib/cartas/link-publico";
 
 type Plano = "bilhete" | "eterno";
 
@@ -11,6 +13,7 @@ type Input = {
   slug: string;
   plano: Plano;
   expiraEm?: string | null;
+  acessoToken: string;
 };
 
 function esc(s: string): string {
@@ -114,13 +117,21 @@ function montarHtml({ pessoa1, pessoa2, slug, plano, expiraEm, qrUrl, url }: {
 </html>`;
 }
 
-export async function enviarEmailPublicacao(input: Input): Promise<{ id: string } | null> {
-  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${input.slug}`;
-  const qrUrl = `${publicEnv.NEXT_PUBLIC_APP_URL}/api/qr/${input.slug}`;
-
+export async function prepararEmailPublicacao(input: Input): Promise<{ url: string; html: string; subject: string }> {
+  const url = linkCartaComToken(publicEnv.NEXT_PUBLIC_APP_URL, input.slug, input.acessoToken);
+  const qrUrl = await QRCode.toDataURL(url, {
+    margin: 1,
+    color: { dark: "#2A1518", light: "#FAF1EA" },
+    errorCorrectionLevel: "M",
+    width: 320,
+  });
   const html = montarHtml({ ...input, url, qrUrl });
   const subject = `Sua carta está no ar — ${esc(input.pessoa1)} & ${esc(input.pessoa2)}`;
+  return { url, html, subject };
+}
 
+export async function enviarEmailPublicacao(input: Input): Promise<{ id: string } | null> {
+  const { html, subject } = await prepararEmailPublicacao(input);
   return enviarEmail({ to: input.destinatarioEmail, subject, html });
 }
 

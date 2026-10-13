@@ -1,8 +1,9 @@
 -- Adiciona email do destinatário para controle de acesso à carta publicada
 ALTER TABLE public.cartas ADD COLUMN destinatario_email text;
 
--- Remove política que permitia qualquer pessoa ler cartas publicadas
-DROP POLICY cartas_select_publica ON public.cartas;
+-- O nome real em 0001 e "cartas: publico le publicadas e ativas".
+-- cartas_select_publica nunca foi criada; sem IF EXISTS o migrate inteiro aborta.
+DROP POLICY IF EXISTS cartas_select_publica ON public.cartas;
 
 -- Destinatário autenticado (email coincide) pode ler carta publicada e ativa
 CREATE POLICY "cartas: destinatário lê carta publicada"

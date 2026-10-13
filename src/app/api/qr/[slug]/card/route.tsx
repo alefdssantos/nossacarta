@@ -1,9 +1,10 @@
 import { type NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
 import QRCode from "qrcode";
-import { createAdminClient } from "@/lib/supabase/server";
 import { conteudoCartaV1Schema } from "@/lib/cartas/schema";
 import { publicEnv } from "@/lib/env";
+import { linkCartaComToken } from "@/lib/cartas/link-publico";
+import { CACHE_QR, cartaParaQr } from "@/lib/cartas/qr-acesso";
 
 export const runtime = "nodejs";
 
@@ -25,29 +26,18 @@ async function loadGoogleFontTTF(family: string): Promise<ArrayBuffer | null> {
   }
 }
 
-export async function GET(_req: NextRequest, { params }: { params: Params }) {
+export async function GET(request: NextRequest, { params }: { params: Params }) {
   const { slug } = await params;
-  if (!/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])?$/.test(slug)) {
-    return new Response("invalid slug", { status: 400 });
-  }
+  const acesso = await cartaParaQr(request, slug);
+  if (!acesso.ok) return acesso.response;
 
-  const admin = createAdminClient();
-  const { data: carta } = await admin
-    .from("cartas")
-    .select("id, slug, acesso_token, conteudo")
-    .eq("slug", slug)
-    .eq("status", "publicada")
-    .maybeSingle();
-
-  if (!carta) return new Response("not found", { status: 404 });
-
-  const cParse = conteudoCartaV1Schema.safeParse(carta.conteudo);
+  const cParse = conteudoCartaV1Schema.safeParse(acesso.carta.conteudo);
   const nomes = cParse.success ? cParse.data.nomes : null;
   const nome1 = nomes?.pessoa1 ?? "";
   const nome2 = nomes?.pessoa2 ?? "";
   const nomesLabel = nome1 && nome2 ? `${nome1} & ${nome2}` : slug;
 
-  const url = `${publicEnv.NEXT_PUBLIC_APP_URL}/${slug}?t=${carta.acesso_token}`;
+  const url = linkCartaComToken(publicEnv.NEXT_PUBLIC_APP_URL, slug, acesso.carta.acessoToken);
   const urlLabel = `nossacarta.love/${slug}`;
 
   const qrDataUrl = await QRCode.toDataURL(url, {
@@ -201,7 +191,7 @@ export async function GET(_req: NextRequest, { params }: { params: Params }) {
       status: 200,
       headers: {
         "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=86400, immutable",
+        "Cache-Control": CACHE_QR,
         "Content-Disposition": `attachment; filename="nossacarta-${slug}.png"`,
       },
     });

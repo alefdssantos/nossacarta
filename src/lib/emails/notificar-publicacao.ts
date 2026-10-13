@@ -46,6 +46,7 @@ export async function notificarPublicacao(
         slug: carta.slug,
         plano: carta.plano,
         expiraEm: carta.expira_em,
+        acessoToken: carta.acesso_token,
       }),
       emailDestinatario && emailDestinatario !== email
         ? enviarEmailParaDestinatario({
