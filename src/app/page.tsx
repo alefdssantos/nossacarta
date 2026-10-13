@@ -103,10 +103,8 @@ function Hero() {
             style={{ animationDelay: "0.42s" }}
           >
             <EnvelopeFigure />
-            <figcaption className="mt-5 flex items-center justify-center gap-3 font-prose text-[12px] italic text-mauve">
-              <span className="h-px w-8 bg-champagne/60" />
+            <figcaption className="mt-5 text-center font-prose text-[12px] italic text-mauve">
               fig. 1 · uma carta selada para você
-              <span className="h-px w-8 bg-champagne/60" />
             </figcaption>
           </div>
         </div>
@@ -139,10 +137,8 @@ function EnvelopeFigure() {
             à minha
           </p>
           <p className="mt-1 font-serif text-2xl italic text-cocoa">amada</p>
-          <div className="mx-auto mt-4 flex items-center justify-center gap-2">
-            <span className="h-px w-6 bg-champagne" />
+          <div className="mx-auto mt-4 flex items-center justify-center">
             <span className="text-champagne text-[10px]">❦</span>
-            <span className="h-px w-6 bg-champagne" />
           </div>
           <p className="mt-4 font-prose text-[11px] italic text-mauve">
             12 de junho, 19:30
@@ -153,7 +149,6 @@ function EnvelopeFigure() {
         <div className="absolute right-4 top-4 flex h-14 w-12 flex-col items-center justify-center rounded-[2px] border border-dashed border-ruby/40 bg-rose-mist/70 px-1 py-1">
           <span className="font-script text-base text-ruby leading-none">N</span>
           <span className="font-serif text-[8px] italic text-cocoa">eterno</span>
-          <span className="mt-0.5 h-px w-4 bg-champagne" />
           <span className="font-sans text-[7px] uppercase tracking-widest text-mauve">
             Brasil
           </span>
@@ -251,9 +246,7 @@ function ChapterDivider({
         <span className="font-sans text-[10px] uppercase tracking-[0.4em] text-champagne-deep">
           Capítulo {numeral}
         </span>
-        <span className="h-px flex-1 bg-gradient-to-r from-champagne/60 via-champagne/30 to-transparent" />
         <span className="font-script text-2xl text-ruby italic">{title}</span>
-        <span className="h-px flex-1 bg-gradient-to-l from-champagne/60 via-champagne/30 to-transparent" />
         <span className="font-serif text-xl italic text-cocoa-soft hidden md:inline">
           ❦
         </span>
@@ -308,7 +301,6 @@ function HowItWorks() {
                 {s.body}
               </p>
               <div className="mt-6 flex items-center gap-2">
-                <span className="h-px w-10 bg-champagne" />
                 <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-champagne-deep">
                   passo {s.n.replace(".", "")}
                 </span>
@@ -664,13 +656,12 @@ function Testimonials() {
               {r.quote}
             </blockquote>
             <figcaption className="mt-6 flex items-center gap-3">
-              <span className="h-px w-8 bg-champagne" />
               <span className="font-script text-2xl text-ruby">{r.who.split(",")[0]}</span>
               <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-mauve">
                 {r.who.split(",")[1]}
               </span>
             </figcaption>
-            <p className="mt-1 ml-11 font-prose text-[13px] italic text-mauve">
+            <p className="mt-1 font-prose text-[13px] italic text-mauve">
               {r.meta}
             </p>
           </Reveal>

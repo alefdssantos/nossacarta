@@ -29,7 +29,6 @@ export async function SiteHeader({ variant = "internal" }: { variant?: Variant }
           <span className="font-serif text-2xl italic font-medium text-cocoa leading-none tracking-tight">
             Carta
           </span>
-          <span className="ml-1 hidden h-px w-8 bg-champagne md:inline-block" />
         </Link>
 
         <nav className="hidden items-center gap-6 font-sans text-[10px] uppercase tracking-[0.22em] text-cocoa-soft lg:flex">

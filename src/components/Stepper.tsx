@@ -27,9 +27,6 @@ export function Stepper({ steps, current }: { steps: Step[]; current: number }) 
             >
               {s.label}
             </span>
-            {i < steps.length - 1 && (
-              <span className={`h-px w-6 ${done ? "bg-ruby/40" : "bg-cocoa/15"}`} />
-            )}
           </li>
         );
       })}

@@ -95,7 +95,6 @@ export function ContadorProsa({ dataInicio }: Props) {
 function Marco({ valor, label }: { valor: string; label: string }) {
   return (
     <li className="flex flex-col items-center gap-2 text-center">
-      <span className="block h-px w-6 bg-champagne" aria-hidden />
       <span
         className="font-serif italic text-ruby"
         style={{ fontSize: "clamp(32px, 6vw, 56px)", lineHeight: 0.85, fontWeight: 500 }}

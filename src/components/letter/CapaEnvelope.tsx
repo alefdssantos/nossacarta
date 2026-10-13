@@ -107,7 +107,6 @@ function EnvelopeSvg({
         <text x="0" y="56" fontFamily="var(--font-serif)" fontStyle="italic" fontSize="56" fill="var(--color-cocoa)">
           {paraNome}
         </text>
-        <line x1="0" y1="80" x2="280" y2="80" stroke="var(--color-champagne)" strokeWidth="0.8" />
         <text x="0" y="110" fontFamily="var(--font-sans)" fontSize="11" letterSpacing="3.2" fill="var(--color-mauve)">
           ENTREGUE COM AMOR · BRASIL
         </text>

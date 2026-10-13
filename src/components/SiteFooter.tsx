@@ -17,7 +17,6 @@ export function SiteFooter({ variant = "internal" }: { variant?: Variant }) {
             ainda escrevem.
           </p>
           <div className="mt-8 flex items-center gap-3">
-            <span className="h-px w-12 bg-champagne" />
             <span className="font-script text-2xl text-ruby">com amor,</span>
             <span className="font-prose text-[14px] italic text-cocoa-soft">da redação</span>
           </div>

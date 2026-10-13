@@ -43,3 +43,15 @@ test("arquivos rastreados nao contem travessao", () => {
 
   expect(ruins).toEqual([]);
 });
+
+test("interface nao desenha risco horizontal", () => {
+  const lista = execFileSync("git", ["ls-files", "-z"], { cwd: raiz });
+  const arquivos = lista.toString("utf8").split("\0").filter(Boolean);
+  const ruins: string[] = [];
+  for (const rel of arquivos) {
+    if (!rel.endsWith(".tsx") && !rel.endsWith(".svg")) continue;
+    const texto = readFileSync(join(raiz, rel), "utf8");
+    if (texto.includes("h-px")) ruins.push(rel);
+  }
+  expect(ruins).toEqual([]);
+});

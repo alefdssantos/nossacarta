@@ -23,14 +23,12 @@ export function Frontispicio({ pessoa1, pessoa2, dataRomanos, cidade }: Props) {
         </p>
 
         <div className="my-1 flex items-center justify-center gap-3 md:my-2 md:gap-6">
-          <span className="h-px w-12 bg-champagne md:w-24" />
           <span
             className="font-script italic text-champagne"
             style={{ fontSize: "clamp(48px, 10vw, 120px)", lineHeight: 1 }}
           >
             &amp;
           </span>
-          <span className="h-px w-12 bg-champagne md:w-24" />
         </div>
 
         <p

@@ -5,9 +5,7 @@ export function Filete({ width = 240 }: { width?: number }) {
       style={{ maxWidth: width }}
       aria-hidden="true"
     >
-      <span className="h-px flex-1 bg-champagne" />
       <Fleuron />
-      <span className="h-px flex-1 bg-champagne" />
     </div>
   );
 }
